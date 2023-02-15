@@ -1,4 +1,4 @@
-package PracticasPEV.src;
+package src;
 
 
 public class Main{

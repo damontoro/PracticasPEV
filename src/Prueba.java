@@ -1,4 +1,4 @@
-package PracticasPEV.src;
+package src;
 /*import org.knowm.xchart.*;
 import org.knowm.xchart.XYSeries.*;
 import org.knowm.xchart.style.Styler.LegendPosition;
