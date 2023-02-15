@@ -1,0 +1,6 @@
+{
+	"java.project.referencedLibraries": [
+		"lib/**/*.jar",
+		"PracticasPEV/libs/xchart-3.8.2.jar"
+	]
+}
