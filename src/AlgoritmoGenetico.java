@@ -1,6 +1,9 @@
 package src;
 import java.util.ArrayList;
 
+import src.individuo.Individuo;
+import src.problema.*;
+
 
 public class AlgoritmoGenetico {
 	
@@ -11,7 +14,8 @@ public class AlgoritmoGenetico {
 	private int numGeneraciones;
 	private double probCruce;
 	private double probMutacion;
-	private int precision;
+	private float precision;
+	private boolean elitismo;
 
 	private ICruce cruce;
 	private IMutación mutacion;
@@ -22,12 +26,13 @@ public class AlgoritmoGenetico {
 		this.numGeneraciones = numGeneraciones;
 		this.probCruce = probCruce;
 		this.probMutacion = probMutacion;
+		this.problema = new Problema1();
 		this.poblacion = new ArrayList<Individuo>();
 	}
 
 	void initPoblacion(){
 		for(int i = 0; i < tamPoblacion; i++)
-			poblacion.add(new Individuo(problema.min, problema.max, precision));
+			poblacion.add(problema.build(precision));
 	}
 
 	void evalPoblacion(){
