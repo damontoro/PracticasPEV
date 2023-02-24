@@ -16,7 +16,7 @@ public class AlgoritmoGenetico {
 	private int numGeneraciones;
 	private double probCruce;
 	private double probMutacion;
-	private double precision;
+	private float precision;
 	private boolean elitismo;
 
 	//private ICruce cruce;
@@ -40,7 +40,7 @@ public class AlgoritmoGenetico {
 
 	void evalPoblacion(){
 		for(Individuo i : poblacion)
-			i.setFitness(problema.evaluar(i.getGenotipo()));
+			i.setFitness(problema.evaluar(i.getFenotipo()));
 	}
 
 	void seleccion(){

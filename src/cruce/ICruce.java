@@ -1,5 +1,5 @@
 package src.cruce;
 
-public class ICruce {
-	
+public interface ICruce {
+	ArrayList<Individuo> cruzar(ArrayList<Pair<Individuo, Individuo>> padres);
 }
