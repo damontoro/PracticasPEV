@@ -25,6 +25,9 @@ public class AlgoritmoGenetico {
 	private double precision;
 	private double elitismo;
 
+	private double mejorFitness;
+	private double mediaFitness;
+
 	final private Random random = new Random();
 
 	private ICruce cruce;
@@ -56,8 +59,14 @@ public class AlgoritmoGenetico {
 	}
 
 	void evalPoblacion(){
-		for(Individuo i : poblacion)
+		double acum = 0;
+		this.mejorFitness = Double.MIN_VALUE;
+		for(Individuo i : poblacion){
 			i.setFitness(problema.evaluar(i.getFenotipo()));
+			mejorFitness = (i.getFitness() > mejorFitness) ? i.getFitness() : mejorFitness;
+			acum += i.getFitness();
+		}
+		this.mediaFitness = acum / poblacion.size();
 	}
 
 	void seleccion(){
@@ -83,7 +92,7 @@ public class AlgoritmoGenetico {
 			evalPoblacion();
 			if (vista != null) vista.prueba();
 			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
-			System.out.println("Generacion " + i + " " + poblacion.get(99).getFenotipo() + " " + poblacion.get(99).getFitness());
+			System.out.println("Generacion " + i + " " + "Mejor fitness: " + poblacion.get(poblacion.size()-1).getFitness() + " Media fitness: " + mediaFitness);
 		}
 	}
 
