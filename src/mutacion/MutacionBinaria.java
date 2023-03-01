@@ -1,6 +1,5 @@
 package src.mutacion;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import src.individuo.Individuo;
