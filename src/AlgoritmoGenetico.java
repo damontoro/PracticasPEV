@@ -41,7 +41,7 @@ public class AlgoritmoGenetico {
 		this.numGeneraciones = numGeneraciones;
 		this.probCruce = probCruce;
 		this.probMutacion = probMutacion;
-		this.precision = 0.01;
+		this.precision = 0.0001;
 		this.elitismo = 0.0;
 
 		this.vista = null;
@@ -70,11 +70,11 @@ public class AlgoritmoGenetico {
 	}
 
 	void seleccion(){
-		seleccionados = seleccion.select(poblacion, random); //Poblacion ini size individuos elegidos
+		poblacion = seleccion.select(poblacion, random); //Poblacion ini size individuos elegidos
 	}
 
 	void cruce(){
-		poblacion = cruce.cruzar(seleccionados, problema, random, probCruce); //N individuos cruzados
+		poblacion = cruce.cruzar(poblacion, problema, random, probCruce); //N individuos cruzados
 	}
 
 	void mutacion(){
