@@ -22,8 +22,8 @@ public class AlgoritmoGenetico {
 	private int numGeneraciones;
 	private double probCruce;
 	private double probMutacion;
-	private float precision;
-	private boolean elitismo;
+	private double precision;
+	private double elitismo;
 
 	private Random random;
 
@@ -38,9 +38,13 @@ public class AlgoritmoGenetico {
 		this.numGeneraciones = numGeneraciones;
 		this.probCruce = probCruce;
 		this.probMutacion = probMutacion;
+		this.precision = 0.01;
+		this.elitismo = 0.0;
 		this.problema = new Problema1();
 		this.poblacion = new ArrayList<Individuo>();
 		this.seleccion = new SeleccionRuleta();
+		this.cruce = new CruceMonopunto();
+		this.mutacion = new MutacionBinaria();
 	}
 
 	void initPoblacion(){
@@ -63,7 +67,7 @@ public class AlgoritmoGenetico {
 
 	void mutacion(){
 		for(Individuo i : poblacion)
-			i = random.nextDouble() < probMutacion ? mutacion.mutar(i, problema) : i; 
+			i = mutacion.mutar(i, problema, random, probMutacion);
 	}
 
 	public void run(){
@@ -85,18 +89,23 @@ public class AlgoritmoGenetico {
 	public double getProbCruce() {return probCruce;}
 	public double getProbMutacion() {return probMutacion;}
 	public double getPrecision() {return precision;}
-	public boolean isElitismo() {return elitismo;}
+	public double getElitismo() {return elitismo;}
 	public ArrayList<Individuo> getPoblacion() {return poblacion;}
 	public Problema getProblema() {return problema;}
 	public ISeleccion getSeleccion() {return seleccion;}
+	public ICruce getCruce() {return cruce;}
+	public IMutacion getMutacion() {return mutacion;}
+	
 	
 	public void setTamPoblacion(int tamPoblacion) {this.tamPoblacion = tamPoblacion;}
 	public void setNumGeneraciones(int numGeneraciones) {this.numGeneraciones = numGeneraciones;}
 	public void setProbCruce(double probCruce) {this.probCruce = probCruce;}
 	public void setProbMutacion(double probMutacion) {this.probMutacion = probMutacion;}
-	public void setPrecision(float precision) {this.precision = precision;}
-	public void setElitismo(boolean elitismo) {this.elitismo = elitismo;}
+	public void setPrecision(double precision) {this.precision = precision;}
+	public void setElitismo(double elitismo) {this.elitismo = elitismo;}
 	public void setPoblacion(ArrayList<Individuo> poblacion) {this.poblacion = poblacion;}
 	public void setProblema(Problema problema) {this.problema = problema;}
 	public void setSeleccion(ISeleccion seleccion) {this.seleccion = seleccion;}
+	public void setCruce(ICruce cruce) {this.cruce = cruce;}
+	public void setMutacion(IMutacion mutacion) {this.mutacion = mutacion;}
 }

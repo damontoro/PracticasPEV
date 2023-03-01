@@ -13,7 +13,7 @@ public class Main{
 		//Se lo pasas a la vista
 		try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            SwingUtilities.invokeLater(() -> new VistaPrincipal(ag));
+            SwingUtilities.invokeLater(() -> new VistaPrincipal(ag).prueba());
         } catch (Exception e) {
             e.printStackTrace();
         }

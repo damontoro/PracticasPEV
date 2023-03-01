@@ -14,7 +14,7 @@ public abstract class Individuo {
 	protected ArrayList<Double> min, max;
 	protected double fitness;
 
-	public Individuo(ArrayList<Double> min, ArrayList<Double> max, float precision) {
+	public Individuo(ArrayList<Double> min, ArrayList<Double> max, double precision) {
 		this.min = min;
 		this.max = max;
 
@@ -22,7 +22,7 @@ public abstract class Individuo {
 		tamCromosoma = null;
 	}
 
-	public <T> Individuo(ArrayList<Double> min, ArrayList<Double> max, float precision, ArrayList<T> valores) {
+	public <T> Individuo(ArrayList<Double> min, ArrayList<Double> max, double precision, ArrayList<T> valores) {
 		this.min = min;
 		this.max = max;
 
@@ -31,7 +31,7 @@ public abstract class Individuo {
 	}
 
 
-	abstract public int tamGen(double valorError, double min, double max, float precision);
+	abstract public int tamGen(double valorError, double min, double max, double precision);
 	abstract public ArrayList<Double> getFenotipo();
 	
 	public void setFitness(double fitness) { this.fitness = fitness; }

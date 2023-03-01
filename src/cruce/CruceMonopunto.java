@@ -7,8 +7,10 @@ import src.problema.Problema;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CruceMonopunto implements ICruce{
+public class CruceMonopunto implements ICruce, Cloneable{
 	
+	private int prueba = 0;
+
 	@Override
 	public <T> ArrayList<Individuo> cruzar(ArrayList<Individuo> padres, Problema problema, Random rand, double probCruce) {
 		ArrayList<Individuo> hijos = new ArrayList<Individuo>();
@@ -40,5 +42,21 @@ public class CruceMonopunto implements ICruce{
 			
 		}
 		return hijos;
+	}
+
+	public int getPrueba() {return prueba;}
+	public void setPrueba(int prueba) {this.prueba = prueba;}
+
+	public ICruce clone() { 
+		try {
+			return (ICruce)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new IllegalArgumentException(e);
+		} 
+	}
+
+	@Override
+	public String toString() {
+		return "Cruce Monopunto";
 	}
 }

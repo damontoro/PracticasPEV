@@ -53,4 +53,9 @@ public class SeleccionRuleta implements Cloneable, ISeleccion{
 			throw new IllegalArgumentException(e);
 		} 
 	}
+
+	@Override
+	public String toString() {
+		return "Ruleta";
+	}
 }

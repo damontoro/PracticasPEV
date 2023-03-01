@@ -6,7 +6,7 @@ public class IndividuoBinario extends Individuo{
 
 	private ArrayList<Boolean> cromosoma;
 
-	public IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, float precision) {
+	public IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, double precision) {
         super(min, max, precision);
 
         if(tamCromosoma == null){
@@ -21,7 +21,7 @@ public class IndividuoBinario extends Individuo{
             cromosoma.set(i, random.nextBoolean());
     }
 
-	public IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, float precision, ArrayList<Boolean> valores) {
+	public IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, double precision, ArrayList<Boolean> valores) {
 		super(min, max, precision);
 
         if(tamCromosoma == null){
@@ -40,7 +40,7 @@ public class IndividuoBinario extends Individuo{
 	}
 
     @Override
-    public int tamGen(double valorError, double min, double max, float precision) {
+    public int tamGen(double valorError, double min, double max, double precision) {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
 	}
 
