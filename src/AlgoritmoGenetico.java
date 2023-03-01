@@ -48,6 +48,7 @@ public class AlgoritmoGenetico {
 	}
 
 	void initPoblacion(){
+		Individuo.setTamCromosoma(null);
 		for(int i = 0; i < tamPoblacion; i++)
 			poblacion.add(problema.build(precision));
 	}
@@ -71,14 +72,17 @@ public class AlgoritmoGenetico {
 	}
 
 	public void run(){
-		/*initPoblacion();
+		initPoblacion();
 		evalPoblacion();
 		for(int i = 0; i < numGeneraciones; i++){
 			seleccion();
 			cruce();
 			mutacion();
 			evalPoblacion();
-		}*/
+		}
+		poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
+		System.out.println(poblacion.get(0).getFenotipo());
+		System.out.println(poblacion.get(0).getFitness());
 		//asignación del mejor individuo
 	}
 

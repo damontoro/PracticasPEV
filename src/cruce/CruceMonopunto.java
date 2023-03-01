@@ -37,8 +37,8 @@ public class CruceMonopunto implements ICruce, Cloneable{
 				genotipoHijo1.add(genotipo2.get(j));
 				genotipoHijo2.add(genotipo1.get(j));
 			}
-			hijos.add(problema.build(genotipo1));
-			hijos.add(problema.build(genotipo2));
+			hijos.add(problema.build(0, genotipo1));
+			hijos.add(problema.build(0, genotipo2));
 			
 		}
 		return hijos;

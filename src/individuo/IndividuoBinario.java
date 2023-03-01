@@ -10,15 +10,16 @@ public class IndividuoBinario extends Individuo{
         super(min, max, precision);
 
         if(tamCromosoma == null){
+            tamCromosoma = 0;
             for(int i = 0; i < min.size(); i++) {
-                tamGenes.add(tamGen(precision, min.get(i), max.get(i), precision));
+                tamGenes.add(tamGen(min.get(i), max.get(i), precision));
                 tamCromosoma += tamGenes.get(i);
             }
         }
-		cromosoma = new ArrayList<Boolean>(tamCromosoma);
+		cromosoma = new ArrayList<Boolean>();
 
         for(int i = 0; i < tamCromosoma; i++)
-            cromosoma.set(i, random.nextBoolean());
+            cromosoma.add(random.nextBoolean());
     }
 
 	public IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, double precision, ArrayList<Boolean> valores) {
@@ -27,10 +28,10 @@ public class IndividuoBinario extends Individuo{
         if(tamCromosoma == null){
             tamCromosoma = valores.size();
             for(int i = 0; i < min.size(); i++) {
-                tamGenes.add(tamGen(precision, min.get(i), max.get(i), precision));
+                tamGenes.add(tamGen( min.get(i), max.get(i), precision));
             }
         }
-		cromosoma = valores;
+	    cromosoma = valores;
 
 	}
 
@@ -40,7 +41,7 @@ public class IndividuoBinario extends Individuo{
 	}
 
     @Override
-    public int tamGen(double valorError, double min, double max, double precision) {
+    public int tamGen(double min, double max, double precision) {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
 	}
 
