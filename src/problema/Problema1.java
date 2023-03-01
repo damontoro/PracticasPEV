@@ -15,8 +15,13 @@ public class Problema1 extends Problema{
 	}
 	
 	@Override
-	public Individuo<Boolean> build(float precision) {
+	public Individuo build(float precision) {
 		return new IndividuoBinario(super.MIN, super.MAX, precision);
+	}
+
+	@Override
+	public <T> Individuo build(float precision, ArrayList<Boolean> valores) {
+		return new IndividuoBinario(super.MIN, super.MAX, precision, valores);
 	}
 
 	@Override

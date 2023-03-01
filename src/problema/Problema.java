@@ -29,6 +29,8 @@ public abstract class Problema {
 		this.dimension = dimension;
 	}
 
-	abstract public Individuo<?> build(float precision);
+	abstract public Individuo build(float precision);
+	abstract public <T> Individuo build(float precision, ArrayList<T> valores);
 	abstract public double evaluar(ArrayList<Double> fenotipo);
+
 }

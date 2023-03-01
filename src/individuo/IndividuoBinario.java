@@ -2,7 +2,9 @@ package src.individuo;
 
 import java.util.ArrayList;
 
-public class IndividuoBinario extends Individuo<Boolean>{
+public class IndividuoBinario extends Individuo{
+
+	private ArrayList<Boolean> cromosoma;
 
 	public IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, float precision) {
         super(min, max, precision);
@@ -15,12 +17,12 @@ public class IndividuoBinario extends Individuo<Boolean>{
         }
 		cromosoma = new ArrayList<Boolean>(tamCromosoma);
 
-        for(Boolean i : cromosoma)
-            i = random.nextBoolean();
+        for(int i = 0; i < tamCromosoma; i++)
+            cromosoma.set(i, random.nextBoolean());
     }
 
 	public IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, float precision, ArrayList<Boolean> valores) {
-		super(min, max, precision, valores);
+		super(min, max, precision);
 
         if(tamCromosoma == null){
             tamCromosoma = valores.size();
@@ -30,6 +32,11 @@ public class IndividuoBinario extends Individuo<Boolean>{
         }
 		cromosoma = valores;
 
+	}
+
+	@Override
+	public ArrayList<Boolean> getGenotipo() {
+		return cromosoma;
 	}
 
     @Override

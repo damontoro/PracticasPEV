@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import java.util.Random;
 
-public abstract class Individuo<T> {
+public abstract class Individuo {
 	
 	static protected Integer tamCromosoma;
-	static protected Random random;
+	static protected Random random = new Random();
+
 	static protected ArrayList<Integer> tamGenes;
 
-	protected ArrayList<T> cromosoma;
 	protected ArrayList<Double> min, max;
 	protected double fitness;
 
@@ -20,16 +20,23 @@ public abstract class Individuo<T> {
 
 		tamGenes = new ArrayList<Integer>();
 		tamCromosoma = null;
-		random = new Random();
 	}
 
-	public Individuo(ArrayList<Double> min, ArrayList<Double> max, float precision, ArrayList<T> valores) {
-		
+	public <T> Individuo(ArrayList<Double> min, ArrayList<Double> max, float precision, ArrayList<T> valores) {
+		this.min = min;
+		this.max = max;
+
+		tamGenes = new ArrayList<Integer>();
+		tamCromosoma = null;
 	}
+
 
 	abstract public int tamGen(double valorError, double min, double max, float precision);
 	abstract public ArrayList<Double> getFenotipo();
 	
 	public void setFitness(double fitness) { this.fitness = fitness; }
 	public double getFitness() { return fitness; }
+	public Integer getTamCromosoma() { return tamCromosoma; }
+
+	abstract public <T> ArrayList<T> getGenotipo();
 }

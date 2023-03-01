@@ -1,10 +1,16 @@
 package src;
+
+import java.util.Random;
 import java.util.ArrayList;
 
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
 import src.seleccion.SeleccionRuleta;
 import src.problema.*;
+import src.cruce.*;
+import src.mutacion.*;
+
+import src.utils.Pair;
 
 
 public class AlgoritmoGenetico {
@@ -19,9 +25,13 @@ public class AlgoritmoGenetico {
 	private float precision;
 	private boolean elitismo;
 
-	//private ICruce cruce;
-	//private IMutación mutacion;
+	private Random random;
+
+	private ICruce cruce;
+	private IMutacion mutacion;
 	private ISeleccion seleccion;
+
+	private ArrayList<Individuo> seleccionados;
 
 	public AlgoritmoGenetico(int tamPoblacion, int numGeneraciones, double probCruce, double probMutacion) {
 		this.tamPoblacion = tamPoblacion;
@@ -44,17 +54,16 @@ public class AlgoritmoGenetico {
 	}
 
 	void seleccion(){
-		seleccionados = seleccion.run(poblacion); //N individuos elegidos
+		seleccionados = seleccion.select(poblacion, random); //Poblacion ini size individuos elegidos
 	}
 
 	void cruce(){
-		cruzados = cruce.run(seleccionados, probCruce); //N individuos cruzados
+		poblacion = cruce.cruzar(seleccionados, problema, random, probCruce); //N individuos cruzados
 	}
 
 	void mutacion(){
-		poblacion = cruzados + poblacion - seleccionados;
 		for(Individuo i : poblacion)
-			mutacion.run(i, probMutacion);
+			i = random.nextDouble() < probMutacion ? mutacion.mutar(i, problema) : i; 
 	}
 
 	public void run(){
@@ -72,21 +81,22 @@ public class AlgoritmoGenetico {
 
 	//Los getters y setters de los atributos compactados
 	public int getTamPoblacion() {return tamPoblacion;}
-	public void setTamPoblacion(int tamPoblacion) {this.tamPoblacion = tamPoblacion;}
 	public int getNumGeneraciones() {return numGeneraciones;}
-	public void setNumGeneraciones(int numGeneraciones) {this.numGeneraciones = numGeneraciones;}
 	public double getProbCruce() {return probCruce;}
-	public void setProbCruce(double probCruce) {this.probCruce = probCruce;}
 	public double getProbMutacion() {return probMutacion;}
-	public void setProbMutacion(double probMutacion) {this.probMutacion = probMutacion;}
 	public double getPrecision() {return precision;}
-	public void setPrecision(float precision) {this.precision = precision;}
 	public boolean isElitismo() {return elitismo;}
-	public void setElitismo(boolean elitismo) {this.elitismo = elitismo;}
 	public ArrayList<Individuo> getPoblacion() {return poblacion;}
-	public void setPoblacion(ArrayList<Individuo> poblacion) {this.poblacion = poblacion;}
 	public Problema getProblema() {return problema;}
-	public void setProblema(Problema problema) {this.problema = problema;}
 	public ISeleccion getSeleccion() {return seleccion;}
+	
+	public void setTamPoblacion(int tamPoblacion) {this.tamPoblacion = tamPoblacion;}
+	public void setNumGeneraciones(int numGeneraciones) {this.numGeneraciones = numGeneraciones;}
+	public void setProbCruce(double probCruce) {this.probCruce = probCruce;}
+	public void setProbMutacion(double probMutacion) {this.probMutacion = probMutacion;}
+	public void setPrecision(float precision) {this.precision = precision;}
+	public void setElitismo(boolean elitismo) {this.elitismo = elitismo;}
+	public void setPoblacion(ArrayList<Individuo> poblacion) {this.poblacion = poblacion;}
+	public void setProblema(Problema problema) {this.problema = problema;}
 	public void setSeleccion(ISeleccion seleccion) {this.seleccion = seleccion;}
 }
