@@ -17,6 +17,8 @@ public class VistaPrincipal extends JFrame{
 	final JButton boton = new JButton("Prueba");
 
 	public VistaPrincipal(AlgoritmoGenetico ag){
+		ag.setVista(this);
+
 		setTitle("Algoritmo Genético");
 		setSize(1200, 800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -40,7 +42,6 @@ public class VistaPrincipal extends JFrame{
 	public void prueba(){
 		for(int i = 0; i < 10; i++){
 			try{
-				Thread.sleep(100);
 				grafica.reload();
 			}catch(Exception e){}
 			this.repaint();

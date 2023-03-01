@@ -20,6 +20,7 @@ public class Problema1 extends Problema{
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> Individuo build(double precision, ArrayList<T> valores) {
 		return new IndividuoBinario(super.MIN, super.MAX, precision, (ArrayList<Boolean>) valores);
 	}

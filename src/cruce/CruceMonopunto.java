@@ -1,7 +1,6 @@
 package src.cruce;
 
 import src.individuo.Individuo;
-import src.utils.Pair;
 import src.problema.Problema;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class CruceMonopunto implements ICruce, Cloneable{
 				genotipoHijo1.add(genotipo1.get(j));
 				genotipoHijo2.add(genotipo2.get(j));
 			}
-			for(int j = puntoCruce; j < padres.get(i).getTamCromosoma(); i++){
+			for(int j = puntoCruce; j < padres.get(i).getTamCromosoma(); j++){
 				genotipoHijo1.add(genotipo2.get(j));
 				genotipoHijo2.add(genotipo1.get(j));
 			}

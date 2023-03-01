@@ -36,6 +36,7 @@ public class IndividuoBinario extends Individuo{
 	}
 
 	@Override
+    @SuppressWarnings("unchecked")
 	public ArrayList<Boolean> getGenotipo() {
 		return cromosoma;
 	}

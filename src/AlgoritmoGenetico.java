@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
 import src.seleccion.SeleccionRuleta;
+import src.vistas.VistaPrincipal;
 import src.problema.*;
 import src.cruce.*;
 import src.mutacion.*;
-
-import src.utils.Pair;
 
 
 public class AlgoritmoGenetico {
 	
 	private ArrayList<Individuo> poblacion;
 	private Problema problema; //Aqui tenemos nuestro fitness, min y maximo, 
+	private VistaPrincipal vista;
 
 	private int tamPoblacion;
 	private int numGeneraciones;
@@ -41,6 +41,7 @@ public class AlgoritmoGenetico {
 		this.precision = 0.01;
 		this.elitismo = 0.0;
 
+		this.vista = null;
 		this.problema = new Problema1();
 		this.poblacion = new ArrayList<Individuo>();
 		this.seleccion = new SeleccionRuleta();
@@ -80,11 +81,10 @@ public class AlgoritmoGenetico {
 			cruce();
 			mutacion();
 			evalPoblacion();
+			if (vista != null) vista.prueba();
+			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
+			System.out.println("Generacion " + i + " " + poblacion.get(99).getFenotipo() + " " + poblacion.get(99).getFitness());
 		}
-		poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
-		System.out.println(poblacion.get(0).getFenotipo());
-		System.out.println(poblacion.get(0).getFitness());
-		//asignación del mejor individuo
 	}
 
 
@@ -100,6 +100,7 @@ public class AlgoritmoGenetico {
 	public ISeleccion getSeleccion() {return seleccion;}
 	public ICruce getCruce() {return cruce;}
 	public IMutacion getMutacion() {return mutacion;}
+	public VistaPrincipal getVista() {return vista;}
 	
 	
 	public void setTamPoblacion(int tamPoblacion) {this.tamPoblacion = tamPoblacion;}
@@ -113,4 +114,5 @@ public class AlgoritmoGenetico {
 	public void setSeleccion(ISeleccion seleccion) {this.seleccion = seleccion;}
 	public void setCruce(ICruce cruce) {this.cruce = cruce;}
 	public void setMutacion(IMutacion mutacion) {this.mutacion = mutacion;}
+	public void setVista(VistaPrincipal vistaPrincipal) {this.vista = vistaPrincipal;}
 }
