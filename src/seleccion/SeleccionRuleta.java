@@ -27,7 +27,7 @@ public class SeleccionRuleta implements Cloneable, ISeleccion{
 		}
 
 		for(int i = 0; i < fitness.size(); i++){
-			fitness.set(i, fitness.get(i) - minFitness);
+			fitness.set(i, fitness.get(i) + ((minFitness < 0) ? minFitness : 0));
 			totalFitness += fitness.get(i);
 		}
 
@@ -37,11 +37,7 @@ public class SeleccionRuleta implements Cloneable, ISeleccion{
 		for(int i = 0; i < poblacion.size(); i++){
 			double aleatorio = rand.nextDouble();
 			int index = Utils.lower_bound(aleatorio, fitness);
-
-			if(fitness.get(index) == aleatorio)
-				seleccionados.add(poblacion.get(index));
-			else
-				seleccionados.add(poblacion.get(index+1));
+			seleccionados.add(poblacion.get(index));
 		}
 		return seleccionados;
 	}

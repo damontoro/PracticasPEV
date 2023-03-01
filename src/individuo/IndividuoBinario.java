@@ -60,7 +60,7 @@ public class IndividuoBinario extends Individuo{
 
     private int bin2dec(int i){
         int dec = 0;
-        int inicio = tamGenes.get(Math.max(0, i - 1));
+        int inicio = (i == 0) ? 0 : tamGenes.get(i - 1);
 
         for(int j = inicio; j < inicio + tamGenes.get(i); j++)
             dec += cromosoma.get(j) ? Math.pow(2, j - inicio) : 0;

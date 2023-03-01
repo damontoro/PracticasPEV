@@ -9,7 +9,7 @@ public abstract class Individuo {
 	static protected Integer tamCromosoma = null;
 	static protected Random random = new Random();
 
-	static protected ArrayList<Integer> tamGenes;
+	static protected ArrayList<Integer> tamGenes = null;
 
 	protected ArrayList<Double> min, max;
 	protected double fitness;
@@ -18,14 +18,16 @@ public abstract class Individuo {
 		this.min = min;
 		this.max = max;
 
-		tamGenes = new ArrayList<Integer>();
+		if(tamGenes == null)
+			tamGenes = new ArrayList<Integer>();
 	}
 
 	public <T> Individuo(ArrayList<Double> min, ArrayList<Double> max, double precision, ArrayList<T> valores) {
 		this.min = min;
 		this.max = max;
 
-		tamGenes = new ArrayList<Integer>();
+		if(tamGenes == null)
+			tamGenes = new ArrayList<Integer>();
 	}
 
 

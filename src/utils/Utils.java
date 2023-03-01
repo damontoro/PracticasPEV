@@ -22,7 +22,9 @@ public class Utils {
 		// Find the middle index
 		int mid = low + (high - low) / 2;
 		
-		if (value <= array.get(mid)) 
+		if(Double.compare(value, array.get(mid)) == 0)
+			return mid;
+		else if (Double.compare(value, array.get(mid)) < 0)
 			return recursive_lower_bound(array, low,  mid - 1, value);
 		else
 			return recursive_lower_bound(array, mid + 1, high, value);

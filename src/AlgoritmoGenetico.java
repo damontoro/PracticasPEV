@@ -25,7 +25,7 @@ public class AlgoritmoGenetico {
 	private double precision;
 	private double elitismo;
 
-	private Random random;
+	final private Random random = new Random();
 
 	private ICruce cruce;
 	private IMutacion mutacion;
@@ -40,6 +40,7 @@ public class AlgoritmoGenetico {
 		this.probMutacion = probMutacion;
 		this.precision = 0.01;
 		this.elitismo = 0.0;
+
 		this.problema = new Problema1();
 		this.poblacion = new ArrayList<Individuo>();
 		this.seleccion = new SeleccionRuleta();
