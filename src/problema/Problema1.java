@@ -31,8 +31,8 @@ public class Problema1 extends Problema{
 		Double x = fenotipo.get(0);
 		Double y = fenotipo.get(1);
 
-		return 21.5 + x * Math.sin(4 * Math.PI * x) 
-			+ y * Math.sin(20 * Math.PI * y);
+		return maxmin.get() * (21.5 + x * Math.sin(4 * Math.PI * x) 
+			+ y * Math.sin(20 * Math.PI * y));
 	}
 
 	@Override
