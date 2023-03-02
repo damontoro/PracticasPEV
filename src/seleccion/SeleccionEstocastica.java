@@ -4,14 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import src.individuo.Individuo;
-
 import src.utils.Utils;
 
-public class SeleccionRuleta implements Cloneable, ISeleccion{
-	
-	public SeleccionRuleta() {
-		super();
-	}
+public class SeleccionEstocastica implements ISeleccion, Cloneable{
 
 	@Override
 	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand) {
@@ -31,20 +26,24 @@ public class SeleccionRuleta implements Cloneable, ISeleccion{
 			totalFitness += fitness.get(i);
 		}
 
-		for(int i = 0; i < fitness.size(); i++)//Aqui se calcula la probabilidad acumulada de cada individuo
+		for(int i = 0; i < fitness.size(); i++) //Aqui se calcula la probabilidad acumulada de cada individuo
 			fitness.set(i, (fitness.get(i) / totalFitness) + (i > 0 ? fitness.get(i-1) : 0));
 
+		double distMarcas = 1.0 / poblacion.size();
+		double indice = rand.nextDouble() * distMarcas;
 		for(int i = 0; i < poblacion.size(); i++){
-			double aleatorio = rand.nextDouble();
-			int index = Utils.lower_bound(aleatorio, fitness);
+
+			int index = Utils.lower_bound(indice, fitness);
 			seleccionados.add(poblacion.get(index));
+			indice += distMarcas % 1.0;
 		}
 		return seleccionados;
 	}
-
-	public ISeleccion clone() { 
+	
+	@Override
+	public SeleccionEstocastica clone() { 
 		try {
-			return (ISeleccion)super.clone();
+			return (SeleccionEstocastica)super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new IllegalArgumentException(e);
 		} 
@@ -52,6 +51,6 @@ public class SeleccionRuleta implements Cloneable, ISeleccion{
 
 	@Override
 	public String toString() {
-		return "Ruleta";
+		return "Seleccion Estocástica";
 	}
 }

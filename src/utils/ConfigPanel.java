@@ -686,7 +686,7 @@ public class ConfigPanel<T> extends JPanel {
 		private Class<I> innerClass;
 		private String fieldName;
 		private PropertyDescriptor pd;
-		@SuppressWarnings("unchecked")
+		
 		public InnerOption(String label, String tooltip, String fieldName, Class<?> innerClass) {
 			super(label, tooltip);
 			this.fieldName = fieldName;			

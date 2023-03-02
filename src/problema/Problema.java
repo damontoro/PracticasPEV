@@ -11,7 +11,7 @@ public abstract class Problema implements Cloneable{
 	protected final ArrayList<Double> MIN;
 	protected final ArrayList<Double> MAX;
 	protected int dimension;
-	protected MyInteger maxmin = new MyInteger(1);
+	protected MyInteger optimizacion;
 
 	public Problema(double min, double max, int dimension) {
 		MIN = new ArrayList<Double>(dimension);
@@ -56,9 +56,12 @@ public abstract class Problema implements Cloneable{
 		} 
 	}
 
-	public void setmaxmin(int maxmin) {this.maxmin.set(maxmin);}
-	public void setmaxin(MyInteger maxmin) {this.maxmin = maxmin;}
-	public MyInteger getmaxmin() {return maxmin;}
+	//public void setmaxmin_int(int maxmin) {this.maxmin.set(maxmin);}
+	public void setOptimizacion(MyInteger maxmin) {this.optimizacion = maxmin;}
+	public MyInteger getOptimizacion() {return optimizacion;}
+
+	public ArrayList<Double> getMin() {return MIN;}
+	public ArrayList<Double> getMax() {return MAX;}
 
 	abstract public Individuo build(double precision);
 	abstract public <T> Individuo build(double precision, ArrayList<T> valores);

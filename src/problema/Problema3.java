@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import src.individuo.Individuo;
 import src.individuo.IndividuoBinario;
+import src.utils.MyInteger;
 	
 public class Problema3 extends Problema{
 	private static final Double MAX = 5.0; 
@@ -11,7 +12,8 @@ public class Problema3 extends Problema{
 
 	public Problema3() {
 		super(MIN, MAX, 2);
-		maxmin.set(-1);
+		optimizacion = new MyInteger(-1);
+
 	}
 	
 	@Override
@@ -20,7 +22,7 @@ public class Problema3 extends Problema{
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	
 	public <T> Individuo build(double precision, ArrayList<T> valores) {
 		return new IndividuoBinario(super.MIN, super.MAX, precision, (ArrayList<Boolean>) valores);
 	}
@@ -30,9 +32,11 @@ public class Problema3 extends Problema{
 		//Styblinsky-tang function
 		double value = 0;
 		for (int i = 0; i < dimension; i++)
-			value += Math.pow(fenotipo.get(i), 4) - 16 * Math.pow(fenotipo.get(i), 2) + 5 * fenotipo.get(i);
+			value += Math.pow(fenotipo.get(i), 4) - (16 * Math.pow(fenotipo.get(i), 2)) + (5 * fenotipo.get(i));
 
-		return maxmin.get() * value;
+		value = value / 2;
+		
+		return optimizacion.get() * value;
 	}
 
 	@Override

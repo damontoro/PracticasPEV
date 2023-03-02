@@ -32,11 +32,9 @@ public class IndividuoBinario extends Individuo{
             }
         }
 	    cromosoma = valores;
-
 	}
 
 	@Override
-    @SuppressWarnings("unchecked")
 	public ArrayList<Boolean> getGenotipo() {
 		return cromosoma;
 	}

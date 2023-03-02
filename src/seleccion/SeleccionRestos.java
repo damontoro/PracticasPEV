@@ -5,13 +5,10 @@ import java.util.Random;
 
 import src.individuo.Individuo;
 
-import src.utils.Utils;
+public class SeleccionRestos implements ISeleccion, Cloneable{
 
-public class SeleccionRuleta implements Cloneable, ISeleccion{
-	
-	public SeleccionRuleta() {
-		super();
-	}
+	private double numIndividuos;
+	private SeleccionRuleta ruleta = new SeleccionRuleta();
 
 	@Override
 	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand) {
@@ -19,6 +16,7 @@ public class SeleccionRuleta implements Cloneable, ISeleccion{
 		ArrayList<Double> fitness = new ArrayList<Double>();
 		double totalFitness = 0;
 		double minFitness = Double.MAX_VALUE;
+		numIndividuos = poblacion.size();
 
 		for(Individuo i : poblacion){
 			fitness.add(i.getFitness());
@@ -31,20 +29,27 @@ public class SeleccionRuleta implements Cloneable, ISeleccion{
 			totalFitness += fitness.get(i);
 		}
 
-		for(int i = 0; i < fitness.size(); i++)//Aqui se calcula la probabilidad acumulada de cada individuo
-			fitness.set(i, (fitness.get(i) / totalFitness) + (i > 0 ? fitness.get(i-1) : 0));
+		for(int i = 0; i < fitness.size(); i++) //Aqui se calcula la probabilidad de cada individuo
+			fitness.set(i, (fitness.get(i) / totalFitness));
 
 		for(int i = 0; i < poblacion.size(); i++){
-			double aleatorio = rand.nextDouble();
-			int index = Utils.lower_bound(aleatorio, fitness);
-			seleccionados.add(poblacion.get(index));
+			for(int j = 0; j < Math.floor(fitness.get(i) * numIndividuos); j++){
+				seleccionados.add(poblacion.get(i));
+			}
 		}
+
+		ArrayList<Individuo> restos = ruleta.select(poblacion, rand);
+		for(int i = 0; i < restos.size() && seleccionados.size() < poblacion.size(); i++)
+			seleccionados.add(restos.get(i));
+
 		return seleccionados;
 	}
+	
 
-	public ISeleccion clone() { 
+	@Override
+	public SeleccionRestos clone() { 
 		try {
-			return (ISeleccion)super.clone();
+			return (SeleccionRestos)super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new IllegalArgumentException(e);
 		} 
@@ -52,6 +57,6 @@ public class SeleccionRuleta implements Cloneable, ISeleccion{
 
 	@Override
 	public String toString() {
-		return "Ruleta";
+		return "Seleccion Restos";
 	}
 }

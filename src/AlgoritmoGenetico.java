@@ -16,7 +16,7 @@ import src.mutacion.*;
 public class AlgoritmoGenetico {
 	
 	private ArrayList<Individuo> poblacion;
-	private PriorityQueue<Individuo> elite;
+	private ArrayList<Individuo> elite;
 	private Problema problema; //Aqui tenemos nuestro fitness, min y maximo
 	private VistaPrincipal vista;
 
@@ -49,7 +49,7 @@ public class AlgoritmoGenetico {
 		this.vista = null;
 		this.problema = new Problema1();
 		this.poblacion = new ArrayList<Individuo>();
-		this.elite = new PriorityQueue<Individuo>();
+		this.elite = new ArrayList<Individuo>();
 		this.seleccion = new SeleccionRuleta();
 		this.cruce = new CruceMonopunto();
 		this.mutacion = new MutacionBinaria();
@@ -70,14 +70,15 @@ public class AlgoritmoGenetico {
 		}
 		this.mediaFitness = acum / poblacion.size();
 		mejorAbs = Math.max(mejorAbs, mejorFitness);
+
+		poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
+		elite.clear();
+		for(int i = 0; i < elitismo * tamPoblacion; i++)
+			elite.add(poblacion.get(i));
 	}
 
 	void seleccion(){
-
-
 		poblacion = seleccion.select(poblacion, random); //Poblacion ini size individuos elegidos
-
-		
 	}
 
 	void cruce(){
@@ -89,6 +90,12 @@ public class AlgoritmoGenetico {
 			i = mutacion.mutar(i, problema, random, probMutacion);
 	}
 
+	void introducirElite(){
+		poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
+		for(int i = 0; i < elite.size(); i++)
+			poblacion.set(i, elite.get(i));
+	}
+
 	public void run(){
 		initPoblacion();
 		evalPoblacion();
@@ -98,6 +105,9 @@ public class AlgoritmoGenetico {
 			seleccion();
 			cruce();
 			mutacion();
+			introducirElite();
+			if(i == 99)
+				System.out.println("Generacion " + i + " " + "Mejor fitness: " + mejorFitness + " Media fitness: " + mediaFitness);
 			evalPoblacion();
 
 			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
@@ -108,11 +118,10 @@ public class AlgoritmoGenetico {
 	public void show(int i){
 		try{
 			vista.actualizarGrafica(poblacion.get(poblacion.size()-1).getFenotipo(), mejorFitness, mediaFitness, mejorAbs, i);
-			Thread.sleep(100);
+			Thread.sleep(10);
 		}catch(Exception e){
-			//ESTO ES KAKITA
-			e.printStackTrace();
-			Thread.currentThread().stop();
+			//e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
 	}
 

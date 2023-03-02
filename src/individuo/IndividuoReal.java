@@ -42,7 +42,7 @@ public class IndividuoReal extends Individuo{
 		return cromosoma;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <T> ArrayList<T> getGenotipo() {
 		return (ArrayList<T>) cromosoma;

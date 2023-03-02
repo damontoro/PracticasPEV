@@ -3,5 +3,6 @@ https://github.com/knowm/XChart
 
 
 Problemas: 
-    GUARRADAS: EL Hilo.stop
-	El setTamGenes
+	preguntar sobre el cruce BLXa en que pasa si los dos son iguales
+	Hacer que el "Cambio de fitness" sea solo en la seleccion
+    Separar Problema4A de 4B creando un padre problema 4

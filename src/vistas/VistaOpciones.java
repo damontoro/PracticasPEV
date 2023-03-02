@@ -6,8 +6,17 @@ import java.awt.BorderLayout;
 
 import src.AlgoritmoGenetico;
 import src.cruce.CruceMonopunto;
+import src.cruce.CruceUniforme;
+import src.cruce.CruceAritmetico;
+import src.cruce.CruceBLXa;
+import src.seleccion.SeleccionEstocastica;
+import src.seleccion.SeleccionRestos;
 import src.seleccion.SeleccionRuleta;
+import src.seleccion.SeleccionTorneoDet;
+import src.seleccion.SeleccionTorneoProb;
+import src.seleccion.SeleccionTruncamiento;
 import src.mutacion.MutacionBinaria;
+import src.mutacion.MutacionReal;
 import src.problema.Problema;
 import src.problema.Problema1;
 import src.problema.Problema2;
@@ -25,13 +34,22 @@ import src.utils.MyInteger;
 public class VistaOpciones extends JPanel{
 	
 	private static final Cloneable selecciones[] = {
-		new SeleccionRuleta()
+		new SeleccionRuleta(),
+		new SeleccionTorneoDet(),
+		new SeleccionTorneoProb(),
+		new SeleccionEstocastica(),
+		new SeleccionTruncamiento(),
+		new SeleccionRestos()
 	};
 	private static final Cloneable cruces[] = {
-		new CruceMonopunto()
+		new CruceMonopunto(),
+		new CruceUniforme(),
+		new CruceAritmetico(),
+		new CruceBLXa()
 	};
 	private static final Cloneable mutaciones[] = {
-		new MutacionBinaria()
+		new MutacionBinaria(),
+		new MutacionReal()
 	};
 	private static final Cloneable problemas[] = {
 		new Problema1(),
@@ -39,6 +57,10 @@ public class VistaOpciones extends JPanel{
 		new Problema3(),
 		new Problema4A(2),
 		new Problema4B(2)
+	};
+	private static final Cloneable enteros[] = {
+		new MyInteger(Integer.valueOf(1)), 
+		new MyInteger(Integer.valueOf(-1))
 	};
 
 
@@ -124,14 +146,15 @@ public class VistaOpciones extends JPanel{
 			"Problema a resolver", 
 			"problema",
 			problemas))
-		.beginInner(new InnerOption<AlgoritmoGenetico, Problema>( 
-			"Maximización/Minimicación", "Como quieres optimizar la funcion", "problema", Problema.class))
-				.addInner(new StrategyOption<MyInteger>(
+		/*.beginInner(new InnerOption<AlgoritmoGenetico, Problema>( 
+			"Maximización/Minimización", "Como quieres optimizar la funcion", "problema", Problema.class))
+				.addInner(new StrategyOption<Problema>(
 					"Optimización", 
 					"Optimización del problema",
-					"maxmin", 
-					new MyInteger[] {new MyInteger(1), new MyInteger(-1)}))
+					"optimizacion", 
+					enteros))
 				.endInner()
+		*/
 		.beginInner(new InnerOption<AlgoritmoGenetico, Problema>( 
 		"Opciones", "Opciones del problema", "problema", Problema4A.class))
 			.addInner(new IntegerOption<Problema>(

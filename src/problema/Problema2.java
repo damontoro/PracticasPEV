@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import src.individuo.Individuo;
 import src.individuo.IndividuoBinario;
+import src.utils.MyInteger;
 
 
 public class Problema2 extends Problema{
@@ -13,7 +14,7 @@ public class Problema2 extends Problema{
 
 	public Problema2() {
 		super(MIN, MAX, 2);
-		maxmin.set(-1);
+		optimizacion = new MyInteger(-1);
 
 	}
 	
@@ -23,7 +24,7 @@ public class Problema2 extends Problema{
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	
 	public <T> Individuo build(double precision, ArrayList<T> valores) {
 		return new IndividuoBinario(super.MIN, super.MAX, precision, (ArrayList<Boolean>) valores);
 	}
@@ -39,7 +40,7 @@ public class Problema2 extends Problema{
 		for (int i = 0; i < dimension; i++)
 			product *= Math.cos(fenotipo.get(i) / Math.sqrt(i + 1));//Calculamos el productorio
 
-		return maxmin.get() * (sum - product + 1);
+		return optimizacion.get() * (sum - product + 1);
 	}
 
 	@Override

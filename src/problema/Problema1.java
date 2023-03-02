@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import src.individuo.Individuo;
 import src.individuo.IndividuoBinario;
+import src.utils.MyInteger;
 
 public class Problema1 extends Problema{
 
@@ -12,7 +13,7 @@ public class Problema1 extends Problema{
 
 	public Problema1() {
 		super(MIN, MAX, 2);
-		maxmin.set(1);
+		optimizacion = new MyInteger(1);
 	}
 	
 	@Override
@@ -21,7 +22,7 @@ public class Problema1 extends Problema{
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	
 	public <T> Individuo build(double precision, ArrayList<T> valores) {
 		return new IndividuoBinario(super.MIN, super.MAX, precision, (ArrayList<Boolean>) valores);
 	}
@@ -31,7 +32,7 @@ public class Problema1 extends Problema{
 		Double x = fenotipo.get(0);
 		Double y = fenotipo.get(1);
 
-		return maxmin.get() * (21.5 + x * Math.sin(4 * Math.PI * x) 
+		return optimizacion.get() * (21.5 + x * Math.sin(4 * Math.PI * x) 
 			+ y * Math.sin(20 * Math.PI * y));
 	}
 
