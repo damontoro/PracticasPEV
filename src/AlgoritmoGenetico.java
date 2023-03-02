@@ -106,8 +106,6 @@ public class AlgoritmoGenetico {
 			cruce();
 			mutacion();
 			introducirElite();
-			if(i == 99)
-				System.out.println("Generacion " + i + " " + "Mejor fitness: " + mejorFitness + " Media fitness: " + mediaFitness);
 			evalPoblacion();
 
 			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));

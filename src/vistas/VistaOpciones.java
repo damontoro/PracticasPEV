@@ -80,8 +80,6 @@ public class VistaOpciones extends JPanel{
 			@Override
 			public void configChanged(boolean isConfigValid) {
 				val.setText(isConfigValid ? textoTodoValido: textoHayErrores);
-				//ag.stop();
-				//ag.reset();
 			}
 			public ConfigListener init(JLabel valido) {
 				this.val = valido;

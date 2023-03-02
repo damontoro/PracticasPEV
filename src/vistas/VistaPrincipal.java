@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import src.AlgoritmoGenetico;
 
@@ -29,7 +30,7 @@ public class VistaPrincipal extends JFrame{
 	public VistaPrincipal(AlgoritmoGenetico ag){
 
 		setTitle("Algoritmo Genético");
-		setSize(1200, 800);
+		setSize(1400, 800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -66,8 +67,16 @@ public class VistaPrincipal extends JFrame{
 	}
 
 	public void actualizarGrafica(ArrayList<Double> mejorFeno, Double mejorFit, Double mediaFit, Double mejorAbs, Integer i){
+
 		grafica.reload(mejorFit, mediaFit, mejorAbs, i);
-		mejor.setText("Mejor fenotipo: " + mejorFeno.toString() + " Fitness: " + mejorFit);
+		String mejorFenotipo = "[";
+		DecimalFormat df = new DecimalFormat("#.##");
+		for(int j = 0; j < mejorFeno.size(); j++){
+			mejorFenotipo += df.format(mejorFeno.get(j)) + 
+			((j < mejorFeno.size() - 1) ? ", " : "");
+		}
+		mejorFenotipo += "]";
+		mejor.setText("Mejor fenotipo: " + mejorFenotipo + " Fitness: " + df.format(mejorFit));
 		this.repaint();
 		this.revalidate();
 	}

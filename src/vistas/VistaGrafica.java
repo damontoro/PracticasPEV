@@ -7,6 +7,7 @@ import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
+import java.awt.Color;
 import org.knowm.xchart.XChartPanel;
 
 public class VistaGrafica extends JPanel{
@@ -25,6 +26,13 @@ public class VistaGrafica extends JPanel{
 		// Customize Chart
 		chart.getStyler().setLegendPosition(LegendPosition.OutsideE);
 		chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
+		chart.getStyler().setMarkerSize(1);
+		chart.getStyler().setToolTipsEnabled(true);
+
+		chart.getStyler().setZoomEnabled(true);
+		chart.getStyler().setZoomResetByDoubleClick(false);
+		chart.getStyler().setZoomResetByButton(true);
+		chart.getStyler().setZoomSelectionColor(new Color(0,0 , 192, 128));
 
 		// Series
 		mejorFitness.add(0.0);
