@@ -39,4 +39,9 @@ public class Problema2 extends Problema{
 
 		return sum - product + 1;
 	}
+
+	@Override
+	public String toString() {
+		return "Problema2";
+	}
 }

@@ -27,6 +27,7 @@ public class AlgoritmoGenetico {
 
 	private double mejorFitness;
 	private double mediaFitness;
+	private double mejorAbs = Double.MIN_VALUE;
 
 
 	final private Random random = new Random(10);
@@ -65,6 +66,7 @@ public class AlgoritmoGenetico {
 			acum += i.getFitness();
 		}
 		this.mediaFitness = acum / poblacion.size();
+		mejorAbs = Math.max(mejorAbs, mejorFitness);
 	}
 
 	void seleccion(){
@@ -81,10 +83,6 @@ public class AlgoritmoGenetico {
 	}
 
 	public void run(){
-
-		ArrayList<ArrayList<Double>> listaX = new ArrayList<ArrayList<Double>>();
-		ArrayList<ArrayList<Integer>> listaY = new ArrayList<ArrayList<Integer>>();
-
 		initPoblacion();
 		evalPoblacion();
 		for(int i = 0; i < numGeneraciones; i++){
@@ -95,23 +93,25 @@ public class AlgoritmoGenetico {
 			mutacion();
 			evalPoblacion();
 
-			//poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
+			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
 			System.out.println("Generacion " + i + " " + "Mejor fitness: " + mejorFitness + " Media fitness: " + mediaFitness);
 		}
 	}
 
 	public void show(int i){
 		try{
-			vista.actualizarGrafica(mejorFitness, mediaFitness, mejorFitness/mediaFitness, i);
+			vista.actualizarGrafica(poblacion.get(poblacion.size()-1).getFenotipo(), mejorFitness, mediaFitness, mejorAbs, i);
 			Thread.sleep(100);
 		}catch(Exception e){
 			//ESTO ES KAKITA
+			e.printStackTrace();
 			Thread.currentThread().stop();
 		}
 	}
 
 	public void reset(){
 		this.poblacion = new ArrayList<Individuo>();
+		this.mejorAbs = Double.MIN_VALUE;
 		Individuo.setTamGenes(null);
 		Individuo.setTamCromosoma(null);
 	}

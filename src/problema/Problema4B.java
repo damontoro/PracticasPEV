@@ -21,4 +21,9 @@ public class Problema4B extends Problema4A{
 	public <T> Individuo build(double precision, ArrayList<T> valores) {
 		return new IndividuoReal(super.MIN, super.MAX, dimension, (ArrayList<Double>) valores);
 	}
+
+	@Override
+	public String toString() {
+		return "Problema4B";
+	}
 }

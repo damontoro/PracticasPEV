@@ -14,13 +14,13 @@ public class VistaGrafica extends JPanel{
 
 	ArrayList<Double> mejorFitness = new ArrayList<Double>();
 	ArrayList<Double> mediaFitness = new ArrayList<Double>();
-	ArrayList<Double> presionSelectiva = new ArrayList<Double>();
+	ArrayList<Double> mejorAbsoluto = new ArrayList<Double>();
 
 	ArrayList<Double> yData = new ArrayList<Double>();
 
 	public VistaGrafica() {
 		// Create Chart
-		chart = new XYChartBuilder().width(600).height(400).title("Tabla").xAxisTitle("Generacion").build();
+		chart = new XYChartBuilder().width(750).height(600).title("Tabla").xAxisTitle("Generacion").build();
 
 		// Customize Chart
 		chart.getStyler().setLegendPosition(LegendPosition.OutsideE);
@@ -29,11 +29,11 @@ public class VistaGrafica extends JPanel{
 		// Series
 		mejorFitness.add(0.0);
 		mediaFitness.add(0.0);
-		presionSelectiva.add(0.0);
+		mejorAbsoluto.add(0.0);
 		yData.add(0.0);
 		chart.addSeries("Mejor Individuo", mejorFitness, yData);
 		chart.addSeries("Media Fitness", mediaFitness, yData);
-		chart.addSeries("Presion Selectiva", mejorFitness, yData);
+		chart.addSeries("Mejor Absoluto", mejorFitness, yData);
 
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
@@ -42,24 +42,24 @@ public class VistaGrafica extends JPanel{
 		this.setVisible(true);
 		mejorFitness.clear();
 		mediaFitness.clear();
-		presionSelectiva.clear();
+		mejorAbsoluto.clear();
 		yData.clear();
 	}
 
 	public void reset() {
 		mejorFitness.clear();
 		mediaFitness.clear();
-		presionSelectiva.clear();
+		mejorAbsoluto.clear();
 		yData.clear();
 	}
 
-	public void reload(Double mejorFit, Double mediaFit, Double presion, Integer i) {
+	public void reload(Double mejorFit, Double mediaFit, Double mejorAbs, Integer i) {
 		yData.add(Double.valueOf(i));
 		mejorFitness.add(mejorFit);
 		mediaFitness.add(mediaFit);
-		presionSelectiva.add(presion);
+		mejorAbsoluto.add(mejorAbs);
 		chart.updateXYSeries("Mejor Individuo", yData, mejorFitness, null);
 		chart.updateXYSeries("Media Fitness", yData, mediaFitness, null);
-		chart.updateXYSeries("Presion Selectiva", yData, presionSelectiva, null);
+		chart.updateXYSeries("Mejor Absoluto", yData, mejorAbsoluto, null);
 	}
 }

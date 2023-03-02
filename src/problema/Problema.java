@@ -5,7 +5,7 @@ import java.util.Collections;
 
 import src.individuo.Individuo;
 
-public abstract class Problema {
+public abstract class Problema implements Cloneable{
 	
 	protected final ArrayList<Double> MIN;
 	protected final ArrayList<Double> MAX;
@@ -30,7 +30,29 @@ public abstract class Problema {
 	}
 
 	public int getDimension() {return dimension;}
-	public void setDimension(int dimension) {this.dimension = dimension;}
+	public void setDimension(int dimension) {
+		if(dimension > MIN.size()){
+			for(int i = MIN.size(); i < dimension; i++) {
+				MIN.add(MIN.get(0));
+				MAX.add(MAX.get(0));
+			}
+		}
+		else if(dimension < MIN.size()){
+			for(int i = MIN.size(); i > dimension; i--) {
+				MIN.remove(i - 1);
+				MAX.remove(i - 1);
+			}
+		}
+		this.dimension = dimension;
+	}
+
+	public Problema clone() { 
+		try {
+			return (Problema)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new IllegalArgumentException(e);
+		} 
+	}
 
 	abstract public Individuo build(double precision);
 	abstract public <T> Individuo build(double precision, ArrayList<T> valores);

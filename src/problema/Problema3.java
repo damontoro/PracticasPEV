@@ -33,4 +33,9 @@ public class Problema3 extends Problema{
 
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		return "Problema3";
+	}
 }

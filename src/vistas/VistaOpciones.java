@@ -9,7 +9,11 @@ import src.cruce.CruceMonopunto;
 import src.seleccion.SeleccionRuleta;
 import src.mutacion.MutacionBinaria;
 import src.problema.Problema;
+import src.problema.Problema1;
+import src.problema.Problema2;
+import src.problema.Problema3;
 import src.problema.Problema4A;
+import src.problema.Problema4B;
 import src.utils.ConfigPanel;
 import src.utils.ConfigPanel.ConfigListener;
 import src.utils.ConfigPanel.DoubleOption;
@@ -28,6 +32,13 @@ public class VistaOpciones extends JPanel{
 	private static final Cloneable mutaciones[] = {
 		new MutacionBinaria()
 	};
+	private static final Cloneable problemas[] = {
+		new Problema1(),
+		new Problema2(),
+		new Problema3(),
+		new Problema4A(2),
+		new Problema4B(2)
+	};
 
 
 	public VistaOpciones(AlgoritmoGenetico ag, JLabel valido) {
@@ -45,7 +56,9 @@ public class VistaOpciones extends JPanel{
 			JLabel val;
 			@Override
 			public void configChanged(boolean isConfigValid) {
-				val.setText(isConfigValid ? textoTodoValido: textoHayErrores);				
+				val.setText(isConfigValid ? textoTodoValido: textoHayErrores);
+				//ag.stop();
+				//ag.reset();
 			}
 			public ConfigListener init(JLabel valido) {
 				this.val = valido;
@@ -105,6 +118,11 @@ public class VistaOpciones extends JPanel{
 			"Algoritmo de Mutacion", 
 			"mutacion",
 			mutaciones))
+		.addOption(new StrategyOption<AlgoritmoGenetico>(
+			"Problema", 
+			"Problema a resolver", 
+			"problema",
+			problemas))
 		.beginInner(new InnerOption<AlgoritmoGenetico, Problema>( 
 		"Opciones", "Opciones del problema", "problema", Problema4A.class))
 			.addInner(new IntegerOption<CruceMonopunto>(

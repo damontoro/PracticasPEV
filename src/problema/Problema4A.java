@@ -38,4 +38,9 @@ public class Problema4A extends Problema{
 
 		return -sum;
 	}
+
+	@Override
+	public String toString() {
+		return "Problema4A";
+	}
 }

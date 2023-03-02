@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,14 +15,16 @@ import src.AlgoritmoGenetico;
 public class VistaPrincipal extends JFrame{
 	
 	final JLabel valido = new JLabel();
+	final JLabel mejor = new JLabel();
+
 	final VistaGrafica grafica = new VistaGrafica();
 	final JButton boton = new JButton("Run");
 
+	final JPanel opcionesPanel = new JPanel();
+	final JPanel graficaPanel = new JPanel();
+
 	private volatile Thread hilo = null;
 
-	ArrayList<ArrayList<Double>> tablaX = new ArrayList<ArrayList<Double>>();
-	ArrayList<ArrayList<Integer>> tablaY = new ArrayList<ArrayList<Integer>>();
-	int i = 0;
 
 	public VistaPrincipal(AlgoritmoGenetico ag){
 
@@ -33,9 +36,14 @@ public class VistaPrincipal extends JFrame{
 
 		setLayout(new BorderLayout());
 
-		add(new VistaOpciones(ag, valido), BorderLayout.WEST);
-		add(grafica, BorderLayout.CENTER);
-		add(valido, BorderLayout.SOUTH);
+		opcionesPanel.setLayout(new BorderLayout());
+		opcionesPanel.add(new VistaOpciones(ag, valido), BorderLayout.WEST);
+		opcionesPanel.add(valido, BorderLayout.SOUTH);
+
+		graficaPanel.setLayout(new BorderLayout());
+		graficaPanel.add(grafica, BorderLayout.CENTER);
+
+		
 		ag.setVista(this);
 
 		boton.addActionListener(new ActionListener(){
@@ -50,18 +58,18 @@ public class VistaPrincipal extends JFrame{
 				hilo.start();
 			}
 		});
-		add(boton, BorderLayout.EAST);
+		graficaPanel.add(boton, BorderLayout.SOUTH);
+
+		add(opcionesPanel, BorderLayout.WEST);
+		add(graficaPanel, BorderLayout.CENTER);
+		add(mejor, BorderLayout.SOUTH);
 	}
 
-	public void actualizarGrafica(Double mejorFit, Double mediaFit, Double presion, Integer i){
-		grafica.reload(mejorFit, mediaFit, presion, i);
+	public void actualizarGrafica(ArrayList<Double> mejorFeno, Double mejorFit, Double mediaFit, Double mejorAbs, Integer i){
+		grafica.reload(mejorFit, mediaFit, mejorAbs, i);
+		mejor.setText("Mejor fenotipo: " + mejorFeno.toString() + " Fitness: " + mejorFit);
 		this.repaint();
 		this.revalidate();
-	}
-
-	public void loadTablas(ArrayList<ArrayList<Integer>> x, ArrayList<ArrayList<Double>> y){
-		tablaX = y;
-		tablaY = x;
 	}
 
 }
