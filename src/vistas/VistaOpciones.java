@@ -144,15 +144,6 @@ public class VistaOpciones extends JPanel{
 			"Problema a resolver", 
 			"problema",
 			problemas))
-		/*.beginInner(new InnerOption<AlgoritmoGenetico, Problema>( 
-			"Maximización/Minimización", "Como quieres optimizar la funcion", "problema", Problema.class))
-				.addInner(new StrategyOption<Problema>(
-					"Optimización", 
-					"Optimización del problema",
-					"optimizacion", 
-					enteros))
-				.endInner()
-		*/
 		.beginInner(new InnerOption<AlgoritmoGenetico, Problema>( 
 		"Opciones", "Opciones del problema", "problema", Problema4A.class))
 			.addInner(new IntegerOption<Problema>(
@@ -160,8 +151,6 @@ public class VistaOpciones extends JPanel{
 			.endInner()
 		.endOptions();
 		
-
-
 		return panel;
 	}
 }

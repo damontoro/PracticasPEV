@@ -44,7 +44,6 @@ public class VistaPrincipal extends JFrame{
 		graficaPanel.setLayout(new BorderLayout());
 		graficaPanel.add(grafica, BorderLayout.CENTER);
 
-		
 		ag.setVista(this);
 
 		boton.addActionListener(new ActionListener(){
