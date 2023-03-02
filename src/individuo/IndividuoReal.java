@@ -18,7 +18,7 @@ public class IndividuoReal extends Individuo{
 		cromosoma = new ArrayList<Double>();
 
 		for(int i = 0; i < tamCromosoma; i++)
-			cromosoma.add(ThreadLocalRandom.current().nextDouble(min.get(0), max.get(0)));
+			cromosoma.add(random.nextDouble(min.get(0), max.get(0)));
 	}
 
 	public IndividuoReal(ArrayList<Double> min, ArrayList<Double> max, int dimension, ArrayList<Double> valores) {

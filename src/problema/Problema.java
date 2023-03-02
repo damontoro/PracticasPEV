@@ -3,15 +3,18 @@ package src.problema;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import src.utils.TipoProblema;
+
 import src.individuo.Individuo;
-import src.utils.MyInteger;
 
 public abstract class Problema implements Cloneable{
 	
 	protected final ArrayList<Double> MIN;
 	protected final ArrayList<Double> MAX;
 	protected int dimension;
-	protected MyInteger optimizacion;
+	protected TipoProblema tipo;
+
+
 
 	public Problema(double min, double max, int dimension) {
 		MIN = new ArrayList<Double>(dimension);
@@ -56,12 +59,10 @@ public abstract class Problema implements Cloneable{
 		} 
 	}
 
-	//public void setmaxmin_int(int maxmin) {this.maxmin.set(maxmin);}
-	public void setOptimizacion(MyInteger maxmin) {this.optimizacion = maxmin;}
-	public MyInteger getOptimizacion() {return optimizacion;}
-
 	public ArrayList<Double> getMin() {return MIN;}
 	public ArrayList<Double> getMax() {return MAX;}
+	public TipoProblema getTipo() {return tipo;}
+	public void setTipo(TipoProblema tipo) {this.tipo = tipo;}
 
 	abstract public Individuo build(double precision);
 	abstract public <T> Individuo build(double precision, ArrayList<T> valores);

@@ -1,7 +1,6 @@
 package src.mutacion;
 
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import src.individuo.Individuo;
 import src.problema.Problema;
@@ -12,7 +11,7 @@ public class MutacionReal implements IMutacion, Cloneable{
 	public Individuo mutar(Individuo individuo, Problema problema, Random rand, double probMutacion) {
 		for(int i = 0; i < individuo.getGenotipo().size(); i++) {
 			if(rand.nextDouble() < probMutacion) {
-				double valor = ThreadLocalRandom.current().nextDouble(problema.getMin().get(i), problema.getMax().get(i));
+				double valor = rand.nextDouble(problema.getMin().get(i), problema.getMax().get(i));
 				individuo.getGenotipo().set(i, valor);
 			}
 		}

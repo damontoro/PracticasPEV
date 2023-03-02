@@ -2,18 +2,23 @@ package src.seleccion;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import src.individuo.Individuo;
+import src.utils.TipoProblema;
 
 public class SeleccionTruncamiento implements ISeleccion, Cloneable{
 
 	@Override
-	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand) {
+	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand, TipoProblema tipo) {
 		ArrayList<Individuo> seleccionados = new ArrayList<Individuo>();
 
-		final double porcentaje = ThreadLocalRandom.current().nextDouble(0.1, 0.5);
-		poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
+
+		final double porcentaje = rand.nextDouble(0.1, 0.5);
+
+		//Ordenamos la poblacion por fitness
+		poblacion.sort((a, b) -> (tipo == TipoProblema.MAXIMIZACION) ? 
+				Double.compare(b.getFitness(), a.getFitness()) : //De mayor a menor
+				Double.compare(a.getFitness(), b.getFitness())); //De menor a mayor
 
 		while(seleccionados.size() < poblacion.size()){
 			for(int i = 0; i < poblacion.size() * porcentaje && seleccionados.size() < poblacion.size(); i++)

@@ -46,23 +46,24 @@ public class IndividuoBinario extends Individuo{
 
     @Override
     public ArrayList<Double> getFenotipo(){
+		int posAct = 0;
         ArrayList<Double> fenotipo = new ArrayList<Double>();
         for(int i = 0; i < tamGenes.size(); i++){
-            fenotipo.add(getFenotipo(i));
+            fenotipo.add(getFenotipo(i, posAct));
+			posAct += tamGenes.get(i);
         }
         return fenotipo;
     }
 
-    private Double getFenotipo(int i){
-       return min.get(i) + bin2dec(i) * ((max.get(i) - min.get(i)) / (Math.pow(2, tamGenes.get(i)) - 1));
+    private Double getFenotipo(int i, int posAct){
+       return min.get(i) + bin2dec(i, posAct) * ((max.get(i) - min.get(i)) / (Math.pow(2, tamGenes.get(i)) - 1));
     }
 
-    private int bin2dec(int i){
+    private int bin2dec(int i, int iniPos){
         int dec = 0;
-        int inicio = (i == 0) ? 0 : tamGenes.get(i - 1);
 
-        for(int j = inicio; j < inicio + tamGenes.get(i); j++)
-            dec += cromosoma.get(j) ? Math.pow(2, j - inicio) : 0;
+        for(int j = iniPos; j < iniPos + tamGenes.get(i); j++)
+            dec += cromosoma.get(j) ? Math.pow(2, j - iniPos) : 0;
 
         return dec;
     }

@@ -2,7 +2,6 @@ package src.cruce;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import src.individuo.Individuo;
 import src.problema.Problema;
@@ -40,8 +39,8 @@ public class CruceBLXa implements ICruce, Cloneable{
 					genotipoHijo2.add(minIntervaloHijo);
 					continue;
 				}
-				genotipoHijo1.add(ThreadLocalRandom.current().nextDouble(minIntervaloHijo, maxIntervaloHijo));
-				genotipoHijo2.add(ThreadLocalRandom.current().nextDouble(minIntervaloHijo, maxIntervaloHijo));
+				genotipoHijo1.add(rand.nextDouble(minIntervaloHijo, maxIntervaloHijo));
+				genotipoHijo2.add(rand.nextDouble(minIntervaloHijo, maxIntervaloHijo));
 			}
 
 			hijos.add(problema.build(0, genotipoHijo1));

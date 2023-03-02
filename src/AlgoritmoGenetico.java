@@ -2,7 +2,6 @@ package src;
 
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
@@ -11,6 +10,7 @@ import src.vistas.VistaPrincipal;
 import src.problema.*;
 import src.cruce.*;
 import src.mutacion.*;
+import src.utils.TipoProblema;
 
 
 public class AlgoritmoGenetico {
@@ -62,23 +62,32 @@ public class AlgoritmoGenetico {
 
 	void evalPoblacion(){
 		double acum = 0;
-		this.mejorFitness = Double.MIN_VALUE;
+		this.mejorFitness = (problema.getTipo() == TipoProblema.MAXIMIZACION) ? Double.MIN_VALUE : Double.MAX_VALUE;
 		for(Individuo i : poblacion){
 			i.setFitness(problema.evaluar(i.getFenotipo()));
-			mejorFitness = Math.max(mejorFitness, i.getFitness());
+
+			mejorFitness = (problema.getTipo() == TipoProblema.MAXIMIZACION) ? 
+					Math.max(mejorFitness, i.getFitness()) : 
+					Math.min(mejorFitness, i.getFitness());
+
 			acum += i.getFitness();
 		}
 		this.mediaFitness = acum / poblacion.size();
-		mejorAbs = Math.max(mejorAbs, mejorFitness);
+		mejorAbs = (problema.getTipo() == TipoProblema.MAXIMIZACION) ? 
+					Math.max(mejorFitness, mejorAbs) : 
+					Math.min(mejorFitness, mejorAbs);
 
-		poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
+		if(problema.getTipo() == TipoProblema.MAXIMIZACION) 
+			poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
+		else
+			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
 		elite.clear();
 		for(int i = 0; i < elitismo * tamPoblacion; i++)
 			elite.add(poblacion.get(i));
 	}
 
 	void seleccion(){
-		poblacion = seleccion.select(poblacion, random); //Poblacion ini size individuos elegidos
+		poblacion = seleccion.select(poblacion, random, problema.getTipo()); //Poblacion ini size individuos elegidos
 	}
 
 	void cruce(){
@@ -115,7 +124,8 @@ public class AlgoritmoGenetico {
 
 	public void show(int i){
 		try{
-			vista.actualizarGrafica(poblacion.get(poblacion.size()-1).getFenotipo(), mejorFitness, mediaFitness, mejorAbs, i);
+			vista.actualizarGrafica(poblacion.get(poblacion.size()-1).getFenotipo(), 
+					mejorFitness, mediaFitness, mejorAbs, precision, i);
 			Thread.sleep(10);
 		}catch(Exception e){
 			//e.printStackTrace();

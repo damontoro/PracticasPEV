@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import src.individuo.Individuo;
 import src.individuo.IndividuoBinario;
-import src.utils.MyInteger;
+import src.utils.TipoProblema;
+
 
 public class Problema1 extends Problema{
 
@@ -13,7 +14,7 @@ public class Problema1 extends Problema{
 
 	public Problema1() {
 		super(MIN, MAX, 2);
-		optimizacion = new MyInteger(1);
+		tipo = TipoProblema.MAXIMIZACION;
 	}
 	
 	@Override
@@ -32,7 +33,7 @@ public class Problema1 extends Problema{
 		Double x = fenotipo.get(0);
 		Double y = fenotipo.get(1);
 
-		return optimizacion.get() * (21.5 + x * Math.sin(4 * Math.PI * x) 
+		return (21.5 + x * Math.sin(4 * Math.PI * x) 
 			+ y * Math.sin(20 * Math.PI * y));
 	}
 

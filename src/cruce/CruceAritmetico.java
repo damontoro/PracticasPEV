@@ -2,7 +2,6 @@ package src.cruce;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import src.individuo.Individuo;
 import src.problema.Problema;
@@ -16,7 +15,7 @@ public class CruceAritmetico implements ICruce, Cloneable{
 		Double alpha;
 		for(int i = 0; i < padres.size(); i+=2){
 
-			alpha = ThreadLocalRandom.current().nextDouble(0.3, 0.7);
+			alpha = rand.nextDouble(0.3, 0.7);
 			if(rand.nextDouble() > probCruce){
 				hijos.add(padres.get(i));
 				hijos.add(padres.get(i + 1));

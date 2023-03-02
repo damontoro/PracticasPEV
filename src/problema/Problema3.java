@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import src.individuo.Individuo;
 import src.individuo.IndividuoBinario;
-import src.utils.MyInteger;
+import src.utils.TipoProblema;
+
 	
 public class Problema3 extends Problema{
 	private static final Double MAX = 5.0; 
@@ -12,7 +13,7 @@ public class Problema3 extends Problema{
 
 	public Problema3() {
 		super(MIN, MAX, 2);
-		optimizacion = new MyInteger(-1);
+		tipo = TipoProblema.MINIMIZACION;
 
 	}
 	
@@ -36,7 +37,7 @@ public class Problema3 extends Problema{
 
 		value = value / 2;
 		
-		return optimizacion.get() * value;
+		return value;
 	}
 
 	@Override

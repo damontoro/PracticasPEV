@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import src.individuo.Individuo;
+import src.utils.TipoProblema;
 
 
 public class SeleccionTorneoProb implements ISeleccion, Cloneable{
 	final private int tamTorneo = 3;
 
 	@Override
-	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand) {
+	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand, TipoProblema tipo) {
 		
 		ArrayList<Individuo> selected = new ArrayList<Individuo>();
 
@@ -19,7 +20,8 @@ public class SeleccionTorneoProb implements ISeleccion, Cloneable{
 			for(int i = 0; i < tamTorneo; i++){
 				torneo.add(poblacion.get(rand.nextInt(poblacion.size())));
 			}
-			//Ordenamos el torneo por fitness
+
+			//Ordenamos el torneo por fitness de mayor a menor
 			torneo.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
 			selected.add(
 				rand.nextDouble() > 0.5 ? torneo.get(0) : torneo.get(torneo.size() - 1)

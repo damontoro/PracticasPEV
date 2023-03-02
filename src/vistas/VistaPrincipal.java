@@ -26,7 +26,6 @@ public class VistaPrincipal extends JFrame{
 
 	private volatile Thread hilo = null;
 
-
 	public VistaPrincipal(AlgoritmoGenetico ag){
 
 		setTitle("Algoritmo Genético");
@@ -65,17 +64,24 @@ public class VistaPrincipal extends JFrame{
 		add(mejor, BorderLayout.SOUTH);
 	}
 
-	public void actualizarGrafica(ArrayList<Double> mejorFeno, Double mejorFit, Double mediaFit, Double mejorAbs, Integer i){
+	public void actualizarGrafica(ArrayList<Double> mejorFeno, Double mejorFit, Double mediaFit, Double mejorAbs, 
+								double precision, Integer i){
+
+		String preci = "#.";
+		for(double j = precision; j < 1; j *= 10)
+			preci += "#";
 
 		grafica.reload(mejorFit, mediaFit, mejorAbs, i);
 		String mejorFenotipo = "[";
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat(preci);
 		for(int j = 0; j < mejorFeno.size(); j++){
 			mejorFenotipo += df.format(mejorFeno.get(j)) + 
 			((j < mejorFeno.size() - 1) ? ", " : "");
 		}
 		mejorFenotipo += "]";
-		mejor.setText("Mejor fenotipo: " + mejorFenotipo + " Fitness: " + df.format(mejorFit));
+		mejor.setText("Mejor fenotipo Generacion: " + mejorFenotipo + 
+						" Fitness: " + df.format(mejorFit) +
+						" Mejor Fitness absoluto: " + df.format(mejorAbs));
 		this.repaint();
 		this.revalidate();
 	}
