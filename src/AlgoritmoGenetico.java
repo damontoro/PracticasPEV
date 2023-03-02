@@ -29,7 +29,7 @@ public class AlgoritmoGenetico {
 
 	private double mejorFitness;
 	private double mediaFitness;
-	private double mejorAbs = Double.MIN_VALUE;
+	private double mejorAbs;
 
 
 	final private Random random = new Random();
@@ -53,6 +53,8 @@ public class AlgoritmoGenetico {
 		this.seleccion = new SeleccionRuleta();
 		this.cruce = new CruceMonopunto();
 		this.mutacion = new MutacionBinaria();
+
+		mejorAbs = (problema.getTipo() == TipoProblema.MAXIMIZACION) ? Double.MIN_VALUE : Double.MAX_VALUE;
 	}
 
 	void initPoblacion(){
