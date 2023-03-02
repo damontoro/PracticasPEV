@@ -20,6 +20,7 @@ import src.utils.ConfigPanel.DoubleOption;
 import src.utils.ConfigPanel.InnerOption;
 import src.utils.ConfigPanel.IntegerOption;
 import src.utils.ConfigPanel.StrategyOption;
+import src.utils.MyInteger;
 
 public class VistaOpciones extends JPanel{
 	
@@ -124,8 +125,16 @@ public class VistaOpciones extends JPanel{
 			"problema",
 			problemas))
 		.beginInner(new InnerOption<AlgoritmoGenetico, Problema>( 
+			"Maximización/Minimicación", "Como quieres optimizar la funcion", "problema", Problema.class))
+				.addInner(new StrategyOption<MyInteger>(
+					"Optimización", 
+					"Optimización del problema",
+					"maxmin", 
+					new MyInteger[] {new MyInteger(1), new MyInteger(-1)}))
+				.endInner()
+		.beginInner(new InnerOption<AlgoritmoGenetico, Problema>( 
 		"Opciones", "Opciones del problema", "problema", Problema4A.class))
-			.addInner(new IntegerOption<CruceMonopunto>(
+			.addInner(new IntegerOption<Problema>(
 				"Dimension", "Dimension del problema", "dimension", 2, Integer.MAX_VALUE))
 			.endInner()
 		.endOptions();

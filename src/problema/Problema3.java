@@ -11,6 +11,7 @@ public class Problema3 extends Problema{
 
 	public Problema3() {
 		super(MIN, MAX, 2);
+		maxmin.set(-1);
 	}
 	
 	@Override
@@ -31,7 +32,7 @@ public class Problema3 extends Problema{
 		for (int i = 0; i < dimension; i++)
 			value += Math.pow(fenotipo.get(i), 4) - 16 * Math.pow(fenotipo.get(i), 2) + 5 * fenotipo.get(i);
 
-		return value;
+		return maxmin.get() * value;
 	}
 
 	@Override

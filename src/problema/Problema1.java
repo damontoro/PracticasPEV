@@ -12,6 +12,7 @@ public class Problema1 extends Problema{
 
 	public Problema1() {
 		super(MIN, MAX, 2);
+		maxmin.set(1);
 	}
 	
 	@Override

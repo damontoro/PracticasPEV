@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import src.individuo.Individuo;
+import src.utils.MyInteger;
 
 public abstract class Problema implements Cloneable{
 	
 	protected final ArrayList<Double> MIN;
 	protected final ArrayList<Double> MAX;
 	protected int dimension;
+	protected MyInteger maxmin = new MyInteger(1);
 
 	public Problema(double min, double max, int dimension) {
 		MIN = new ArrayList<Double>(dimension);
@@ -53,6 +55,10 @@ public abstract class Problema implements Cloneable{
 			throw new IllegalArgumentException(e);
 		} 
 	}
+
+	public void setmaxmin(int maxmin) {this.maxmin.set(maxmin);}
+	public void setmaxin(MyInteger maxmin) {this.maxmin = maxmin;}
+	public MyInteger getmaxmin() {return maxmin;}
 
 	abstract public Individuo build(double precision);
 	abstract public <T> Individuo build(double precision, ArrayList<T> valores);

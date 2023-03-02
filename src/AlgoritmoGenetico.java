@@ -2,6 +2,7 @@ package src;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
@@ -15,6 +16,7 @@ import src.mutacion.*;
 public class AlgoritmoGenetico {
 	
 	private ArrayList<Individuo> poblacion;
+	private PriorityQueue<Individuo> elite;
 	private Problema problema; //Aqui tenemos nuestro fitness, min y maximo
 	private VistaPrincipal vista;
 
@@ -30,7 +32,7 @@ public class AlgoritmoGenetico {
 	private double mejorAbs = Double.MIN_VALUE;
 
 
-	final private Random random = new Random(10);
+	final private Random random = new Random();
 
 	private ICruce cruce;
 	private IMutacion mutacion;
@@ -47,6 +49,7 @@ public class AlgoritmoGenetico {
 		this.vista = null;
 		this.problema = new Problema1();
 		this.poblacion = new ArrayList<Individuo>();
+		this.elite = new PriorityQueue<Individuo>();
 		this.seleccion = new SeleccionRuleta();
 		this.cruce = new CruceMonopunto();
 		this.mutacion = new MutacionBinaria();
@@ -70,7 +73,11 @@ public class AlgoritmoGenetico {
 	}
 
 	void seleccion(){
+
+
 		poblacion = seleccion.select(poblacion, random); //Poblacion ini size individuos elegidos
+
+		
 	}
 
 	void cruce(){

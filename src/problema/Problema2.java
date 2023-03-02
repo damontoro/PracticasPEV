@@ -13,6 +13,8 @@ public class Problema2 extends Problema{
 
 	public Problema2() {
 		super(MIN, MAX, 2);
+		maxmin.set(-1);
+
 	}
 	
 	@Override
@@ -37,7 +39,7 @@ public class Problema2 extends Problema{
 		for (int i = 0; i < dimension; i++)
 			product *= Math.cos(fenotipo.get(i) / Math.sqrt(i + 1));//Calculamos el productorio
 
-		return sum - product + 1;
+		return maxmin.get() * (sum - product + 1);
 	}
 
 	@Override

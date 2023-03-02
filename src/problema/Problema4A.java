@@ -13,6 +13,7 @@ public class Problema4A extends Problema{
 
 	public Problema4A(int dimension) {
 		super(_MIN, _MAX, dimension);
+		maxmin.set(-1);
 	}
 	
 	@Override
@@ -36,7 +37,7 @@ public class Problema4A extends Problema{
 			sum += Math.sin(fenotipo.get(i)) * 
 					Math.pow(Math.sin((i + 1) * Math.pow(fenotipo.get(i), 2) / Math.PI), 2 * m);
 
-		return -sum;
+		return maxmin.get() * (-sum);
 	}
 
 	@Override
