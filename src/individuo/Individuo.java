@@ -14,7 +14,7 @@ public abstract class Individuo {
 	protected ArrayList<Double> min, max;
 	protected double fitness;
 
-	public Individuo(ArrayList<Double> min, ArrayList<Double> max, double precision) {
+	public Individuo(ArrayList<Double> min, ArrayList<Double> max) {
 		this.min = min;
 		this.max = max;
 
@@ -22,7 +22,7 @@ public abstract class Individuo {
 			tamGenes = new ArrayList<Integer>();
 	}
 
-	public <T> Individuo(ArrayList<Double> min, ArrayList<Double> max, double precision, ArrayList<T> valores) {
+	public <T> Individuo(ArrayList<Double> min, ArrayList<Double> max, ArrayList<T> valores) {
 		this.min = min;
 		this.max = max;
 

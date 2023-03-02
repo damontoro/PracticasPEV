@@ -7,7 +7,7 @@ public class IndividuoBinario extends Individuo{
 	private ArrayList<Boolean> cromosoma;
 
 	public IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, double precision) {
-        super(min, max, precision);
+        super(min, max);
 
         if(tamCromosoma == null){
             tamCromosoma = 0;
@@ -23,7 +23,7 @@ public class IndividuoBinario extends Individuo{
     }
 
 	public IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, double precision, ArrayList<Boolean> valores) {
-		super(min, max, precision);
+		super(min, max);
 
         if(tamCromosoma == null){
             tamCromosoma = valores.size();

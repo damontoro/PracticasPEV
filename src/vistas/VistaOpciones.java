@@ -9,7 +9,7 @@ import src.cruce.CruceMonopunto;
 import src.seleccion.SeleccionRuleta;
 import src.mutacion.MutacionBinaria;
 import src.problema.Problema;
-import src.problema.Problema4;
+import src.problema.Problema4A;
 import src.utils.ConfigPanel;
 import src.utils.ConfigPanel.ConfigListener;
 import src.utils.ConfigPanel.DoubleOption;
@@ -106,7 +106,7 @@ public class VistaOpciones extends JPanel{
 			"mutacion",
 			mutaciones))
 		.beginInner(new InnerOption<AlgoritmoGenetico, Problema>( 
-		"Opciones", "Opciones del problema", "problema", Problema4.class))
+		"Opciones", "Opciones del problema", "problema", Problema4A.class))
 			.addInner(new IntegerOption<CruceMonopunto>(
 				"Dimension", "Dimension del problema", "dimension", 2, Integer.MAX_VALUE))
 			.endInner()
