@@ -15,7 +15,7 @@ import src.mutacion.*;
 public class AlgoritmoGenetico {
 	
 	private ArrayList<Individuo> poblacion;
-	private Problema problema; //Aqui tenemos nuestro fitness, min y maximo, 
+	private Problema problema; //Aqui tenemos nuestro fitness, min y maximo
 	private VistaPrincipal vista;
 
 	private int tamPoblacion;
@@ -28,20 +28,19 @@ public class AlgoritmoGenetico {
 	private double mejorFitness;
 	private double mediaFitness;
 
-	final private Random random = new Random();
+
+	final private Random random = new Random(10);
 
 	private ICruce cruce;
 	private IMutacion mutacion;
 	private ISeleccion seleccion;
-
-	private ArrayList<Individuo> seleccionados;
 
 	public AlgoritmoGenetico(int tamPoblacion, int numGeneraciones, double probCruce, double probMutacion) {
 		this.tamPoblacion = tamPoblacion;
 		this.numGeneraciones = numGeneraciones;
 		this.probCruce = probCruce;
 		this.probMutacion = probMutacion;
-		this.precision = 0.0001;
+		this.precision = 0.01;
 		this.elitismo = 0.0;
 
 		this.vista = null;
@@ -53,7 +52,6 @@ public class AlgoritmoGenetico {
 	}
 
 	void initPoblacion(){
-		Individuo.setTamCromosoma(null);
 		for(int i = 0; i < tamPoblacion; i++)
 			poblacion.add(problema.build(precision));
 	}
@@ -63,7 +61,7 @@ public class AlgoritmoGenetico {
 		this.mejorFitness = Double.MIN_VALUE;
 		for(Individuo i : poblacion){
 			i.setFitness(problema.evaluar(i.getFenotipo()));
-			mejorFitness = (i.getFitness() > mejorFitness) ? i.getFitness() : mejorFitness;
+			mejorFitness = Math.max(mejorFitness, i.getFitness());
 			acum += i.getFitness();
 		}
 		this.mediaFitness = acum / poblacion.size();
@@ -83,19 +81,40 @@ public class AlgoritmoGenetico {
 	}
 
 	public void run(){
+
+		ArrayList<ArrayList<Double>> listaX = new ArrayList<ArrayList<Double>>();
+		ArrayList<ArrayList<Integer>> listaY = new ArrayList<ArrayList<Integer>>();
+
 		initPoblacion();
 		evalPoblacion();
 		for(int i = 0; i < numGeneraciones; i++){
+			
+			show(i + 1);
 			seleccion();
 			cruce();
 			mutacion();
 			evalPoblacion();
-			if (vista != null) vista.prueba();
-			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
-			System.out.println("Generacion " + i + " " + "Mejor fitness: " + poblacion.get(poblacion.size()-1).getFitness() + " Media fitness: " + mediaFitness);
+
+			//poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
+			System.out.println("Generacion " + i + " " + "Mejor fitness: " + mejorFitness + " Media fitness: " + mediaFitness);
 		}
 	}
 
+	public void show(int i){
+		try{
+			vista.actualizarGrafica(mejorFitness, mediaFitness, mejorFitness/mediaFitness, i);
+			Thread.sleep(100);
+		}catch(Exception e){
+			//ESTO ES KAKITA
+			Thread.currentThread().stop();
+		}
+	}
+
+	public void reset(){
+		this.poblacion = new ArrayList<Individuo>();
+		Individuo.setTamGenes(null);
+		Individuo.setTamCromosoma(null);
+	}
 
 	//Los getters y setters de los atributos compactados
 	public int getTamPoblacion() {return tamPoblacion;}

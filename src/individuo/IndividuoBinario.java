@@ -41,7 +41,7 @@ public class IndividuoBinario extends Individuo{
 		return cromosoma;
 	}
 
-    @Override
+	@Override
     public int tamGen(double min, double max, double precision) {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
 	}

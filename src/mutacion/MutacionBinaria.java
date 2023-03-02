@@ -16,7 +16,7 @@ public class MutacionBinaria implements IMutacion, Cloneable{
 	public Individuo mutar(Individuo individuo, Problema problema, Random rand, double probMutacion) {
 		for(int i = 0; i < individuo.getGenotipo().size(); i++){
 			if(rand.nextDouble() < probMutacion){
-				individuo.getGenotipo().set(i, rand.nextBoolean());
+				individuo.getGenotipo().set(i, !(Boolean)individuo.getGenotipo().get(i));
 			}
 		}
 		return individuo;

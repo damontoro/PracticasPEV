@@ -12,36 +12,54 @@ import org.knowm.xchart.XChartPanel;
 public class VistaGrafica extends JPanel{
 	final XYChart chart;
 
-	ArrayList<Double> xData = new ArrayList<Double>();
+	ArrayList<Double> mejorFitness = new ArrayList<Double>();
+	ArrayList<Double> mediaFitness = new ArrayList<Double>();
+	ArrayList<Double> presionSelectiva = new ArrayList<Double>();
+
 	ArrayList<Double> yData = new ArrayList<Double>();
 
 	public VistaGrafica() {
 		// Create Chart
-		chart = new XYChartBuilder().width(600).height(400).title("Area Chart").xAxisTitle("X").yAxisTitle("Y").build();
+		chart = new XYChartBuilder().width(600).height(400).title("Tabla").xAxisTitle("Generacion").build();
 
 		// Customize Chart
-		chart.getStyler().setLegendPosition(LegendPosition.InsideNE);
+		chart.getStyler().setLegendPosition(LegendPosition.OutsideE);
 		chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
 
 		// Series
-		chart.addSeries("Mejor Individuo", new double[] { 0, 3, 5, 7, 9 }, new double[] { -3, 5, 9, 6, 5 });
-		chart.addSeries("Media Fitness", new double[] { 0, 2, 4, 6, 9 }, new double[] { -1, 6, 4, 0, 4 });
-		chart.addSeries("Presion Selectiva", new double[] { 0, 1, 3, 8, 9 }, new double[] { -2, -1, 1, 0, 1 });
+		mejorFitness.add(0.0);
+		mediaFitness.add(0.0);
+		presionSelectiva.add(0.0);
+		yData.add(0.0);
+		chart.addSeries("Mejor Individuo", mejorFitness, yData);
+		chart.addSeries("Media Fitness", mediaFitness, yData);
+		chart.addSeries("Presion Selectiva", mejorFitness, yData);
 
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
 		JPanel chartPanel = new XChartPanel<XYChart>(chart);
 		this.add(chartPanel);
 		this.setVisible(true);
-		xData.add(0.0);
-		yData.add(0.0);
+		mejorFitness.clear();
+		mediaFitness.clear();
+		presionSelectiva.clear();
+		yData.clear();
 	}
 
-	public void reload() {
-		xData.add((double) xData.get(xData.size() - 1) + 1);
-		yData.add((double) yData.get(yData.size() - 1) + 1);
-		chart.updateXYSeries("Mejor Individuo", xData, yData, null);
+	public void reset() {
+		mejorFitness.clear();
+		mediaFitness.clear();
+		presionSelectiva.clear();
+		yData.clear();
+	}
 
-		this.repaint();
+	public void reload(Double mejorFit, Double mediaFit, Double presion, Integer i) {
+		yData.add(Double.valueOf(i));
+		mejorFitness.add(mejorFit);
+		mediaFitness.add(mediaFit);
+		presionSelectiva.add(presion);
+		chart.updateXYSeries("Mejor Individuo", yData, mejorFitness, null);
+		chart.updateXYSeries("Media Fitness", yData, mediaFitness, null);
+		chart.updateXYSeries("Presion Selectiva", yData, presionSelectiva, null);
 	}
 }

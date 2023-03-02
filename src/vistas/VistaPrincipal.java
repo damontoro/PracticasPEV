@@ -1,5 +1,6 @@
 package src.vistas;
 
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,10 +15,15 @@ public class VistaPrincipal extends JFrame{
 	
 	final JLabel valido = new JLabel();
 	final VistaGrafica grafica = new VistaGrafica();
-	final JButton boton = new JButton("Prueba");
+	final JButton boton = new JButton("Run");
+
+	private volatile Thread hilo = null;
+
+	ArrayList<ArrayList<Double>> tablaX = new ArrayList<ArrayList<Double>>();
+	ArrayList<ArrayList<Integer>> tablaY = new ArrayList<ArrayList<Integer>>();
+	int i = 0;
 
 	public VistaPrincipal(AlgoritmoGenetico ag){
-		ag.setVista(this);
 
 		setTitle("Algoritmo Genético");
 		setSize(1200, 800);
@@ -30,22 +36,32 @@ public class VistaPrincipal extends JFrame{
 		add(new VistaOpciones(ag, valido), BorderLayout.WEST);
 		add(grafica, BorderLayout.CENTER);
 		add(valido, BorderLayout.SOUTH);
+		ag.setVista(this);
 
 		boton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				prueba();
+				if(hilo != null && hilo.isAlive()){
+					hilo.interrupt();
+					while(hilo.isAlive()){}
+				}
+				ag.reset();
+				grafica.reset();
+				hilo = new Thread (() -> ag.run());
+				hilo.start();
 			}
 		});
 		add(boton, BorderLayout.EAST);
 	}
 
-	public void prueba(){
-		for(int i = 0; i < 10; i++){
-			try{
-				grafica.reload();
-			}catch(Exception e){}
-			this.repaint();
-			this.revalidate();
-		}
+	public void actualizarGrafica(Double mejorFit, Double mediaFit, Double presion, Integer i){
+		grafica.reload(mejorFit, mediaFit, presion, i);
+		this.repaint();
+		this.revalidate();
 	}
+
+	public void loadTablas(ArrayList<ArrayList<Integer>> x, ArrayList<ArrayList<Double>> y){
+		tablaX = y;
+		tablaY = x;
+	}
+
 }

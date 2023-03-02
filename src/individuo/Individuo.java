@@ -39,6 +39,8 @@ public abstract class Individuo {
 	public double getFitness() { return fitness; }
 	public Integer getTamCromosoma() { return tamCromosoma; }
 
+	public static void setTamGenes(ArrayList<Integer> n) {tamGenes = n;}
+
 	abstract public <T> ArrayList<T> getGenotipo();
 
 

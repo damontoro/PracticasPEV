@@ -3,4 +3,5 @@ https://github.com/knowm/XChart
 
 
 Problemas: 
-    Intercambias los seleccionados por el elitismo con los peores de la nueva gen
+    GUARRADAS: EL Hilo.stop
+	El setTamGenes

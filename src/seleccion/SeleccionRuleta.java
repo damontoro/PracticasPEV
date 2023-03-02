@@ -27,12 +27,12 @@ public class SeleccionRuleta implements Cloneable, ISeleccion{
 		}
 
 		for(int i = 0; i < fitness.size(); i++){
-			fitness.set(i, fitness.get(i) + ((minFitness < 0) ? minFitness : 0));
+			fitness.set(i, fitness.get(i) + ((minFitness < 0) ? Math.abs(minFitness) : 0));
 			totalFitness += fitness.get(i);
 		}
 
 		for(int i = 0; i < fitness.size(); i++)
-			fitness.set(i, fitness.get(i) / totalFitness + (i > 0 ? fitness.get(i-1) : 0));
+			fitness.set(i, (fitness.get(i) / totalFitness) + (i > 0 ? fitness.get(i-1) : 0));
 
 		for(int i = 0; i < poblacion.size(); i++){
 			double aleatorio = rand.nextDouble();
