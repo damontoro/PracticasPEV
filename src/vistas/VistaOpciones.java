@@ -29,7 +29,6 @@ import src.utils.ConfigPanel.DoubleOption;
 import src.utils.ConfigPanel.InnerOption;
 import src.utils.ConfigPanel.IntegerOption;
 import src.utils.ConfigPanel.StrategyOption;
-import src.utils.MyInteger;
 
 public class VistaOpciones extends JPanel{
 	
@@ -57,10 +56,6 @@ public class VistaOpciones extends JPanel{
 		new Problema3(),
 		new Problema4A(2),
 		new Problema4B(2)
-	};
-	private static final Cloneable enteros[] = {
-		new MyInteger(Integer.valueOf(1)), 
-		new MyInteger(Integer.valueOf(-1))
 	};
 
 

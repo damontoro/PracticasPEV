@@ -2,6 +2,7 @@ package src;
 
 import java.util.Random;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
@@ -108,19 +109,27 @@ public class AlgoritmoGenetico {
 	}
 
 	public void run(){
-		initPoblacion();
-		evalPoblacion();
-		for(int i = 0; i < numGeneraciones; i++){
-			
-			show(i + 1);
-			seleccion();
-			cruce();
-			mutacion();
-			introducirElite();
+		try{
+			initPoblacion();
 			evalPoblacion();
+			show(0);
+			for(int i = 0; i < numGeneraciones; i++){
+				
+				seleccion();
+				cruce();
+				mutacion();
+				introducirElite();
+				evalPoblacion();
+				show(i + 1);
 
-			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
-			System.out.println("Generacion " + i + " " + "Mejor fitness: " + mejorFitness + " Media fitness: " + mediaFitness);
+				poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
+				System.out.println("Generacion " + i + " " + "Mejor fitness: " + mejorFitness + " Media fitness: " + mediaFitness);
+			}
+		}catch(Exception e){
+			//Mensaje por favor revisa las opciones del algoritmo genetico usando un JOption pane
+			JOptionPane.showConfirmDialog(null, "Comprueba los parametros del algoritmo","ERROR", JOptionPane.DEFAULT_OPTION, 0);
+			//e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
 	}
 

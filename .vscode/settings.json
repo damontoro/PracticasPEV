@@ -2,5 +2,6 @@
 	"java.project.referencedLibraries": [
 		"lib/**/*.jar",
 		"libs/xchart-3.8.2.jar"
-	]
+	],
+	"java.dependency.packagePresentation": "hierarchical"
 }

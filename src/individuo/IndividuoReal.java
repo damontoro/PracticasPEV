@@ -1,7 +1,6 @@
 package src.individuo;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class IndividuoReal extends Individuo{
 
