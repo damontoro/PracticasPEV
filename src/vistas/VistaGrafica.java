@@ -61,7 +61,7 @@ public class VistaGrafica extends JPanel{
 		yData.clear();
 	}
 
-	public void reload(Double mejorFit, Double mediaFit, Double mejorAbs, Integer i) {
+	public void reload(Double mejorFit, Double mejorAbs, Double mediaFit, Integer i) {
 		yData.add(Double.valueOf(i));
 		mejorFitness.add(mejorFit);
 		mediaFitness.add(mediaFit);

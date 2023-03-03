@@ -20,7 +20,7 @@ public class CruceBLXa implements ICruce, Cloneable{
 				continue;
 			}
 
-			alpha = rand.nextDouble();
+			alpha = 0.5;
 			ArrayList<Double> genotipoPadre1 = padres.get(i).getGenotipo();
 			ArrayList<Double> genotipoPadre2 = padres.get(i + 1).getGenotipo();
 			ArrayList<Double> genotipoHijo1 = new ArrayList<Double>();
