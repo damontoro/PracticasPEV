@@ -22,7 +22,7 @@ public class IndividuoBinario extends Individuo{
             cromosoma.add(random.nextBoolean());
     }
 
-	public IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, double precision, ArrayList<Boolean> valores) {
+	public <T> IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, double precision, ArrayList<T> valores) {
 		super(min, max);
 
         if(tamCromosoma == null){
@@ -31,18 +31,26 @@ public class IndividuoBinario extends Individuo{
                 tamGenes.add(tamGen( min.get(i), max.get(i), precision));
             }
         }
-	    cromosoma = valores;
+	    cromosoma = new ArrayList<Boolean>((ArrayList<Boolean>)valores);
 	}
+
+    public IndividuoBinario(IndividuoBinario ind) {
+        super(ind);
+        cromosoma = new ArrayList<Boolean>(ind.cromosoma);
+    }
 
 	@Override
 	public ArrayList<Boolean> getGenotipo() {
 		return cromosoma;
 	}
 
-	@Override
     public int tamGen(double min, double max, double precision) {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
 	}
+
+    public double calcPrecision(double min, double max, int tamGen) {
+        return (max - min) / (Math.pow(2, tamGen) - 1);
+    }
 
     @Override
     public ArrayList<Double> getFenotipo(){

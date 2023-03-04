@@ -1,6 +1,5 @@
 package src.vistas;
 
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 import src.AlgoritmoGenetico;
+import src.individuo.Individuo;
 
 
 public class VistaPrincipal extends JFrame{
@@ -64,23 +64,22 @@ public class VistaPrincipal extends JFrame{
 		add(mejor, BorderLayout.SOUTH);
 	}
 
-	public void actualizarGrafica(ArrayList<Double> mejorFeno, Double mejorAbs, Double mejorGen, Double mediaFit,
-								double precision, Integer i){
+	public void actualizarGrafica(Individuo mejorAbs, Double mejorGen, Double mediaFit, double precision, Integer i){
 
 		String preci = "#.";
 		for(double j = precision; j < 1; j *= 10)
 			preci += "#";
 
-		grafica.reload(mejorGen, mejorAbs, mediaFit, i);
+		grafica.reload(mejorGen, mejorAbs.getFitness(), mediaFit, i);
 		String mejorFenotipo = "[";
 		DecimalFormat df = new DecimalFormat(preci);
-		for(int j = 0; j < mejorFeno.size(); j++){
-			mejorFenotipo += df.format(mejorFeno.get(j)) + 
-			((j < mejorFeno.size() - 1) ? ", " : "");
+		for(int j = 0; j < mejorAbs.getFenotipo().size(); j++){
+			mejorFenotipo += df.format(mejorAbs.getFenotipo().get(j)) + 
+			((j < mejorAbs.getFenotipo().size() - 1) ? ", " : "");
 		}
 		mejorFenotipo += "]";
 		mejor.setText("Mejor fenotipo : " + mejorFenotipo + 
-						" Fitness: " + df.format(mejorAbs));
+						" Fitness: " + df.format(mejorAbs.getFitness()));
 		this.repaint();
 		this.revalidate();
 	}

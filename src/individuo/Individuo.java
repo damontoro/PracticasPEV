@@ -30,8 +30,12 @@ public abstract class Individuo {
 			tamGenes = new ArrayList<Integer>();
 	}
 
-
-	abstract public int tamGen(double min, double max, double precision);
+	public Individuo(Individuo i) {
+		this.min = i.min;
+		this.max = i.max;
+		this.fitness = i.fitness;
+	}
+	
 	abstract public ArrayList<Double> getFenotipo();
 	
 	public void setFitness(double fitness) { this.fitness = fitness; }

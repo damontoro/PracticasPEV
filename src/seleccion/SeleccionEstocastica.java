@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import src.individuo.Individuo;
+import src.problema.Problema;
 import src.utils.Utils;
-import src.utils.TipoProblema;
 
 public class SeleccionEstocastica implements ISeleccion, Cloneable{
 
 	@Override
-	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand, TipoProblema tipo) {
+	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand, Problema p) {
 		ArrayList<Individuo> seleccionados = new ArrayList<Individuo>();
 		ArrayList<Double> fitness = new ArrayList<Double>();
 		double totalFitness = 0;
 
-		fitness = (tipo == TipoProblema.MINIMIZACION) ? corrigeMinimizar(poblacion) : corrigeMaximizar(poblacion);
+		fitness = fitnessCorregido(poblacion, p);
 
 		for(int i = 0; i < fitness.size(); i++) //Aqui se calcula el total de la suma de los fitness
 			totalFitness += fitness.get(i);
@@ -28,7 +28,7 @@ public class SeleccionEstocastica implements ISeleccion, Cloneable{
 		
 		for(int i = 0; i < poblacion.size(); i++){
 			int index = Utils.lower_bound(indice, fitness);
-			seleccionados.add(poblacion.get(index));
+			seleccionados.add(p.build(poblacion.get(index)));
 			indice += distMarcas % 1.0;
 		}
 		return seleccionados;

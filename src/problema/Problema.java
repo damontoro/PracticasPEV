@@ -66,6 +66,7 @@ public abstract class Problema implements Cloneable{
 
 	abstract public Individuo build(double precision);
 	abstract public <T> Individuo build(double precision, ArrayList<T> valores);
+	abstract public Individuo build(Individuo i);
 	abstract public double evaluar(ArrayList<Double> fenotipo);
 
 }

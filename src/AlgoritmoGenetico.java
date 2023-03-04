@@ -30,9 +30,8 @@ public class AlgoritmoGenetico {
 
 	private double mejorGen;
 	private double mediaFitness;
-	private double mejorAbs;
-
-	private Individuo mejorIndividuo;
+	
+	private Individuo mejorAbs;
 
 	final private Random random = new Random();
 
@@ -55,13 +54,14 @@ public class AlgoritmoGenetico {
 		this.seleccion = new SeleccionRuleta();
 		this.cruce = new CruceMonopunto();
 		this.mutacion = new MutacionBinaria();
-
-		mejorAbs = (problema.getTipo() == TipoProblema.MAXIMIZACION) ? Double.valueOf(Integer.MIN_VALUE) : Double.MAX_VALUE;
+		this.mejorAbs = null;
 	}
 
 	void initPoblacion(){
 		for(int i = 0; i < tamPoblacion; i++)
 			poblacion.add(problema.build(precision));
+		
+		mejorAbs = poblacion.get(0);
 	}
 
 	void evalPoblacion(){
@@ -69,7 +69,9 @@ public class AlgoritmoGenetico {
 		for(Individuo i : poblacion){
 			i.setFitness(problema.evaluar(i.getFenotipo()));
 		}
+	}
 
+	void extraerElite(){
 		if(problema.getTipo() == TipoProblema.MAXIMIZACION){
 			poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
 		}
@@ -79,11 +81,11 @@ public class AlgoritmoGenetico {
 
 		elite.clear();
 		for(int i = 0; i < elitismo * tamPoblacion; i++)
-			elite.add(poblacion.get(i));
+			elite.add(problema.build(poblacion.get(i)));
 	}
 
 	void seleccion(){
-		poblacion = seleccion.select(poblacion, random, problema.getTipo()); //Poblacion ini size individuos elegidos
+		poblacion = seleccion.select(poblacion, random, problema); //Poblacion ini size individuos elegidos
 	}
 
 	void cruce(){
@@ -116,17 +118,15 @@ public class AlgoritmoGenetico {
 
 		if(problema.getTipo() == TipoProblema.MAXIMIZACION){
 			poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
-			if(mejorAbs <= poblacion.get(0).getFitness()){
-				mejorAbs = poblacion.get(0).getFitness();
-				mejorIndividuo = poblacion.get(0);
+			if(mejorAbs.getFitness() <= poblacion.get(0).getFitness()){
+				mejorAbs = poblacion.get(0);
 			}
 			mejorGen = poblacion.get(0).getFitness();
 		}
 		else{
 			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
-			if(mejorAbs >= poblacion.get(0).getFitness()){
-				mejorAbs = poblacion.get(0).getFitness();
-				mejorIndividuo = poblacion.get(0);
+			if(mejorAbs.getFitness() >= poblacion.get(0).getFitness()){
+				mejorAbs = poblacion.get(0);
 			}
 			mejorGen = poblacion.get(0).getFitness();
 		}
@@ -137,17 +137,16 @@ public class AlgoritmoGenetico {
 			initPoblacion();
 			evalPoblacion();
 			for(int i = 0; i < numGeneraciones; i++){
-				
+				extraerElite();
 				seleccion();
 				cruce();
 				mutacion();
-				evalPoblacion();
 				introducirElite();
+				evalPoblacion();
 				cogerDatos();
+				if (mejorAbs.getFitness() != mejorGen)
+					System.out.println("Mejor absoluto: " + mejorAbs.getFitness() + " Mejor generacion: " + mejorGen);
 				show(i + 1);
-
-				poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
-				System.out.println("Generacion " + i + " " + "Mejor fitness: " + mejorGen + " Media fitness: " + mediaFitness);
 			}
 		}catch(Exception e){
 			//Mensaje por favor revisa las opciones del algoritmo genetico usando un JOption pane
@@ -159,8 +158,7 @@ public class AlgoritmoGenetico {
 
 	public void show(int i){
 		try{
-			vista.actualizarGrafica(mejorIndividuo.getFenotipo(), 
-					mejorAbs, mejorGen, mediaFitness, precision, i);
+			vista.actualizarGrafica(mejorAbs, mejorGen, mediaFitness, precision, i);
 			Thread.sleep(10);
 		}catch(Exception e){
 			//e.printStackTrace();
@@ -170,7 +168,6 @@ public class AlgoritmoGenetico {
 
 	public void reset(){
 		this.poblacion = new ArrayList<Individuo>();
-		mejorAbs = (problema.getTipo() == TipoProblema.MAXIMIZACION) ? Double.valueOf(Integer.MIN_VALUE) : Double.MAX_VALUE;
 		Individuo.setTamGenes(null);
 		Individuo.setTamCromosoma(null);
 	}

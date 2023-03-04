@@ -20,7 +20,7 @@ public class IndividuoReal extends Individuo{
 			cromosoma.add(random.nextDouble(min.get(0), max.get(0)));
 	}
 
-	public IndividuoReal(ArrayList<Double> min, ArrayList<Double> max, int dimension, ArrayList<Double> valores) {
+	public <T> IndividuoReal(ArrayList<Double> min, ArrayList<Double> max, int dimension, ArrayList<T> valores) {
 		super(min, max);
 		
 		if(tamCromosoma == null){
@@ -28,12 +28,12 @@ public class IndividuoReal extends Individuo{
 			for(int i = 0; i < dimension; i++)
 				tamGenes.add(1);
 		}
-		cromosoma = valores;
+		cromosoma = new ArrayList<Double>((ArrayList<Double>)valores);
 	}
 
-	@Override
-	public int tamGen(double min, double max, double precision) {
-		return 1;
+	public IndividuoReal(IndividuoReal ind) {
+		super(ind);
+		cromosoma = new ArrayList<Double>(ind.cromosoma);
 	}
 
 	@Override

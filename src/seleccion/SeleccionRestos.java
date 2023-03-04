@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import src.individuo.Individuo;
-import src.utils.TipoProblema;
+import src.problema.Problema;
 
 public class SeleccionRestos implements ISeleccion, Cloneable{
 
@@ -12,13 +12,13 @@ public class SeleccionRestos implements ISeleccion, Cloneable{
 	private SeleccionRuleta ruleta = new SeleccionRuleta();
 
 	@Override
-	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand, TipoProblema tipo) {
+	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand, Problema p) {
 		ArrayList<Individuo> seleccionados = new ArrayList<Individuo>();
 		ArrayList<Double> fitness = new ArrayList<Double>();
 		double totalFitness = 0;
 		numIndividuos = poblacion.size();
 
-		fitness = (tipo == TipoProblema.MINIMIZACION) ? corrigeMinimizar(poblacion) : corrigeMaximizar(poblacion);
+		fitness = fitnessCorregido(poblacion, p);
 
 		for(int i = 0; i < fitness.size(); i++) //Aqui se calcula el total de la suma de los fitness
 			totalFitness += fitness.get(i);
@@ -28,13 +28,13 @@ public class SeleccionRestos implements ISeleccion, Cloneable{
 
 		for(int i = 0; i < poblacion.size(); i++){
 			for(int j = 0; j < Math.floor(fitness.get(i) * numIndividuos); j++){
-				seleccionados.add(poblacion.get(i));
+				seleccionados.add(p.build(poblacion.get(i)));
 			}
 		}
 
-		ArrayList<Individuo> restos = ruleta.select(poblacion, rand, tipo);
+		ArrayList<Individuo> restos = ruleta.select(poblacion, rand, p);
 		for(int i = 0; i < restos.size() && seleccionados.size() < poblacion.size(); i++)
-			seleccionados.add(restos.get(i));
+			seleccionados.add(p.build(restos.get(i)));
 
 		return seleccionados;
 	}

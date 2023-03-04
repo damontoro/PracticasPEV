@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import src.individuo.Individuo;
+import src.problema.Problema;
 import src.utils.TipoProblema;
 
 public interface ISeleccion{
-	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand, TipoProblema tipo);
+	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand, Problema p);
 
 	default public ArrayList<Double> corrigeMinimizar(ArrayList<Individuo> poblacion){
 		ArrayList<Double> valores = new ArrayList<Double>();
@@ -39,5 +40,9 @@ public interface ISeleccion{
 			valores.set(i, (1.05 * Math.abs(min)) + valores.get(i));
 		
 		return valores;
+	}
+
+	default public ArrayList<Double> fitnessCorregido(ArrayList<Individuo> poblacion, Problema p){
+		return (p.getTipo() == TipoProblema.MINIMIZACION) ? corrigeMinimizar(poblacion) : corrigeMaximizar(poblacion);
 	}
 }
