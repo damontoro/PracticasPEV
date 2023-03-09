@@ -23,8 +23,8 @@ public class Problema3 extends Problema{
 	}
 
 	@Override
-	public <T> Individuo build(double precision, ArrayList<T> valores) {
-		return new IndividuoBinario(super.MIN, super.MAX, precision, valores);
+	public <T> Individuo build(ArrayList<T> valores) {
+		return new IndividuoBinario(valores);
 	}
 
 	public Individuo build(Individuo ind) {

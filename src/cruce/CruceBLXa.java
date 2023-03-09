@@ -43,8 +43,8 @@ public class CruceBLXa implements ICruce, Cloneable{
 				genotipoHijo2.add(rand.nextDouble(minIntervaloHijo, maxIntervaloHijo));
 			}
 
-			hijos.add(problema.build(0, genotipoHijo1));
-			hijos.add(problema.build(0, genotipoHijo2));
+			hijos.add(problema.build(genotipoHijo1));
+			hijos.add(problema.build(genotipoHijo2));
 		}
 		return hijos;
 	}

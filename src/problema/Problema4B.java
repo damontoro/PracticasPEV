@@ -17,9 +17,8 @@ public class Problema4B extends Problema4A{
 	}
 
 	@Override
-	
-	public <T> Individuo build(double precision, ArrayList<T> valores) {
-		return new IndividuoReal(super.MIN, super.MAX, dimension, valores);
+	public <T> Individuo build(ArrayList<T> valores) {
+		return new IndividuoReal(valores);
 	}
 
 	public Individuo build(Individuo ind) {
