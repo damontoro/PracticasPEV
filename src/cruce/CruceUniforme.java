@@ -34,8 +34,8 @@ public class CruceUniforme implements ICruce, Cloneable{
 				}
 			}
 
-			hijos.add(problema.build(0, genotipoHijo1));
-			hijos.add(problema.build(0, genotipoHijo2));
+			hijos.add(problema.build(genotipoHijo1));
+			hijos.add(problema.build(genotipoHijo2));
 		}
 		return hijos;
 	}

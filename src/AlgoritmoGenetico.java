@@ -48,18 +48,20 @@ public class AlgoritmoGenetico {
 		this.elitismo = 0.0;
 
 		this.vista = null;
-		this.problema = new Problema1();
+		this.problema = new ProblemaTSP();
+
 		this.poblacion = new ArrayList<Individuo>();
 		this.elite = new ArrayList<Individuo>();
+		
 		this.seleccion = new SeleccionRuleta();
 		this.cruce = new CruceMonopunto();
-		this.mutacion = new MutacionBinaria();
+		this.mutacion = null;
 		this.mejorAbs = null;
 	}
 
 	void initPoblacion(){
 		for(int i = 0; i < tamPoblacion; i++)
-			poblacion.add(problema.build(precision));
+			poblacion.add(problema.build());
 		
 		mejorAbs = poblacion.get(0);
 	}
@@ -139,8 +141,8 @@ public class AlgoritmoGenetico {
 			for(int i = 0; i < numGeneraciones; i++){
 				extraerElite();
 				seleccion();
-				cruce();
-				mutacion();
+				//cruce();
+				//mutacion();
 				introducirElite();
 				evalPoblacion();
 				cogerDatos();
@@ -151,7 +153,7 @@ public class AlgoritmoGenetico {
 		}catch(Exception e){
 			//Mensaje por favor revisa las opciones del algoritmo genetico usando un JOption pane
 			JOptionPane.showConfirmDialog(null, "Comprueba los parametros del algoritmo","ERROR", JOptionPane.DEFAULT_OPTION, 0);
-			//e.printStackTrace();
+			e.printStackTrace();
 			Thread.currentThread().interrupt();
 		}
 	}
@@ -168,7 +170,6 @@ public class AlgoritmoGenetico {
 
 	public void reset(){
 		this.poblacion = new ArrayList<Individuo>();
-		Individuo.setTamGenes(null);
 		Individuo.setTamCromosoma(null);
 	}
 

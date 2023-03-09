@@ -15,14 +15,6 @@ import src.seleccion.SeleccionRuleta;
 import src.seleccion.SeleccionTorneoDet;
 import src.seleccion.SeleccionTorneoProb;
 import src.seleccion.SeleccionTruncamiento;
-import src.mutacion.MutacionBinaria;
-import src.mutacion.MutacionReal;
-import src.problema.Problema;
-import src.problema.Problema1;
-import src.problema.Problema2;
-import src.problema.Problema3;
-import src.problema.Problema4A;
-import src.problema.Problema4B;
 import src.utils.ConfigPanel;
 import src.utils.ConfigPanel.ConfigListener;
 import src.utils.ConfigPanel.DoubleOption;
@@ -45,17 +37,6 @@ public class VistaOpciones extends JPanel{
 		new CruceUniforme(),
 		new CruceAritmetico(),
 		new CruceBLXa()
-	};
-	private static final Cloneable mutaciones[] = {
-		new MutacionBinaria(),
-		new MutacionReal()
-	};
-	private static final Cloneable problemas[] = {
-		new Problema1(),
-		new Problema2(),
-		new Problema3(),
-		new Problema4A(2),
-		new Problema4B(2)
 	};
 
 
@@ -119,31 +100,6 @@ public class VistaOpciones extends JPanel{
 			"Porciento de la población que se va a mantener en cada generación", 
 			"elitismo",
 			0, 1))
-		.addOption(new StrategyOption<AlgoritmoGenetico>(
-			"Selección", 
-			"Algoritmo de selección", 
-			"seleccion",
-			selecciones))
-		.addOption(new StrategyOption<AlgoritmoGenetico>(
-			"Cruce", 
-			"Algoritmo de Cruce", 
-			"cruce",
-			cruces))
-		.addOption(new StrategyOption<AlgoritmoGenetico>(
-			"Mutacion", 
-			"Algoritmo de Mutacion", 
-			"mutacion",
-			mutaciones))
-		.addOption(new StrategyOption<AlgoritmoGenetico>(
-			"Problema", 
-			"Problema a resolver", 
-			"problema",
-			problemas))
-		.beginInner(new InnerOption<AlgoritmoGenetico, Problema>( 
-		"Opciones", "Opciones del problema", "problema", Problema4A.class))
-			.addInner(new IntegerOption<Problema>(
-				"Dimension", "Dimension del problema", "dimension", 2, Integer.MAX_VALUE))
-			.endInner()
 		.endOptions();
 		
 		return panel;

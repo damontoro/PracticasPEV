@@ -1,0 +1,41 @@
+package src.individuo;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class IndividuoEntero extends Individuo{
+
+	private ArrayList<Integer> genotipo;
+
+	public IndividuoEntero(int numCiudades) {
+		if(tamCromosoma == null)
+			tamCromosoma = numCiudades;
+
+		genotipo = new ArrayList<Integer>();
+		for (int i = 0; i < Individuo.tamCromosoma; i++) {
+			genotipo.add(i);
+		}
+		Collections.shuffle(genotipo);
+	}
+
+	public IndividuoEntero(IndividuoEntero i) {
+		super(i);
+		this.genotipo = new ArrayList<Integer>(i.genotipo);
+	}
+
+	public IndividuoEntero(ArrayList<Integer> genotipo) {
+		this.genotipo = new ArrayList<Integer> (genotipo);
+	}
+
+
+	@Override
+	public ArrayList<Integer> getFenotipo() {
+		return genotipo;
+	}
+
+	@Override
+	public ArrayList<Integer> getGenotipo() {
+		return genotipo;
+	}
+	
+}
