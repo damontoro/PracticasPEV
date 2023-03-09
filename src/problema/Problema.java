@@ -65,7 +65,7 @@ public abstract class Problema implements Cloneable{
 	public void setTipo(TipoProblema tipo) {this.tipo = tipo;}
 
 	abstract public Individuo build(double precision);
-	abstract public <T> Individuo build(ArrayList<T> valores);
+	abstract public <T> Individuo build(double precision, ArrayList<T> valores);
 	abstract public Individuo build(Individuo i);
 	abstract public double evaluar(ArrayList<Double> fenotipo);
 

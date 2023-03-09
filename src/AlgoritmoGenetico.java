@@ -39,23 +39,16 @@ public class AlgoritmoGenetico {
 	private IMutacion mutacion;
 	private ISeleccion seleccion;
 
-	public AlgoritmoGenetico() {
-		this.tamPoblacion = 100;
-		this.numGeneraciones = 100;
-		this.probCruce = 0.6;
-		this.probMutacion = 0.01;
+	public AlgoritmoGenetico(int tamPoblacion, int numGeneraciones, double probCruce, double probMutacion) {
+		this.tamPoblacion = tamPoblacion;
+		this.numGeneraciones = numGeneraciones;
+		this.probCruce = probCruce;
+		this.probMutacion = probMutacion;
 		this.precision = 0.001;
 		this.elitismo = 0.0;
 
 		this.vista = null;
-
-		/* 
-		if(practica == 1)
-			this.problema = new Problema1();
-		else if (practica == 2)
-			this.problema = new ProblemaTSP();
-		*/
-
+		this.problema = new Problema1();
 		this.poblacion = new ArrayList<Individuo>();
 		this.elite = new ArrayList<Individuo>();
 		this.seleccion = new SeleccionRuleta();
@@ -155,12 +148,7 @@ public class AlgoritmoGenetico {
 					System.out.println("Mejor absoluto: " + mejorAbs.getFitness() + " Mejor generacion: " + mejorGen);
 				show(i + 1);
 			}
-
-			//return mejorIndv y grafica
-
-
 		}catch(Exception e){
-			e.printStackTrace();
 			//Mensaje por favor revisa las opciones del algoritmo genetico usando un JOption pane
 			JOptionPane.showConfirmDialog(null, "Comprueba los parametros del algoritmo","ERROR", JOptionPane.DEFAULT_OPTION, 0);
 			//e.printStackTrace();

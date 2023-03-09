@@ -9,7 +9,7 @@ public class Main{
 
 	public static void main(String[] args) {
 		//Te creas tu modelo
-		AlgoritmoGenetico ag = new AlgoritmoGenetico();
+		AlgoritmoGenetico ag = new AlgoritmoGenetico(100, 100, 0.6, 0.01);
 		//Se lo pasas a la vista
 		try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

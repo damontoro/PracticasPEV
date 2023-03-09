@@ -22,13 +22,16 @@ public class IndividuoBinario extends Individuo{
             cromosoma.add(random.nextBoolean());
     }
 
-	public <T> IndividuoBinario(ArrayList<T> valores) {
+	public <T> IndividuoBinario(ArrayList<Double> min, ArrayList<Double> max, double precision, ArrayList<T> valores) {
+		super(min, max);
 
-        ArrayList<Boolean> aux = new ArrayList<Boolean>();
-        for(int i = 0; i < valores.size(); i++)
-            aux.add((Boolean)valores.get(i));
-
-	    cromosoma = new ArrayList<Boolean>(aux);
+        if(tamCromosoma == null){
+            tamCromosoma = valores.size();
+            for(int i = 0; i < min.size(); i++) {
+                tamGenes.add(tamGen( min.get(i), max.get(i), precision));
+            }
+        }
+	    cromosoma = new ArrayList<Boolean>((ArrayList<Boolean>)valores);
 	}
 
     public IndividuoBinario(IndividuoBinario ind) {
@@ -37,9 +40,8 @@ public class IndividuoBinario extends Individuo{
     }
 
 	@Override
-    @SuppressWarnings("unchecked")
 	public ArrayList<Boolean> getGenotipo() {
-        return cromosoma;
+		return cromosoma;
 	}
 
     public int tamGen(double min, double max, double precision) {
@@ -51,7 +53,6 @@ public class IndividuoBinario extends Individuo{
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public ArrayList<Double> getFenotipo(){
 		int posAct = 0;
         ArrayList<Double> fenotipo = new ArrayList<Double>();

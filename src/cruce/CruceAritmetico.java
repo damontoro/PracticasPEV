@@ -32,8 +32,8 @@ public class CruceAritmetico implements ICruce, Cloneable{
 				genotipoHijo2.add(genotipoPadre1.get(j)*(1-alpha) + genotipoPadre2.get(j)*alpha);
 			}
 
-			hijos.add(problema.build(genotipoHijo1));
-			hijos.add(problema.build(genotipoHijo2));
+			hijos.add(problema.build(0, genotipoHijo1));
+			hijos.add(problema.build(0, genotipoHijo2));
 		}
 		return hijos;
 	}
