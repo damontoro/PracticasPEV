@@ -6,4 +6,5 @@ Problemas:
 
 
 TODO:
-	Preguntar: Siempre empieza en madrid, osea que el array deberian ser 26 posiciones?
+	Preguntar: Como quiere lo de seleccionar intervalos
+	COMPROBAR QUE EL BLX FUNCIONA BIEN

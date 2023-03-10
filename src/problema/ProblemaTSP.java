@@ -33,19 +33,43 @@ public class ProblemaTSP extends Problema{
 	@Override
 	public <T> double evaluar(ArrayList<T> fenotipo) {
 		int distancia = 0;
-		int ini, des;
+		
+		distancia += calcDistancia((Integer)fenotipo.get(0), Ciudad.MADRID.getValue());
 		for (int i = 0; i < fenotipo.size()-1; i++) {
-			ini = Math.max((Integer)fenotipo.get(i), (Integer)fenotipo.get(i+1));
-			des = Math.min((Integer)fenotipo.get(i), (Integer)fenotipo.get(i+1));
-			distancia += _DIST[ini][des];
+			distancia += calcDistancia((Integer)fenotipo.get(i), (Integer)fenotipo.get(i+1));
 		}
-		ini = Math.max((Integer)fenotipo.get(fenotipo.size()-1), (Integer)fenotipo.get(0));
-		des = Math.min((Integer)fenotipo.get(fenotipo.size()-1), (Integer)fenotipo.get(0));
-		distancia += _DIST[ini][des];
+		distancia += calcDistancia((Integer)fenotipo.get(fenotipo.size()-1), Ciudad.MADRID.getValue());
 		
 		return distancia;
 	}
 	
+
+	private int calcDistancia(int ciudad1, int ciudad2){
+		ciudad1 = Math.max(ciudad1, ciudad2);
+		ciudad2 = Math.min(ciudad1, ciudad2);
+		return _DIST[ciudad1][ciudad2];
+	}
+
+	public static enum Ciudad {
+		ALBACETE (0), ALICANTE(1), ALMERIA(2), AVILA(3),
+		BADAJOZ(4), BARCELONA(5), BILBAO(6), BURGOS(7),
+		CACERES(8), CADIZ(9), CASTELLON(10), CIUDAD_REAL(11), 
+		CORDOBA(12), CORUÑA(13), CUENCA(14),
+		GIRONA(15), GRANADA(16), GUADALAJARA(17),
+		HUELVA(18), HUESCA(19),
+		JAEN(20), LEON(21), LLEIDA(22), LOGRONO(23), LUGO(24),
+		MADRID(25), MALAGA(26), MURCIA(27);
+
+		private final int value;
+		private Ciudad (int value){
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
+	};
+
 	private final static int[][] _DIST = {
 		{},
 		{171},
