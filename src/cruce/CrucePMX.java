@@ -78,4 +78,8 @@ public class CrucePMX implements ICruce{
 		return hijos;
     }
     
+	@Override
+	public String toString() {
+		return "Cruce PMX";
+	}
 }

@@ -11,10 +11,12 @@ import src.vistas.VistaPrincipal;
 import src.problema.*;
 import src.cruce.*;
 import src.mutacion.*;
+import src.patrones.AGobserver;
+import src.patrones.Observable;
 import src.utils.TipoProblema;
 
 
-public class AlgoritmoGenetico {
+public class AlgoritmoGenetico implements Observable<AGobserver>{
 	
 	private ArrayList<Individuo> poblacion;
 	private ArrayList<Individuo> elite;
@@ -25,7 +27,6 @@ public class AlgoritmoGenetico {
 	private int numGeneraciones;
 	private double probCruce;
 	private double probMutacion;
-	private double precision;
 	private double elitismo;
 
 	private double mejorGen;
@@ -34,6 +35,7 @@ public class AlgoritmoGenetico {
 	private Individuo mejorAbs;
 
 	final private Random random = new Random();
+	private ArrayList<AGobserver> observers = new ArrayList<AGobserver>();
 
 	private ICruce cruce;
 	private IMutacion mutacion;
@@ -44,7 +46,6 @@ public class AlgoritmoGenetico {
 		this.numGeneraciones = numGeneraciones;
 		this.probCruce = probCruce;
 		this.probMutacion = probMutacion;
-		this.precision = 0.001;
 		this.elitismo = 0.0;
 
 		this.vista = null;
@@ -136,6 +137,9 @@ public class AlgoritmoGenetico {
 
 	public void run(){
 		try{
+			for(AGobserver o : observers)
+				o.onInit(this);
+
 			initPoblacion();
 			evalPoblacion();
 			for(int i = 0; i < numGeneraciones; i++){
@@ -160,7 +164,7 @@ public class AlgoritmoGenetico {
 
 	public void show(int i){
 		try{
-			vista.actualizarGrafica(mejorAbs, mejorGen, mediaFitness, precision, i);
+			vista.actualizarGrafica(mejorAbs, mejorGen, mediaFitness, 0, i);
 			Thread.sleep(10);
 		}catch(Exception e){
 			//e.printStackTrace();
@@ -173,12 +177,19 @@ public class AlgoritmoGenetico {
 		Individuo.setTamCromosoma(null);
 	}
 
+	public void addObserver(AGobserver o){
+		observers.add(o);
+	}
+
+	public void removeObserver(AGobserver o){
+		observers.remove(o);
+	}
+
 	//Los getters y setters de los atributos compactados
 	public int getTamPoblacion() {return tamPoblacion;}
 	public int getNumGeneraciones() {return numGeneraciones;}
 	public double getProbCruce() {return probCruce;}
 	public double getProbMutacion() {return probMutacion;}
-	public double getPrecision() {return precision;}
 	public double getElitismo() {return elitismo;}
 	public ArrayList<Individuo> getPoblacion() {return poblacion;}
 	public Problema getProblema() {return problema;}
@@ -192,7 +203,6 @@ public class AlgoritmoGenetico {
 	public void setNumGeneraciones(int numGeneraciones) {this.numGeneraciones = numGeneraciones;}
 	public void setProbCruce(double probCruce) {this.probCruce = probCruce;}
 	public void setProbMutacion(double probMutacion) {this.probMutacion = probMutacion;}
-	public void setPrecision(double precision) {this.precision = precision;}
 	public void setElitismo(double elitismo) {this.elitismo = elitismo;}
 	public void setPoblacion(ArrayList<Individuo> poblacion) {this.poblacion = poblacion;}
 	public void setProblema(Problema problema) {this.problema = problema;}

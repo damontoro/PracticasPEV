@@ -45,9 +45,10 @@ public class ProblemaTSP extends Problema{
 	
 
 	private int calcDistancia(int ciudad1, int ciudad2){
-		ciudad1 = Math.max(ciudad1, ciudad2);
-		ciudad2 = Math.min(ciudad1, ciudad2);
-		return _DIST[ciudad1][ciudad2];
+		int aux1, aux2;
+		aux1 = Math.max(ciudad1, ciudad2);
+		aux2 = Math.min(ciudad1, ciudad2);
+		return _DIST[aux1][aux2];
 	}
 
 	public static enum Ciudad {

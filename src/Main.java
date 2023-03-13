@@ -3,6 +3,7 @@ package src;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import src.vistas.PanelOpciones;
 import src.vistas.VistaPrincipal;
 
 public class Main{
@@ -15,8 +16,10 @@ public class Main{
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					VistaPrincipal vp = new VistaPrincipal(ag);
-					ag.setVista(vp);
+					//VistaPrincipal vp = new VistaPrincipal(ag);
+					//ag.setVista(vp);
+					PanelOpciones po = new PanelOpciones(ag);
+					ag.run();
 				}
 			});
         } catch (Exception e) {
