@@ -55,7 +55,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		this.elite = new ArrayList<Individuo>();
 		
 		this.seleccion = new SeleccionRuleta();
-		this.cruce = new CrucePMX();
+		this.cruce = new CruceOX();
 		this.mutacion = new MutacionIntercambio();
 		this.mejorAbs = null;
 	}
@@ -145,8 +145,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 			for(int i = 0; i < numGeneraciones; i++){
 				extraerElite();
 				seleccion();
-				//cruce();
-				mutacion();
+				cruce();
+				//mutacion();
 				introducirElite();
 				evalPoblacion();
 				cogerDatos();

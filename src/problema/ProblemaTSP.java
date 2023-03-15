@@ -51,7 +51,8 @@ public class ProblemaTSP extends Problema{
 			aux2 = Math.min(ciudad1, ciudad2);
 			return _DIST[aux1][aux2];
 		}catch(Exception e){
-			return 0;
+			e.printStackTrace();
+			return 1000000;
 		}
 	}
 
