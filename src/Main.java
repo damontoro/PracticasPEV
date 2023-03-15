@@ -18,7 +18,7 @@ public class Main{
 				public void run() {
 					//VistaPrincipal vp = new VistaPrincipal(ag);
 					//ag.setVista(vp);
-					PanelOpciones po = new PanelOpciones(ag);
+					//PanelOpciones po = new PanelOpciones(ag);
 					ag.run();
 				}
 			});

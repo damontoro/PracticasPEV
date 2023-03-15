@@ -6,9 +6,11 @@ import java.awt.BorderLayout;
 
 import src.AlgoritmoGenetico;
 import src.cruce.CruceMonopunto;
+import src.cruce.CrucePMX;
 import src.cruce.CruceUniforme;
 import src.cruce.CruceAritmetico;
 import src.cruce.CruceBLXa;
+import src.cruce.CruceERX;
 import src.seleccion.SeleccionEstocastica;
 import src.seleccion.SeleccionRestos;
 import src.seleccion.SeleccionRuleta;
@@ -80,11 +82,6 @@ public class VistaOpciones extends JPanel{
 			"Numero de generaciones que se van a ejecutar", 
 			"numGeneraciones",
 			0, 1000))
-		.addOption( new DoubleOption<AlgoritmoGenetico>(
-			"Precision", 
-			"Numero de decimales que se van a tener en cuenta", 
-			"precision",
-			0, 1))
 		.addOption(new DoubleOption<AlgoritmoGenetico>(
 			"Probabilidad de cruce", 
 			"Probabilidad de que dos individuos se crucen", 

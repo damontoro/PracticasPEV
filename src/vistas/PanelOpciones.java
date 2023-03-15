@@ -166,12 +166,14 @@ public class PanelOpciones extends JFrame implements AGobserver{
 		txtProbCru.setValue(ag.getProbCruce());
 		txtProbMut.setValue(ag.getProbMutacion());
 		txtElitismo.setValue(ag.getElitismo());
+
+		repaint();
 	}
 
 
 	@Override
 	public void onChange(AlgoritmoGenetico ag) {
-		repaint();
+		//repaint();
 	}
 
 	@Override
