@@ -40,28 +40,27 @@ public class CruceOX implements ICruce{
 			Set<T> setIntervHijo1 = new HashSet<T>();
 			Set<T> setIntervHijo2 = new HashSet<T>();
 			
-			for(int j = inicio; j <= fin; j++){ //Metemos lo que hay en el intervalo
+			for(int j = inicio; j < fin; j++){ //Metemos lo que hay en el intervalo
 				setIntervHijo1.add(genotipoPadre2.get(j));
 				setIntervHijo2.add(genotipoPadre1.get(j));
 			}
-			int posHijo = fin + 1, posPadre = fin + 1;
+			int posHijo = fin, posPadre = fin;
 			while(posHijo != inicio){ //Aqui asignamos valores al hijo 1
 				if(!setIntervHijo1.contains(genotipoPadre1.get(posPadre))){
 					genotipoHijo1.set(posHijo, genotipoPadre1.get(posPadre));
 					posHijo = (posHijo + 1) % genotipoPadre1.size();
 				}
-				else
-					posPadre = (posPadre + 1) % genotipoPadre1.size();
+				posPadre = (posPadre + 1) % genotipoPadre1.size();
 			}
 
-			posHijo = fin + 1; posPadre = fin + 1;
+			posHijo = fin; posPadre = fin;
 			while(posHijo != inicio){ //Aqui asignamos valores al hijo 2
 				if(!setIntervHijo2.contains(genotipoPadre2.get(posPadre))){
 					genotipoHijo2.set(posHijo, genotipoPadre2.get(posPadre));
 					posHijo = (posHijo + 1) % genotipoPadre2.size();
 				}
-				else
-					posPadre = (posPadre + 1) % genotipoPadre2.size();
+				posPadre = (posPadre + 1) % genotipoPadre2.size();
+
 			}
 			
 			hijos.add(problema.build(genotipoHijo1));

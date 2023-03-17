@@ -33,27 +33,25 @@ public class ProblemaTSP extends Problema{
 	@Override
 	public <T> double evaluar(ArrayList<T> fenotipo) {
 		int distancia = 0;
-		
-		distancia += calcDistancia((Integer)fenotipo.get(0), Ciudad.MADRID.getValue());
-		for (int i = 0; i < fenotipo.size()-1; i++) {
-			distancia += calcDistancia((Integer)fenotipo.get(i), (Integer)fenotipo.get(i+1));
+		try{
+			distancia += calcDistancia((Integer)fenotipo.get(0), Ciudad.MADRID.getValue());
+			for (int i = 0; i < fenotipo.size()-1; i++) {
+				distancia += calcDistancia((Integer)fenotipo.get(i), (Integer)fenotipo.get(i+1));
+			}
+			distancia += calcDistancia((Integer)fenotipo.get(fenotipo.size()-1), Ciudad.MADRID.getValue());
+		}catch(Exception e){
+			e.printStackTrace();
+			return 0;
 		}
-		distancia += calcDistancia((Integer)fenotipo.get(fenotipo.size()-1), Ciudad.MADRID.getValue());
-		
 		return distancia;
 	}
 	
 
 	private int calcDistancia(int ciudad1, int ciudad2){
-		try{
 			int aux1, aux2;
 			aux1 = Math.max(ciudad1, ciudad2);
 			aux2 = Math.min(ciudad1, ciudad2);
 			return _DIST[aux1][aux2];
-		}catch(Exception e){
-			e.printStackTrace();
-			return 1000000;
-		}
 	}
 
 	public static enum Ciudad {
