@@ -26,6 +26,7 @@ public class ProblemaTSP extends Problema{
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> Individuo build(ArrayList<T> valores) {
 		return new IndividuoEntero((ArrayList<Integer>)valores);
 	}

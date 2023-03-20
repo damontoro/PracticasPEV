@@ -2,13 +2,14 @@ package src.vistas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -20,6 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import src.AlgoritmoGenetico;
@@ -30,122 +32,82 @@ import src.cruce.CruceERX;
 import src.cruce.CrucePMX;
 import src.cruce.ICruce;
 
-public class PanelOpciones extends JFrame implements AGobserver{
+public class PanelOpciones extends JPanel implements AGobserver{
+
+	private int width, height;
 	
-	JTextField txtPoblacion, txtGeneraciones;
-	JSpinner txtProbCru, txtProbMut, txtElitismo;
+	private JTextField minPoblacion, maxPoblacion, generaciones;
+	private JSpinner minProbCru, maxProbCru;
+	private JSpinner minProbMut, maxProbMut;
+	private JSpinner minElitismo, maxElitismo;
 
-	JComboBox selCruce, selMutacion;
+	private ArrayList<JLabel> labelList;
 
-	List<ICruce> cruces;
-	List<IMutacion> mutaciones;
+	private JComboBox<ICruce> selCruce;
+	private JComboBox<IMutacion> selMutacion;
 
-	JButton btnIniciar;
+	private List<ICruce> cruces;
+	private List<IMutacion> mutaciones;
 
-	JPanel panelPrincipal;
+	private JButton btnIniciar;
 
-	public PanelOpciones(AlgoritmoGenetico ag) {
+	public PanelOpciones(AlgoritmoGenetico ag, int width, int height) {
 		super();
+		this.width = width;
+		this.height = height;
 
 		ag.addObserver(this);
+		this.setPreferredSize(new Dimension(width, height));
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
 		cruces = Arrays.asList(new CruceERX(), new CrucePMX());
 		mutaciones = Arrays.asList(new MutacionInsercion());
 
-		this.setSize(500, 700);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		// Inicializar componentes
 
-		panelPrincipal = new JPanel();
-		panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
+		labelList = new ArrayList<>();
+		generaciones = new JTextField(String.valueOf(ag.getNumGeneraciones()));
+		generaciones.setHorizontalAlignment(JTextField.CENTER);
+
+		minPoblacion = new JTextField(String.valueOf(ag.getTamPoblacion()));
+		maxPoblacion = new JTextField(String.valueOf(ag.getTamPoblacion()));
+		minPoblacion.setHorizontalAlignment(JTextField.CENTER);
+		maxPoblacion.setHorizontalAlignment(JTextField.CENTER);
+		
+		minProbCru = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+		maxProbCru = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+
+		minProbMut = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+		maxProbMut = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+
+		minElitismo = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+		maxElitismo = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+
+		selCruce = new JComboBox<>();
+		selMutacion = new JComboBox<>();
 
 		btnIniciar = new JButton("Iniciar");
-		txtPoblacion = new JTextField();
-		txtGeneraciones = new JTextField();
-		txtProbCru = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 1.0, 0.1));
-		txtProbMut = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 1.0, 0.1));
-		txtElitismo = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 1.0, 0.1));
 
-		selCruce = new JComboBox(cruces.toArray());
-		selMutacion = new JComboBox(mutaciones.toArray());
+		for(ICruce c : cruces){selCruce.addItem(c);}
+		for(IMutacion m : mutaciones){selMutacion.addItem(m);}
 
-		panelPrincipal.add(pobPanel());
-		panelPrincipal.add(genPanel());
-		panelPrincipal.add(probCruPanel());
-		panelPrincipal.add(probMutPanel());
-		panelPrincipal.add(elitismoPanel());
+		this.add(createViewPanel(generaciones, "Generaciones"));
+		this.add(intervaloPanel("Poblacion", minPoblacion, maxPoblacion));
+		this.add(intervaloPanel("Probabilidad de cruce", minProbCru, maxProbCru));
+		this.add(intervaloPanel("Probabilidad de mutacion", minProbMut, maxProbMut));
+		this.add(intervaloPanel("Elitismo", minElitismo, maxElitismo));
 
-		panelPrincipal.add(createViewPanel(selectCrucePanel(), "Cruces"));
-		panelPrincipal.add(createViewPanel(selectMutacionPanel(), "Seleccion"));
 
-		panelPrincipal.add(iniButtonRun());
+		this.add(createViewPanel(selCruce, "Seleccion"));
+		this.add(createViewPanel(selMutacion, "Seleccion"));
 
-		this.add(panelPrincipal);
+		this.add(iniButtonRun());
+
+		changeMode(true);
+		this.setVisible(true);
 	}
 
-
-	private JPanel pobPanel(){
-		JPanel panel = new JPanel();
-		JLabel lblPoblacion = new JLabel("Poblacion");
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(lblPoblacion);
-		panel.add(txtPoblacion);
-		return panel;
-	}
-
-	private JPanel genPanel(){
-		JPanel panel = new JPanel();
-		JLabel lblGeneraciones = new JLabel("Generaciones");
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(lblGeneraciones);
-		panel.add(txtGeneraciones);
-		return panel;
-	}
-
-	private JPanel probCruPanel(){
-		JPanel panel = new JPanel();
-		JLabel lblProbCru = new JLabel("Prob. Cruce");
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(lblProbCru);
-		panel.add(txtProbCru);
-		return panel;
-	}
-
-	private JPanel probMutPanel(){
-		JPanel panel = new JPanel();
-		JLabel lblProbMut = new JLabel("Prob. Mutacion");
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(lblProbMut);
-		panel.add(txtProbMut);
-		return panel;
-	}
-
-	private JPanel elitismoPanel(){
-		JPanel panel = new JPanel();
-		JLabel lblElitismo = new JLabel("Elitismo");
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(lblElitismo);
-		panel.add(txtElitismo);
-		return panel;
-	}
-
-	private JPanel selectCrucePanel(){
-		JPanel panel = new JPanel();
-		JLabel lblSelectCruce = new JLabel("Seleccion Cruce");
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(lblSelectCruce);
-		panel.add(selCruce);
-		return panel;
-	}
-
-	private JPanel selectMutacionPanel(){
-		JPanel panel = new JPanel();
-		JLabel lblSelectMutacion = new JLabel("Seleccion Mutacion");
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(lblSelectMutacion);
-		panel.add(selMutacion);
-		return panel;
-	}
+	
 
 	private JButton iniButtonRun(){
 
@@ -159,17 +121,20 @@ public class PanelOpciones extends JFrame implements AGobserver{
 		return btnIniciar;
 	}
 
-	@Override
-	public void onInit(AlgoritmoGenetico ag) {
-		txtPoblacion.setText(String.valueOf(ag.getTamPoblacion()));
-		txtGeneraciones.setText(String.valueOf(ag.getNumGeneraciones()));
-		txtProbCru.setValue(ag.getProbCruce());
-		txtProbMut.setValue(ag.getProbMutacion());
-		txtElitismo.setValue(ag.getElitismo());
-
-		repaint();
+	private void changeMode(boolean hide){
+		for(JLabel l : labelList){
+			l.setVisible(hide);
+		}
+		this.maxElitismo.setVisible(hide);
+		this.maxProbCru.setVisible(hide);
+		this.maxProbMut.setVisible(hide);
+		this.maxPoblacion.setVisible(hide);
 	}
 
+	@Override
+	public void onInit(AlgoritmoGenetico ag) {
+		// TODO Auto-generated method stub
+	}
 
 	@Override
 	public void onChange(AlgoritmoGenetico ag) {
@@ -181,11 +146,38 @@ public class PanelOpciones extends JFrame implements AGobserver{
 		
 	}
 
+	private JPanel intervaloPanel(String title, JComponent min, JComponent max){
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+
+		JPanel panelMin = new JPanel();
+		panelMin.setLayout(new BoxLayout(panelMin, BoxLayout.LINE_AXIS));
+		JLabel minL = new JLabel("Min: ");
+		panelMin.add(minL);
+		panelMin.add(min, BorderLayout.CENTER);
+
+		JPanel panelMax = new JPanel();
+		panelMax.setLayout(new BoxLayout(panelMax, BoxLayout.LINE_AXIS));
+		JLabel maxL = new JLabel("Max: ");
+		panelMax.add(maxL);
+		panelMax.add(max);
+
+		this.labelList.add(minL);
+		this.labelList.add(maxL);
+
+		panel.add(panelMin);
+		panel.add(panelMax);
+
+		return createViewPanel(panel, title);
+	}
+
 	private JPanel createViewPanel(JComponent c, String title) {
-		JPanel p = new JPanel( new BorderLayout());
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(1, 1));
+		p.setPreferredSize(new Dimension(this.width * 9/10, height));
 		Border b = BorderFactory.createLineBorder(Color.black, 2);
 		p.setBorder(BorderFactory.createTitledBorder(b, title));
-		p.add(c, BorderLayout.CENTER);
+		p.add(c);
 		return p;
 	}
 

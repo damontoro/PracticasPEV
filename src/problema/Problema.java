@@ -1,7 +1,6 @@
 package src.problema;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import src.utils.TipoProblema;
 
