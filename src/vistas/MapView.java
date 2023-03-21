@@ -34,13 +34,11 @@ public class MapView extends JPanel{
 		this.add(b2);
 
 		ArrayList<Point> points = new ArrayList<Point>();
-		//A MouseEvent that once i click on the image, it will show the coordinates relative to the image
 		label.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				Point b = evt.getPoint();
 				points.add(b);
-				System.out.println("X: " + b.x + " Y: " + b.y);
 				label.getGraphics().fillOval(b.x  - POINT_SIZE/2, b.y  - POINT_SIZE/2, POINT_SIZE, POINT_SIZE);
 			}
 		});
@@ -50,7 +48,6 @@ public class MapView extends JPanel{
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				for (int i = 0; i < points.size() - 1; i++) {
-					//label.getGraphics().drawLine(points.get(i).x, points.get(i).y, points.get(i + 1).x, points.get(i + 1).y);
 					ArrowDrawer.drawArrow(points.get(i), points.get(i + 1), label);
 				}
 			}
