@@ -51,7 +51,7 @@ public class MapView extends JPanel{
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				for (int i = 0; i < points.size() - 1; i++) {
 					//label.getGraphics().drawLine(points.get(i).x, points.get(i).y, points.get(i + 1).x, points.get(i + 1).y);
-					ArrowDrawer.drawParabola(points.get(i), points.get(i + 1), label);
+					ArrowDrawer.drawArrow(points.get(i), points.get(i + 1), label);
 				}
 			}
 		});
