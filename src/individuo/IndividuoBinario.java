@@ -1,6 +1,8 @@
 package src.individuo;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class IndividuoBinario extends Individuo{
 
@@ -31,12 +33,20 @@ public class IndividuoBinario extends Individuo{
                 tamGenes.add(tamGen( min.get(i), max.get(i), precision));
             }
         }
-	    cromosoma = new ArrayList<Boolean>((ArrayList<Boolean>)valores);
+        cromosoma = copiaProfunda((ArrayList<Boolean>) valores);
 	}
 
     public IndividuoBinario(IndividuoBinario ind) {
         super(ind);
-        cromosoma = new ArrayList<Boolean>(ind.cromosoma);
+        cromosoma = copiaProfunda(ind.cromosoma);
+    }
+
+    private ArrayList<Boolean> copiaProfunda(ArrayList<Boolean> valores) {
+        List<Boolean> copia = valores.stream().collect(Collectors.toList());
+	    ArrayList<Boolean> resul = new ArrayList<Boolean>();
+        for(int i = 0; i < tamCromosoma; i++)
+            resul.add((Boolean) copia.remove(random.nextInt(copia.size())));
+        return resul;
     }
 
 	@Override

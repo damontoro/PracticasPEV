@@ -2,6 +2,8 @@ package src;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import javax.swing.JOptionPane;
 
 import src.individuo.Individuo;
@@ -89,6 +91,7 @@ public class AlgoritmoGenetico {
 	}
 
 	void cruce(){
+		Collections.shuffle(poblacion, random);
 		poblacion = cruce.cruzar(poblacion, problema, random, probCruce); //N individuos cruzados
 	}
 
