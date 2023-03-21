@@ -31,11 +31,13 @@ public class IndividuoEntero extends Individuo{
 
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public ArrayList<Integer> getFenotipo() {
 		return genotipo;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public ArrayList<Integer> getGenotipo() {
 		return genotipo;
 	}

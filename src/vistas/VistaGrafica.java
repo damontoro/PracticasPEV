@@ -1,28 +1,38 @@
 package src.vistas;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.awt.Dimension;
 
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
+
+import src.AlgoritmoGenetico;
+import src.patrones.AGobserver;
+
 import java.awt.Color;
 import org.knowm.xchart.XChartPanel;
 
-public class VistaGrafica extends JPanel{
-	final XYChart chart;
+public class VistaGrafica extends JPanel implements AGobserver {
 
-	ArrayList<Double> mejorFitness = new ArrayList<Double>();
-	ArrayList<Double> mediaFitness = new ArrayList<Double>();
-	ArrayList<Double> mejorAbsoluto = new ArrayList<Double>();
+	private final XYChart chart;
 
-	ArrayList<Double> yData = new ArrayList<Double>();
+	private ArrayList<Double> mejorFitness = new ArrayList<Double>();
+	private ArrayList<Double> mediaFitness = new ArrayList<Double>();
+	private ArrayList<Double> mejorAbsoluto = new ArrayList<Double>();
 
-	public VistaGrafica() {
+	ArrayList<Integer> yData = new ArrayList<Integer>();
+
+	public VistaGrafica(int width, int height) {
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		this.setPreferredSize(new Dimension(width, height));
+		this.setVisible(true);
+		
 		// Create Chart
-		chart = new XYChartBuilder().width(750).height(600).title("Tabla").xAxisTitle("Generacion").build();
-
+		chart = new XYChartBuilder().title("Tabla").xAxisTitle("Generacion").build();
 		// Customize Chart
 		chart.getStyler().setLegendPosition(LegendPosition.OutsideE);
 		chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
@@ -38,36 +48,59 @@ public class VistaGrafica extends JPanel{
 		mejorFitness.add(0.0);
 		mediaFitness.add(0.0);
 		mejorAbsoluto.add(0.0);
-		yData.add(0.0);
+		yData.add(0);
 		chart.addSeries("Mejor Individuo", mejorFitness, yData);
 		chart.addSeries("Media Fitness", mediaFitness, yData);
 		chart.addSeries("Mejor Absoluto", mejorFitness, yData);
 
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
+
 		JPanel chartPanel = new XChartPanel<XYChart>(chart);
+		chartPanel.setVisible(true);
 		this.add(chartPanel);
 		this.setVisible(true);
+
 		mejorFitness.clear();
 		mediaFitness.clear();
 		mejorAbsoluto.clear();
 		yData.clear();
 	}
 
-	public void reset() {
+	@Override
+	public void onInit(AlgoritmoGenetico ag) {
+		chart.removeSeries("Mejor Individuo");
+		chart.removeSeries("Media Fitness");
+		chart.removeSeries("Mejor Absoluto");
+
 		mejorFitness.clear();
 		mediaFitness.clear();
 		mejorAbsoluto.clear();
 		yData.clear();
+
+		mejorFitness.add(ag.getMejorGen());
+		mediaFitness.add(ag.getMediaFitness());
+		mejorAbsoluto.add(ag.getMejorAbs().getFitness());
+		yData.add(0);
+		
+		chart.addSeries("Mejor Individuo", mejorFitness, yData);
+		chart.addSeries("Media Fitness", mediaFitness, yData);
+		chart.addSeries("Mejor Absoluto", mejorFitness, yData);
 	}
 
-	public void reload(Double mejorFit, Double mejorAbs, Double mediaFit, Integer i) {
-		yData.add(Double.valueOf(i));
-		mejorFitness.add(mejorFit);
-		mediaFitness.add(mediaFit);
-		mejorAbsoluto.add(mejorAbs);
+	@Override
+	public void onChange(AlgoritmoGenetico ag) {
+		yData.add(ag.getGenActual());
+		mejorFitness.add(ag.getMejorGen());
+		mediaFitness.add(ag.getMediaFitness());
+		mejorAbsoluto.add(ag.getMejorAbs().getFitness());
 		chart.updateXYSeries("Mejor Individuo", yData, mejorFitness, null);
 		chart.updateXYSeries("Media Fitness", yData, mediaFitness, null);
 		chart.updateXYSeries("Mejor Absoluto", yData, mejorAbsoluto, null);
+	}
+
+	@Override
+	public void onError(String err) {
+		// TODO Auto-generated method stub
 	}
 }

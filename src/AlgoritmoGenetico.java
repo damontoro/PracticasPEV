@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
 import src.seleccion.SeleccionRuleta;
-import src.vistas.VistaPrincipal;
 import src.problema.*;
 import src.cruce.*;
 import src.mutacion.*;
@@ -21,10 +20,10 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	private ArrayList<Individuo> poblacion;
 	private ArrayList<Individuo> elite;
 	private Problema problema; //Aqui tenemos nuestro fitness, min y maximo
-	private VistaPrincipal vista;
 
 	private int tamPoblacion;
 	private int numGeneraciones;
+	private int genActual;
 	private double probCruce;
 	private double probMutacion;
 	private double elitismo;
@@ -48,7 +47,6 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		this.probMutacion = probMutacion;
 		this.elitismo = 0.0;
 
-		this.vista = null;
 		this.problema = new ProblemaTSP();
 
 		this.poblacion = new ArrayList<Individuo>();
@@ -63,8 +61,11 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	void initPoblacion(){
 		for(int i = 0; i < tamPoblacion; i++)
 			poblacion.add(problema.build());
-		
+
 		mejorAbs = poblacion.get(0);
+		evalPoblacion();
+		cogerDatos();
+		onInit(this);
 	}
 
 	void evalPoblacion(){
@@ -75,13 +76,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	}
 
 	void extraerElite(){
-		if(problema.getTipo() == TipoProblema.MAXIMIZACION){
-			poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
-		}
-		else{
-			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
-		}
-
+		
+		ordenarPoblacion();
 		elite.clear();
 		for(int i = 0; i < elitismo * tamPoblacion; i++)
 			elite.add(problema.build(poblacion.get(i)));
@@ -101,13 +97,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	}
 
 	void introducirElite(){
-		if(problema.getTipo() == TipoProblema.MAXIMIZACION)
-			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));//Menor a mayor
-		else
-			poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
-
-
-		for(int i = 0; i < elite.size(); i++)
+		ordenarPoblacion();
+		for(int i = poblacion.size() - 1; i > poblacion.size() - elite.size(); i--)
 			poblacion.set(i, elite.get(i));
 	}
 
@@ -119,15 +110,15 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		}
 		this.mediaFitness = acum / poblacion.size();
 
+		ordenarPoblacion();
+		
 		if(problema.getTipo() == TipoProblema.MAXIMIZACION){
-			poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
 			if(mejorAbs.getFitness() <= poblacion.get(0).getFitness()){
 				mejorAbs = poblacion.get(0);
 			}
 			mejorGen = poblacion.get(0).getFitness();
 		}
 		else{
-			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
 			if(mejorAbs.getFitness() >= poblacion.get(0).getFitness()){
 				mejorAbs = poblacion.get(0);
 			}
@@ -141,8 +132,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				o.onInit(this);
 
 			initPoblacion();
-			evalPoblacion();
-			for(int i = 0; i < numGeneraciones; i++){
+			for(this.genActual = 0; this.genActual < numGeneraciones; this.genActual++){
 				extraerElite();
 				seleccion();
 				cruce();
@@ -152,7 +142,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				cogerDatos();
 				if (mejorAbs.getFitness() != mejorGen)
 					System.out.println("Mejor absoluto: " + mejorAbs.getFitness() + " Mejor generacion: " + mejorGen);
-				show(i + 1);
+				onChange(this);
 			}
 		}catch(Exception e){
 			//Mensaje por favor revisa las opciones del algoritmo genetico usando un JOption pane
@@ -162,13 +152,12 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		}
 	}
 
-	public void show(int i){
-		try{
-			vista.actualizarGrafica(mejorAbs, mejorGen, mediaFitness, 0, i);
-			Thread.sleep(10);
-		}catch(Exception e){
-			//e.printStackTrace();
-			Thread.currentThread().interrupt();
+	private void ordenarPoblacion(){
+		if(problema.getTipo() == TipoProblema.MAXIMIZACION){
+			poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
+		}
+		else{
+			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
 		}
 	}
 
@@ -185,6 +174,10 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		observers.remove(o);
 	}
 
+	void onInit(AlgoritmoGenetico ag){for(AGobserver o : observers){o.onInit(ag);}}
+	void onChange(AlgoritmoGenetico ag){for(AGobserver o : observers){o.onChange(ag);}}	
+	void onError(String err){for(AGobserver o : observers){o.onError(err);}}
+
 	//Los getters y setters de los atributos compactados
 	public int getTamPoblacion() {return tamPoblacion;}
 	public int getNumGeneraciones() {return numGeneraciones;}
@@ -196,7 +189,10 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public ISeleccion getSeleccion() {return seleccion;}
 	public ICruce getCruce() {return cruce;}
 	public IMutacion getMutacion() {return mutacion;}
-	public VistaPrincipal getVista() {return vista;}
+	public Individuo getMejorAbs() {return mejorAbs;}
+	public double getMejorGen() {return mejorGen;}
+	public double getMediaFitness() {return mediaFitness;}
+	public int getGenActual() {return genActual;}
 	
 	
 	public void setTamPoblacion(int tamPoblacion) {this.tamPoblacion = tamPoblacion;}
@@ -209,5 +205,4 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public void setSeleccion(ISeleccion seleccion) {this.seleccion = seleccion;}
 	public void setCruce(ICruce cruce) {this.cruce = cruce;}
 	public void setMutacion(IMutacion mutacion) {this.mutacion = mutacion;}
-	public void setVista(VistaPrincipal vistaPrincipal) {this.vista = vistaPrincipal;}
 }

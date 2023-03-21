@@ -80,7 +80,7 @@ public class VistaPrincipal extends JFrame{
 		mejorFenotipo += "]";
 		mejor.setText("Mejor fenotipo : " + mejorFenotipo + 
 						" Fitness: " + df.format(mejorAbs.getFitness()));
-		this.repaint();
+		//this.repaint();
 		this.revalidate();
 	}
 
