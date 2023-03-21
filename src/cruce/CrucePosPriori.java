@@ -83,4 +83,9 @@ public class CrucePosPriori implements ICruce {
 		return hijos;
 	}
 
+	@Override
+	public String toString() {
+		return "Cruce posiciones prioritarias";
+	}
+
 }

@@ -2,17 +2,38 @@ package src.problema;
 
 import java.util.ArrayList;
 
+import src.cruce.*;
 import src.individuo.Individuo;
 import src.individuo.IndividuoEntero;
+import src.mutacion.*;
+import src.seleccion.*;
 import src.utils.TipoProblema;
 
 public class ProblemaTSP extends Problema{
 
 	private static final int NUM_CIUDADES = 27;
 
+	private ArrayList <IMutacion> mutaciones = new ArrayList<IMutacion>();
+	private ArrayList <ICruce> cruces = new ArrayList<ICruce>();
+	private ArrayList <ISeleccion> selecciones = new ArrayList<ISeleccion>();
+
 	public ProblemaTSP() {
 		super();
 		tipo = TipoProblema.MINIMIZACION;
+		selecciones.add(new SeleccionRuleta());
+		selecciones.add(new SeleccionEstocastica());
+		selecciones.add(new SeleccionTruncamiento());
+		selecciones.add(new SeleccionRestos());
+		selecciones.add(new SeleccionTorneoDet());
+		selecciones.add(new SeleccionTorneoProb());
+
+		mutaciones.add(new MutacionIntercambio());
+
+		cruces.add(new CruceCiclos());
+		cruces.add(new CrucePMX());
+		cruces.add(new CruceOX());
+		cruces.add(new CrucePosPriori());
+		cruces.add(new CruceOrdPriori());
 	}
 
 	@Override
@@ -105,4 +126,19 @@ public class ProblemaTSP extends Problema{
 		{473,	482,	219,	644,	436,	997,	939,	781,	506,	265,	713,	388,	187,	1153,	615,	1097,	129,	602,	313,	941,	209,	877,	1009,	880,	1055,	544},
 		{150,	75,		219,	516,	675,	590,	796,	638,	654,	613,	306,	357,	444,	1010,	292,	690,	278,	459,	628,	611,	340,	734,	583,	694,	912,	401,	407}
 	};
+
+	@Override
+	public ArrayList<IMutacion> getMutaciones() {
+		return mutaciones;
+	}
+
+	@Override
+	public ArrayList<ICruce> getCruces() {
+		return cruces;
+	}
+
+	@Override
+	public ArrayList<ISeleccion> getSelecciones() {
+		return selecciones;
+	}
 }

@@ -71,5 +71,10 @@ public class CruceCiclos implements ICruce{
 		}
 		return hijos;
 	}
+
+	@Override
+	public String toString(){
+		return "CruceCiclos";
+	} 
 	
 }

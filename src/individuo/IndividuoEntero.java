@@ -1,6 +1,7 @@
 package src.individuo;
 
 import src.problema.ProblemaTSP.Ciudad;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -23,16 +24,12 @@ public class IndividuoEntero extends Individuo{
 	public IndividuoEntero(IndividuoEntero i) {
 		super(i);
 		this.genotipo = new ArrayList<Integer>();
-		for (int j = 0; j < Individuo.tamCromosoma; j++) {
-			this.genotipo.add(Integer.valueOf(i.genotipo.get(j).intValue()));
-		}
+		this.genotipo.addAll(i.genotipo);
 	}
 
 	public IndividuoEntero(ArrayList<Integer> genotipo) {
-		this.genotipo = new ArrayList<Integer> ();
-		for (int j = 0; j < Individuo.tamCromosoma; j++) {
-			this.genotipo.add(genotipo.get(j).intValue());
-		}
+		this.genotipo = new ArrayList<>();
+		this.genotipo.addAll(genotipo);
 	}
 
 

@@ -2,6 +2,7 @@ package src;
 
 import java.util.Random;
 import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import src.individuo.Individuo;
@@ -40,12 +41,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	private IMutacion mutacion;
 	private ISeleccion seleccion;
 
-	public AlgoritmoGenetico(int tamPoblacion, int numGeneraciones, double probCruce, double probMutacion) {
-		this.tamPoblacion = tamPoblacion;
-		this.numGeneraciones = numGeneraciones;
-		this.probCruce = probCruce;
-		this.probMutacion = probMutacion;
-		this.elitismo = 0.0;
+	public AlgoritmoGenetico() {
 
 		this.problema = new ProblemaTSP();
 
@@ -59,6 +55,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	}
 
 	void initPoblacion(){
+		reset();
 		for(int i = 0; i < tamPoblacion; i++)
 			poblacion.add(problema.build());
 
@@ -98,8 +95,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 
 	void introducirElite(){
 		ordenarPoblacion();
-		for(int i = poblacion.size() - 1; i > poblacion.size() - elite.size(); i--)
-			poblacion.set(i, elite.get(i));
+		for(int i = poblacion.size() - 1, j = 0; j < elite.size(); i--, j++)
+			poblacion.set(i, elite.get(j));
 	}
 
 	void cogerDatos(){
@@ -128,22 +125,25 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 
 	public void run(){
 		try{
-			onInit(this);
-
 			initPoblacion();
+			onInit(this);
 			for(this.genActual = 0; this.genActual < numGeneraciones; this.genActual++){
 				extraerElite();
 				seleccion();
 				cruce();
 				mutacion();
-				introducirElite();
 				evalPoblacion();
+				introducirElite();
 				cogerDatos();
 				if (mejorAbs.getFitness() != mejorGen)
 					System.out.println("Mejor absoluto: " + mejorAbs.getFitness() + " Mejor generacion: " + mejorGen);
 				onChange(this);
+				Thread.sleep(10);
 			}
-		}catch(Exception e){
+		}
+		catch(InterruptedException e){}
+		catch(Exception e){
+			onError("Error en el algoritmo genetico");
 			//Mensaje por favor revisa las opciones del algoritmo genetico usando un JOption pane
 			JOptionPane.showConfirmDialog(null, "Comprueba los parametros del algoritmo","ERROR", JOptionPane.DEFAULT_OPTION, 0);
 			e.printStackTrace();
@@ -186,8 +186,11 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public ArrayList<Individuo> getPoblacion() {return poblacion;}
 	public Problema getProblema() {return problema;}
 	public ISeleccion getSeleccion() {return seleccion;}
+	public ArrayList<ISeleccion> getSelecciones() {return problema.getSelecciones();}
 	public ICruce getCruce() {return cruce;}
+	public ArrayList<ICruce> getCruces() {return problema.getCruces();}
 	public IMutacion getMutacion() {return mutacion;}
+	public ArrayList<IMutacion> getMutaciones() {return problema.getMutaciones();}
 	public Individuo getMejorAbs() {return mejorAbs;}
 	public double getMejorGen() {return mejorGen;}
 	public double getMediaFitness() {return mediaFitness;}

@@ -1,7 +1,6 @@
 package src.cruce;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
@@ -46,13 +45,13 @@ public class CruceOrdPriori implements ICruce{
 				mapaPadre2.put(genotipoPadre2.get(j), j);
 			}
 
-			Set setHijo1 = new HashSet<Integer>(); //las posiciones de Padre2 que no se van a copiar en h1
+			Set<Integer> setHijo1 = new HashSet<Integer>(); //las posiciones de Padre2 que no se van a copiar en h1
 			ArrayList<Integer> posicionesHijo1 = new ArrayList<Integer>();
 			for(Integer pos : posiciones){
 				setHijo1.add(mapaPadre2.get(genotipoPadre1.get(pos)));
 				posicionesHijo1.add(mapaPadre2.get(genotipoPadre1.get(pos)));
 			}
-			Set setHijo2 = new HashSet<Integer>(); //las posiciones de Padre1 que no se van a copiar en h2
+			Set<Integer> setHijo2 = new HashSet<Integer>(); //las posiciones de Padre1 que no se van a copiar en h2
 			ArrayList<Integer> posicionesHijo2 = new ArrayList<Integer>();
 			for(Integer pos : posiciones){
 				setHijo2.add(mapaPadre1.get(genotipoPadre2.get(pos)));
@@ -94,6 +93,11 @@ public class CruceOrdPriori implements ICruce{
 		}
 
 		return hijos;
+	}
+
+	@Override
+	public String toString() {
+		return "Cruce orden orioritario";
 	}
 	
 }

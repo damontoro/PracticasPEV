@@ -9,12 +9,11 @@ public class Main{
 
 	public static void main(String[] args) {
 		//Te creas tu modelo
-		AlgoritmoGenetico ag = new AlgoritmoGenetico(300, 300, 0.4, 0.05);
+		AlgoritmoGenetico ag = new AlgoritmoGenetico();
 		//Se lo pasas a la vista
 		try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            //SwingUtilities.invokeLater(() -> new MainWindow(ag));
-			ag.run();
+            SwingUtilities.invokeLater(() -> new MainWindow(ag));
         } catch (Exception e) {
             e.printStackTrace();
         }

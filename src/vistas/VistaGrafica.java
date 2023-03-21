@@ -26,7 +26,7 @@ public class VistaGrafica extends JPanel implements AGobserver {
 
 	ArrayList<Integer> yData = new ArrayList<Integer>();
 
-	public VistaGrafica(int width, int height) {
+	public VistaGrafica(AlgoritmoGenetico ag, int width, int height) {
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.setPreferredSize(new Dimension(width, height));
 		this.setVisible(true);
@@ -65,6 +65,8 @@ public class VistaGrafica extends JPanel implements AGobserver {
 		mediaFitness.clear();
 		mejorAbsoluto.clear();
 		yData.clear();
+
+		ag.addObserver(this);
 	}
 
 	@Override
@@ -97,10 +99,11 @@ public class VistaGrafica extends JPanel implements AGobserver {
 		chart.updateXYSeries("Mejor Individuo", yData, mejorFitness, null);
 		chart.updateXYSeries("Media Fitness", yData, mediaFitness, null);
 		chart.updateXYSeries("Mejor Absoluto", yData, mejorAbsoluto, null);
+
+		this.repaint();
+		this.revalidate();
 	}
 
 	@Override
-	public void onError(String err) {
-		// TODO Auto-generated method stub
-	}
+	public void onError(String err) {}
 }

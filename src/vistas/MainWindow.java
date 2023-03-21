@@ -30,7 +30,11 @@ public class MainWindow extends JFrame{
         this.setContentPane(mainPanel);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
         mainPanel.add(new PanelOpciones(this.ag, INI_WIDTH * 2/10, INI_HEIGHT));
-        mainPanel.add(new VistaGrafica(INI_WIDTH * 8/10, INI_HEIGHT));
+        JPanel InfoGrafica = new JPanel();
+        InfoGrafica.setLayout(new BoxLayout(InfoGrafica, BoxLayout.PAGE_AXIS));
+        InfoGrafica.add(new VistaGrafica(this.ag, INI_WIDTH * 8/10, INI_HEIGHT - 25));
+        InfoGrafica.add(new PanelInfo(this.ag, INI_WIDTH * 8/10, 25));
+        mainPanel.add(InfoGrafica);
     }
     
 }

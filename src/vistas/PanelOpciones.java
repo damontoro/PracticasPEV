@@ -15,26 +15,26 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingWorker;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import src.AlgoritmoGenetico;
 import src.patrones.AGobserver;
+import src.seleccion.ISeleccion;
 import src.mutacion.IMutacion;
-import src.mutacion.MutacionInsercion;
-import src.cruce.CruceERX;
-import src.cruce.CrucePMX;
 import src.cruce.ICruce;
 
 public class PanelOpciones extends JPanel implements AGobserver{
 
+	private AlgoritmoGenetico ag;
+
 	private int width, height;
+	private boolean intervalos = false;
 	
 	private JTextField minPoblacion, maxPoblacion, generaciones;
 	private JSpinner minProbCru, maxProbCru;
@@ -43,51 +43,60 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 	private ArrayList<JLabel> labelList;
 
+	private JComboBox<ISeleccion> selSeleccion;
 	private JComboBox<ICruce> selCruce;
 	private JComboBox<IMutacion> selMutacion;
 
+	private List<ISeleccion> selecciones;
 	private List<ICruce> cruces;
 	private List<IMutacion> mutaciones;
 
 	private JButton btnIniciar;
 
+	private SwingWorker<Void, Void> worker;
+
 	public PanelOpciones(AlgoritmoGenetico ag, int width, int height) {
 		super();
 		this.width = width;
 		this.height = height;
+		this.ag = ag;
 
 		ag.addObserver(this);
 		this.setPreferredSize(new Dimension(width, height));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		cruces = Arrays.asList(new CruceERX(), new CrucePMX());
-		mutaciones = Arrays.asList(new MutacionInsercion());
+		selecciones = ag.getSelecciones();
+		cruces = ag.getCruces();
+		mutaciones = ag.getMutaciones();
 
 		// Inicializar componentes
 
 		labelList = new ArrayList<>();
-		generaciones = new JTextField(String.valueOf(ag.getNumGeneraciones()));
+		generaciones = new JTextField("100");
 		generaciones.setHorizontalAlignment(JTextField.CENTER);
 
-		minPoblacion = new JTextField(String.valueOf(ag.getTamPoblacion()));
-		maxPoblacion = new JTextField(String.valueOf(ag.getTamPoblacion()));
+		minPoblacion = new JTextField("100");
+		maxPoblacion = new JTextField("100");
 		minPoblacion.setHorizontalAlignment(JTextField.CENTER);
 		maxPoblacion.setHorizontalAlignment(JTextField.CENTER);
 		
-		minProbCru = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+		minProbCru = new JSpinner(new SpinnerNumberModel(60, 0, 100, 1));
 		maxProbCru = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
 
-		minProbMut = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+		minProbMut = new JSpinner(new SpinnerNumberModel(1, 0, 100, 1));
 		maxProbMut = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
 
-		minElitismo = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+		minElitismo = new JSpinner(new SpinnerNumberModel(5, 0, 100, 1));
 		maxElitismo = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
 
+		selSeleccion = new JComboBox<>();
 		selCruce = new JComboBox<>();
 		selMutacion = new JComboBox<>();
 
-		btnIniciar = new JButton("Iniciar");
+		btnIniciar = new JButton("Evolucionar");
+		btnIniciar.addActionListener((e) -> {runButton();});
 
+		for (ISeleccion s : selecciones){selSeleccion.addItem(s);}
 		for(ICruce c : cruces){selCruce.addItem(c);}
 		for(IMutacion m : mutaciones){selMutacion.addItem(m);}
 
@@ -95,19 +104,40 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		this.add(intervaloPanel("Poblacion", minPoblacion, maxPoblacion));
 		this.add(intervaloPanel("Probabilidad de cruce", minProbCru, maxProbCru));
 		this.add(intervaloPanel("Probabilidad de mutacion", minProbMut, maxProbMut));
-		this.add(intervaloPanel("Elitismo", minElitismo, maxElitismo));
+		this.add(intervaloPanel("Porcentaje elitismo", minElitismo, maxElitismo));
 
+		this.add(createViewPanel(selSeleccion, "Seleccion"));
+		this.add(createViewPanel(selCruce, "Cruce"));
+		this.add(createViewPanel(selMutacion, "Mutacione"));
 
-		this.add(createViewPanel(selCruce, "Seleccion"));
-		this.add(createViewPanel(selMutacion, "Seleccion"));
-
-		this.add(iniButtonRun());
+		this.add(btnIniciar);
 
 		changeMode(false);
 		this.setVisible(true);
 	}
 
-	
+	private void runButton(){
+		reset();
+		loadData();
+
+		worker = new SwingWorker<Void, Void>(){
+			@Override
+			protected Void doInBackground() throws Exception{
+				runAG();
+				return null;
+			}
+		};
+		worker.execute();
+	}
+
+	private void runAG(){
+		if (intervalos == false){
+			ag.run();
+		}
+		else{
+			// TODO: hacer que se ejecute con intervalos
+		}
+	}
 
 	private JButton iniButtonRun(){
 
@@ -141,6 +171,22 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		this.maxPoblacion.setVisible(hide);
 	}
 
+	private void reset(){
+		if(worker != null && !worker.isDone()) 
+			worker.cancel(true);
+	}
+
+	private void loadData(){
+		ag.setNumGeneraciones(Integer.parseInt(generaciones.getText()));
+		ag.setTamPoblacion(Integer.parseInt(minPoblacion.getText()));
+		ag.setProbCruce(Double.valueOf((int)minProbCru.getValue()) / 100);
+		ag.setProbMutacion(Double.valueOf((int)minProbMut.getValue()) / 100);
+		ag.setElitismo(Double.valueOf((int)minElitismo.getValue()) / 100);
+		ag.setSeleccion((ISeleccion)selSeleccion.getSelectedItem());
+		ag.setCruce((ICruce)selCruce.getSelectedItem());
+		ag.setMutacion((IMutacion)selMutacion.getSelectedItem());
+	}
+
 	@Override
 	public void onInit(AlgoritmoGenetico ag) {
 		
@@ -153,7 +199,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 	@Override
 	public void onError(String err) {
-		
+		reset();
 	}
 
 	private JPanel intervaloPanel(String title, JComponent min, JComponent max){
@@ -190,7 +236,5 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		p.add(c);
 		return p;
 	}
-
-
 
 }
