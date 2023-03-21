@@ -26,7 +26,7 @@ public class ArrowDrawer {
 		//La x es absoluta, la Y es la y que le pones - la altura/2
 		int dist =(int) Math.sqrt((to.x - from.x) * (to.x - from.x) + (to.y - from.y) * (to.y - from.y));
 		double angle = Math.toDegrees(Math.atan2(to.y - from.y, to.x - from.x));
-		double ar = Math.max(150 - dist, dist/2);
+		double ar = Math.max(200 - dist, dist/2);
 
 		AffineTransform old = g2d.getTransform();
 		Arc2D arc = new Arc2D.Double(from.x, from.y - ar/2, dist, ar, 0, 180, Arc2D.OPEN);
@@ -40,7 +40,7 @@ public class ArrowDrawer {
 
 	private static void drawArrowHead(Graphics2D g2d, Arc2D arc) {
 		//Punto medio: (int)arc.getCenterX(), (int)(arc.getCenterY() - arc.getHeight()/2)
-		//draw the arrow head
+
 		AffineTransform old = g2d.getTransform();
 		Polygon arrowHead = new Polygon();
 

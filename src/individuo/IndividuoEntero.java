@@ -22,11 +22,17 @@ public class IndividuoEntero extends Individuo{
 
 	public IndividuoEntero(IndividuoEntero i) {
 		super(i);
-		this.genotipo = new ArrayList<Integer>(i.genotipo);
+		this.genotipo = new ArrayList<Integer>();
+		for (int j = 0; j < Individuo.tamCromosoma; j++) {
+			this.genotipo.add(Integer.valueOf(i.genotipo.get(j).intValue()));
+		}
 	}
 
 	public IndividuoEntero(ArrayList<Integer> genotipo) {
-		this.genotipo = new ArrayList<Integer> (genotipo);
+		this.genotipo = new ArrayList<Integer> ();
+		for (int j = 0; j < Individuo.tamCromosoma; j++) {
+			this.genotipo.add(genotipo.get(j).intValue());
+		}
 	}
 
 

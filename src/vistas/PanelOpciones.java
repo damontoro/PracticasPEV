@@ -103,7 +103,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 		this.add(iniButtonRun());
 
-		changeMode(true);
+		changeMode(false);
 		this.setVisible(true);
 	}
 
@@ -114,7 +114,17 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		btnIniciar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new JDialog();
+				/*
+				loadData();
+				if(intervalosOFF == true)
+					ag.run(intervalosOFF);
+				else{
+					for(int i = 0; i < numIteraciones; i++)
+						ag.setValorInterv(lo que toque)
+						ag.run(intervalosOFF);
+
+				}
+				*/
 			}
 		});
 
@@ -133,7 +143,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 	@Override
 	public void onInit(AlgoritmoGenetico ag) {
-		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

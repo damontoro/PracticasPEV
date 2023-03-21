@@ -7,4 +7,6 @@ Problemas:
 
 TODO:
 	Preguntar: Como quiere lo de seleccionar intervalos
-	COMPROBAR QUE EL BLX FUNCIONA BIEN
+	COMPROBAR QUE EL PMX FUNCIONA BIEN MIRANDO GRAFICA
+	Pensar si hacer shuffle antes del cruce
+	Preguntar si OrdPriori es una mierda

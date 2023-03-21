@@ -17,7 +17,7 @@ public class ProblemaTSP extends Problema{
 
 	@Override
 	public Individuo build() {
-		return new IndividuoEntero(NUM_CIUDADES);
+		return new IndividuoEntero(NUM_CIUDADES - 1);
 	}
 
 	@Override

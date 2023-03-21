@@ -53,7 +53,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		this.elite = new ArrayList<Individuo>();
 		
 		this.seleccion = new SeleccionRuleta();
-		this.cruce = new CrucePMX();
+		this.cruce = new CruceCiclos();
 		this.mutacion = new MutacionIntercambio();
 		this.mejorAbs = null;
 	}
@@ -128,8 +128,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 
 	public void run(){
 		try{
-			for(AGobserver o : observers)
-				o.onInit(this);
+			onInit(this);
 
 			initPoblacion();
 			for(this.genActual = 0; this.genActual < numGeneraciones; this.genActual++){
