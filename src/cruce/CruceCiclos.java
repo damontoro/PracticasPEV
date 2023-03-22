@@ -74,7 +74,7 @@ public class CruceCiclos implements ICruce{
 
 	@Override
 	public String toString(){
-		return "CruceCiclos";
+		return "Cruce Ciclos (CX)";
 	} 
 	
 }

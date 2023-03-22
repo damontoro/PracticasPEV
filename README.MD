@@ -7,6 +7,8 @@ Problemas:
 
 TODO:
 	Preguntar: Como quiere lo de seleccionar intervalos
-	COMPROBAR QUE EL PMX FUNCIONA BIEN MIRANDO GRAFICA
-	Pensar si hacer shuffle antes del cruce
-	Preguntar si OrdPriori es una mierda
+	HACER SHUFFLE BIEN
+	Refactorizar los cruces para quitar cod repetido
+
+
+Ranking, cruce recombinacion rutas, mutaciones

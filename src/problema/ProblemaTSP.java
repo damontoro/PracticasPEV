@@ -28,12 +28,14 @@ public class ProblemaTSP extends Problema{
 		selecciones.add(new SeleccionTorneoProb());
 
 		mutaciones.add(new MutacionIntercambio());
+		mutaciones.add(new MutacionInsercion());
 
 		cruces.add(new CruceCiclos());
 		cruces.add(new CrucePMX());
 		cruces.add(new CruceOX());
 		cruces.add(new CrucePosPriori());
 		cruces.add(new CruceOrdPriori());
+		cruces.add(new CruceMonoOrd());
 	}
 
 	@Override

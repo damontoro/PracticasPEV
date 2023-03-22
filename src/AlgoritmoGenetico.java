@@ -2,6 +2,7 @@ package src;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JOptionPane;
 
@@ -49,7 +50,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		this.elite = new ArrayList<Individuo>();
 		
 		this.seleccion = new SeleccionRuleta();
-		this.cruce = new CruceCiclos();
+		this.cruce = new CruceMonoOrd();
 		this.mutacion = new MutacionIntercambio();
 		this.mejorAbs = null;
 	}
