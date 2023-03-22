@@ -24,7 +24,7 @@ public class IndividuoEntero extends Individuo{
 	public IndividuoEntero(IndividuoEntero i) {
 		super(i);
 		this.genotipo = new ArrayList<Integer>();
-		this.genotipo.addAll(i.genotipo);
+		this.genotipo.addAll(i.getGenotipo());
 	}
 
 	public IndividuoEntero(ArrayList<Integer> genotipo) {

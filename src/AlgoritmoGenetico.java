@@ -85,6 +85,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	}
 
 	void cruce(){
+		//Collections.shuffle(poblacion);
 		poblacion = cruce.cruzar(poblacion, problema, random, probCruce); //N individuos cruzados
 	}
 
@@ -96,7 +97,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	void introducirElite(){
 		ordenarPoblacion();
 		for(int i = poblacion.size() - 1, j = 0; j < elite.size(); i--, j++)
-			poblacion.set(i, elite.get(j));
+			poblacion.set(i, problema.build(elite.get(j)));
 	}
 
 	void cogerDatos(){
@@ -135,8 +136,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				evalPoblacion();
 				introducirElite();
 				cogerDatos();
-				if (mejorAbs.getFitness() != mejorGen)
-					System.out.println("Mejor absoluto: " + mejorAbs.getFitness() + " Mejor generacion: " + mejorGen);
+				System.out.println("Presion selectiva: " + presionselectiva());
 				onChange(this);
 				Thread.sleep(10);
 			}
@@ -148,6 +148,15 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 			JOptionPane.showConfirmDialog(null, "Comprueba los parametros del algoritmo","ERROR", JOptionPane.DEFAULT_OPTION, 0);
 			e.printStackTrace();
 			Thread.currentThread().interrupt();
+		}
+	}
+
+	private double presionselectiva(){
+		if(problema.getTipo() == TipoProblema.MAXIMIZACION){
+			return mejorGen / mediaFitness;
+		}
+		else{
+			return mediaFitness / mejorGen;
 		}
 	}
 

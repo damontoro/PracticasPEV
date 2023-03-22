@@ -11,7 +11,7 @@ public class CruceERX implements ICruce{
 	@Override
 	public <T> ArrayList<Individuo> cruzar(ArrayList<Individuo> padres, Problema problema, Random rand,
 			double probCruce) {
-		// TODO Auto-generated method stub
+		// TODO Por implementar
 		throw new UnsupportedOperationException("Unimplemented method 'cruzar'");
 	}
     
