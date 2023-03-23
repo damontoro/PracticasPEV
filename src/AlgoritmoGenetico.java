@@ -162,12 +162,10 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	}
 
 	private void ordenarPoblacion(){
-		if(problema.getTipo() == TipoProblema.MAXIMIZACION){
+		if(problema.getTipo() == TipoProblema.MAXIMIZACION)
 			poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
-		}
-		else{
+		else
 			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
-		}
 	}
 
 	public void reset(){

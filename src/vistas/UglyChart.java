@@ -10,7 +10,6 @@ import src.patrones.AGobserver;
 
 public class UglyChart extends JPanel implements AGobserver{
 
-	private AlgoritmoGenetico ag;
 
 	private Plot2DPanel plot;
 	private ArrayList<Double> mejorFitness = new ArrayList<Double>();
@@ -20,9 +19,8 @@ public class UglyChart extends JPanel implements AGobserver{
 	ArrayList<Integer> yData = new ArrayList<Integer>();
 
 
-	public UglyChart(AlgoritmoGenetico ag){
+	public UglyChart(){
 
-		this.ag = ag;
 		plot = new Plot2DPanel();
 
 		// create your PlotPanel (you can use it as a JPanel)

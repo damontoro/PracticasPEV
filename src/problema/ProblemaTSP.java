@@ -26,6 +26,7 @@ public class ProblemaTSP extends Problema{
 		selecciones.add(new SeleccionRestos());
 		selecciones.add(new SeleccionTorneoDet());
 		selecciones.add(new SeleccionTorneoProb());
+		selecciones.add(new SeleccionRanking());
 
 		mutaciones.add(new MutacionIntercambio());
 		mutaciones.add(new MutacionInsercion());

@@ -16,18 +16,17 @@ public class Utils {
 
 	static int recursive_lower_bound(ArrayList<Double> array, int low, int high, Double value)
 	{
-
-		if (low > high)
+		if (low == high - 1)
 			return low;
 		// Find the middle index
-		int mid = low + (high - low) / 2;
+		int mid = (high + low) / 2;
 		
 		if(Double.compare(value, array.get(mid)) == 0)
 			return mid;
 		else if (Double.compare(value, array.get(mid)) < 0)
-			return recursive_lower_bound(array, low,  mid - 1, value);
+			return recursive_lower_bound(array, low, mid, value);
 		else
-			return recursive_lower_bound(array, mid + 1, high, value);
+			return recursive_lower_bound(array, mid, high, value);
 	}
 
 

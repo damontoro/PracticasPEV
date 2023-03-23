@@ -23,9 +23,9 @@ public class DataView extends JPanel{
 
 		cardPanel.setLayout(new CardLayout());
 		cardPanel.setVisible(true);
-		cardPanel.add(new MapView(), "Mapa");
 		cardPanel.add(new VistaGrafica(ag, 1800, 1020), "Grafica");
-		cardPanel.add(new UglyChart(ag), "UglyChart");
+		cardPanel.add(new MapView(), "Mapa");
+		cardPanel.add(new UglyChart(), "UglyChart");
 
 		iniToolBar();
 	}

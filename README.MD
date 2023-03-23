@@ -6,10 +6,16 @@ Problemas:
 
 
 TODO:
-	Preguntar: Como quiere lo de seleccionar intervalos
-	HACER SHUFFLE BIEN
-	Refactorizar los cruces para quitar cod repetido
-	Modificar los nombres de la gui para que sea correcto lo de probabilidad/porcentaje y mutacione
+
+	MAS IMPORTANTE:
+		Modificar los nombres de la gui para que sea correcto lo de probabilidad/porcentaje y mutacione
+		Revisar la formula de la seleccion por ranking y lo de la BETA
+
+	MENOS IMPORTANTE:
+		HACER SHUFFLE BIEN
+		Refactorizar los cruces para quitar cod repetido
+		MODIFICAR QUE LAS PROBABILIDADES SEAN INTERVALOS -> Ruleta, ranking, estoca
+		Generalizar los metodos para estas kks
 
 
-Ranking, cruce recombinacion rutas, mutaciones
+cruce recombinacion rutas, mutaciones
