@@ -16,7 +16,7 @@ public class SeleccionRanking implements ISeleccion {
 	@Override
 	public ArrayList<Individuo> select(ArrayList<Individuo> poblacion, Random rand, Problema p) {
 		ArrayList<Individuo> seleccionados = new ArrayList<Individuo>();
-		ArrayList<Individuo> temp = new ArrayList();
+		ArrayList<Individuo> temp = new ArrayList<Individuo>();
 
 		for(int i = 0; i < poblacion.size(); i++)
 			temp.add(poblacion.get(i));

@@ -14,8 +14,7 @@ TODO:
 	MENOS IMPORTANTE:
 		HACER SHUFFLE BIEN
 		Refactorizar los cruces para quitar cod repetido
-		MODIFICAR QUE LAS PROBABILIDADES SEAN INTERVALOS -> Ruleta, ranking, estoca
-		Generalizar los metodos para estas kks
+		Generalizar los metodos para ruleta y estocástica
 
 
 cruce recombinacion rutas, mutaciones

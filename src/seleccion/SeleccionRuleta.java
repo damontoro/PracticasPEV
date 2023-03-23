@@ -24,8 +24,9 @@ public class SeleccionRuleta implements Cloneable, ISeleccion{
 		for(int i = 0; i < fitness.size(); i++) //Aqui se calcula el total de la suma de los fitness
 			totalFitness += fitness.get(i);
 
-		for(int i = 0; i < fitness.size(); i++)//Aqui se calcula la probabilidad acumulada de cada individuo
-			fitness.set(i, (fitness.get(i) / totalFitness) + (i > 0 ? fitness.get(i-1) : 0));
+			fitness.set(0, 0.0);
+		for(int i = 1; i < fitness.size(); i++)//Aqui se calcula la probabilidad acumulada de cada individuo
+			fitness.set(i, (fitness.get(i) / totalFitness) + fitness.get(i-1));
 
 		for(int i = 0; i < poblacion.size(); i++){
 			double aleatorio = rand.nextDouble();

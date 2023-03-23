@@ -20,8 +20,9 @@ public class SeleccionEstocastica implements ISeleccion, Cloneable{
 		for(int i = 0; i < fitness.size(); i++) //Aqui se calcula el total de la suma de los fitness
 			totalFitness += fitness.get(i);
 
-		for(int i = 0; i < fitness.size(); i++) //Aqui se calcula la probabilidad acumulada de cada individuo
-			fitness.set(i, (fitness.get(i) / totalFitness) + (i > 0 ? fitness.get(i-1) : 0));
+		fitness.set(0, 0.0);
+		for(int i = 1; i < fitness.size(); i++)//Aqui se calcula la probabilidad acumulada de cada individuo
+			fitness.set(i, (fitness.get(i) / totalFitness) + fitness.get(i-1));
 
 		double distMarcas = 1.0 / poblacion.size();
 		double indice = rand.nextDouble(0, distMarcas);
