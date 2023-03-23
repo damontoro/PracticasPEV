@@ -23,7 +23,7 @@ public class MapView extends JPanel{
 
 	public MapView() {
 
-		ImageIcon icon = new ImageIcon("PracticasPEV/assets/spain_map.jpg");
+		ImageIcon icon = new ImageIcon("assets/espana.gif");
 		JLabel label = new JLabel(icon);
 		JButton b1 = new JButton("Flecha");
 		JButton b2 = new JButton("Save Positions");
@@ -59,7 +59,7 @@ public class MapView extends JPanel{
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				for (int i = 0; i < points.size(); i++) {
 					try {
-						BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("PracticasPEV/out/points.txt"));
+						BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("out/points.txt"));
 						writePoint(points.get(0), out, true);
 						for(int j = 1; j < points.size(); j++) {
 							writePoint(points.get(j), out, false);
