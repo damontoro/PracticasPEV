@@ -11,6 +11,7 @@ TODO:
 		Modificar los nombres de la gui para que sea correcto lo de probabilidad/porcentaje y mutacione
 		Quitar el trycatch del evaluar
 		Arreglar la mutacion heuristica
+		Cambiar valores de las distancias a los del correo
 
 	DAVID: HACE EL CRUCE (propia)
 	NACHO: HACE LA MUTACION (propia)
