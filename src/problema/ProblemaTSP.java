@@ -30,9 +30,12 @@ public class ProblemaTSP extends Problema{
 
 		mutaciones.add(new MutacionIntercambio());
 		mutaciones.add(new MutacionInsercion());
+		mutaciones.add(new MutacionInversion());
+		mutaciones.add(new MutacionHeuristica());
 
 		cruces.add(new CruceCiclos());
 		cruces.add(new CrucePMX());
+		cruces.add(new CruceERX());
 		cruces.add(new CruceOX());
 		cruces.add(new CrucePosPriori());
 		cruces.add(new CruceOrdPriori());

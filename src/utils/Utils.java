@@ -9,9 +9,7 @@ public class Utils {
 	}
 
 	public static int lower_bound(Double value, ArrayList<Double> array){ //Returns the index
-		int low = 0, high = array.size();
-
-		return recursive_lower_bound(array, low, high, value);
+		return recursive_lower_bound(array, 0, array.size(), value);
 	}
 
 	static int recursive_lower_bound(ArrayList<Double> array, int low, int high, Double value)

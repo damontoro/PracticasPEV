@@ -9,7 +9,11 @@ TODO:
 
 	MAS IMPORTANTE:
 		Modificar los nombres de la gui para que sea correcto lo de probabilidad/porcentaje y mutacione
-		Revisar la formula de la seleccion por ranking y lo de la BETA
+		Quitar el trycatch del evaluar
+		Arreglar la mutacion heuristica
+
+	DAVID: HACE EL CRUCE (propia)
+	NACHO: HACE LA MUTACION (propia)
 
 	MENOS IMPORTANTE:
 		HACER SHUFFLE BIEN
