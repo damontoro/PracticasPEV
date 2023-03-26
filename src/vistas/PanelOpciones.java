@@ -146,6 +146,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	}
 
 	private void runButton(){
+		reset();
 		worker = new SwingWorker<Void, Void>(){
 			@Override
 			protected Void doInBackground() throws Exception{
@@ -157,10 +158,9 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	}
 
 	private void runAG(){
-		reset();
-		loadData();
 		step.setEnabled(false);
 		if (!intervalos){
+			loadData();
 			ag.run();
 		}
 		else{
