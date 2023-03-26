@@ -86,4 +86,9 @@ public class UglyChart extends JPanel implements AGobserver{
 		
 	}
 
+	@Override
+	public void onEnd(AlgoritmoGenetico ag) {
+		
+	}
+
 }

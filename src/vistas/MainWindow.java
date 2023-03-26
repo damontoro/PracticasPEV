@@ -20,6 +20,7 @@ public class MainWindow extends JFrame{
         this.ag = ag;
         initGUI();
         this.setSize(new Dimension(INI_WIDTH, INI_HEIGHT));
+        this.setMinimumSize(new Dimension(633, 480));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);

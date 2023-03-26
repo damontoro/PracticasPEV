@@ -42,6 +42,7 @@ public class CruceMonoOrd implements ICruce {
 		return hijos;
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T> void recalcularHijos(ArrayList<Integer> repPadre1, ArrayList<Integer> repPadre2, ArrayList<T> genotipoHijo1,
 			ArrayList<T> genotipoHijo2, ArrayList<T> genotipoPadre1, ArrayList<T> genotipoPadre2) {
 

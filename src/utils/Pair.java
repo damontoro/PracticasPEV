@@ -17,4 +17,12 @@ public class Pair<T1, T2> {
 		return _second;
 	}
 
+	public void setFirst(T1 first) {
+		_first = first;
+	}
+
+	public void setSecond(T2 second) {
+		_second = second;
+	}
+
 }

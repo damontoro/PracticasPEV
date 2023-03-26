@@ -6,5 +6,5 @@ public interface AGobserver {
 	void onInit(AlgoritmoGenetico ag);
 	void onChange(AlgoritmoGenetico ag);
 	void onError(String err);
-	//void onEnd(AlgoritmoGenetico ag);
+	void onEnd(AlgoritmoGenetico ag);
 }

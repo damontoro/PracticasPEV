@@ -45,4 +45,9 @@ public class PanelInfo extends JPanel implements AGobserver {
         // TODO Auto-generated method stub
     }
 
+    @Override
+    public void onEnd(AlgoritmoGenetico ag) {
+        // TODO Auto-generated method stub
+    }
+
 }

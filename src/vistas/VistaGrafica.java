@@ -106,4 +106,7 @@ public class VistaGrafica extends JPanel implements AGobserver {
 
 	@Override
 	public void onError(String err) {}
+
+	@Override
+	public void onEnd(AlgoritmoGenetico ag) {}
 }

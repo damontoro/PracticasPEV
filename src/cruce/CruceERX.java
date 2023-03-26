@@ -3,9 +3,7 @@ package src.cruce;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import java.util.Random;
 
 import src.individuo.Individuo;
