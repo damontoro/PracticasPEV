@@ -59,6 +59,8 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 	private JButton btnIniciar;
 
+	private JLabel stepLabel;
+
 	private SwingWorker<Void, Void> worker;
 
 	public PanelOpciones(AlgoritmoGenetico ag, int width, int height) {
@@ -132,10 +134,10 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		stepS = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
 		btnIniciar = new JButton("Evolucionar");
 		btnIniciar.addActionListener((e) -> {runButton();});
-		JLabel labelStep = new JLabel("Step: ");
+		stepLabel = new JLabel("Step: ");
 
 		footer.add(Box.createRigidArea(new Dimension(2, 0)));
-		footer.add(labelStep);
+		footer.add(stepLabel);
 		footer.add(stepS);
 		stepS.setMinimumSize(new Dimension(50, 20));
 		footer.add(Box.createRigidArea(new Dimension(2, 0)));
@@ -206,6 +208,8 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		if(min != null) min.setVisible(intervalos);
 		if(max != null) max.setVisible(intervalos);
 		if(s != null) s.setVisible(intervalos);
+		stepS.setVisible(intervalos);
+		stepLabel.setVisible(intervalos);
 	}
 
 	private void reset(){
