@@ -8,6 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -33,14 +34,17 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 	private int width, height;
 	private boolean intervalos = false;
+
+	private int min, max, step;
 	
 	private JSpinner minPoblacion, maxPoblacion, generaciones;
 	private JSpinner minProbCru, maxProbCru;
 	private JSpinner minProbMut, maxProbMut;
 	private JSpinner minElitismo, maxElitismo;
 
-	private JSpinner step;
-	private JSpinner sIntervalo;
+	private JSpinner stepS;
+	private JSpinner minSIntervalo;
+	private JSpinner maxSIntervalo;
 
 	private ArrayList<JLabel> labelList;
 	private ArrayList<JSpinner> spinnerList;
@@ -125,15 +129,15 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 		JPanel footer = new JPanel();
 		footer.setLayout(new BoxLayout(footer, BoxLayout.LINE_AXIS));
-		step = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
+		stepS = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
 		btnIniciar = new JButton("Evolucionar");
 		btnIniciar.addActionListener((e) -> {runButton();});
 		JLabel labelStep = new JLabel("Step: ");
 
 		footer.add(Box.createRigidArea(new Dimension(2, 0)));
 		footer.add(labelStep);
-		footer.add(step);
-		step.setMinimumSize(new Dimension(50, 20));
+		footer.add(stepS);
+		stepS.setMinimumSize(new Dimension(50, 20));
 		footer.add(Box.createRigidArea(new Dimension(2, 0)));
 		footer.add(btnIniciar);
 		footer.add(Box.createRigidArea(new Dimension(2, 0)));
@@ -158,24 +162,33 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	}
 
 	private void runAG(){
-		step.setEnabled(false);
 		if (!intervalos){
 			loadData();
 			ag.run();
 		}
 		else{
-			// TODO: hacer que se ejecute con intervalos
+			loadData();
+			this.setEnabled(false);
+			int auxmin = min;
+			for (int i = min; i <= max; i++){
+				loadData();
+				ag.run();
+			}
+			minSIntervalo.setValue(auxmin);
+			this.setEnabled(true);
 		}
 	}
 
 	private void intButton(JLabel min, JLabel max, JSpinner minS, JSpinner maxS){
-		if (sIntervalo == minS && intervalos){
+		if (minSIntervalo == minS && intervalos){
 			intervalos = !intervalos;
-			sIntervalo = null;
+			minSIntervalo = null;
+			maxSIntervalo = null;
 		}
 		else {
 			intervalos = true;
-			sIntervalo = minS;
+			minSIntervalo = minS;
+			maxSIntervalo = maxS;
 		}
 		changeMode(min, max, maxS);
 	}
@@ -201,6 +214,16 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	}
 
 	private void loadData(){
+		if (intervalos){
+			this.min = (int)minSIntervalo.getValue();
+			this.max = (int)maxSIntervalo.getValue();
+			this.step = (int)stepS.getValue();
+		}
+		if (min > max){
+			JOptionPane.showConfirmDialog(null, "El valor mínimo del intervalo debe ser menor que el máximo","ERROR", JOptionPane.DEFAULT_OPTION, 0);
+			onError("Compruebe los valores del intervalo");
+		}
+		ag.setIntervalos(intervalos);
 		ag.setNumGeneraciones((int)generaciones.getValue());
 		ag.setTamPoblacion((int)(minPoblacion.getValue()));
 		ag.setProbCruce(Double.valueOf((int)minProbCru.getValue()) / 100);
@@ -222,8 +245,10 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 	@Override
 	public void onEnd(AlgoritmoGenetico ag) {
-		step.setEnabled(true);
-		if (!intervalos) return;
+		if (intervalos){
+			min += step;
+			minSIntervalo.setValue(min);
+		}
 
 	}
 

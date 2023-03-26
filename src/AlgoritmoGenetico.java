@@ -23,6 +23,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	private ArrayList<Individuo> elite;
 	private Problema problema; //Aqui tenemos nuestro fitness, min y maximo
 
+	private boolean intervalos;
+
 	private int tamPoblacion;
 	private int numGeneraciones;
 	private int genActual;
@@ -53,6 +55,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		this.cruce = new CruceMonoOrd();
 		this.mutacion = new MutacionIntercambio();
 		this.mejorAbs = null;
+		this.intervalos = false;
 	}
 
 	void initPoblacion(){
@@ -63,7 +66,6 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		mejorAbs = poblacion.get(0);
 		evalPoblacion();
 		cogerDatos();
-		onInit(this);
 	}
 
 	void evalPoblacion(){
@@ -119,8 +121,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 
 	public void run(){
 		try{
-			initPoblacion();
 			onInit(this);
+			initPoblacion();
 			for(this.genActual = 0; this.genActual < numGeneraciones; this.genActual++){
 				extraerElite();
 				seleccion();
@@ -129,10 +131,14 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				evalPoblacion();
 				introducirElite();
 				cogerDatos();
-				System.out.println("Presion selectiva: " + presionselectiva());
 				onChange(this);
-				Thread.sleep(10);
+				if(!intervalos){
+					System.out.println("Presion selectiva: " + presionselectiva());
+					Thread.sleep(10);
+				}
+				
 			}
+			onEnd(this);
 		}
 		catch(InterruptedException e){}
 		catch(Exception e){
@@ -173,6 +179,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	void onInit(AlgoritmoGenetico ag){for(AGobserver o : observers){o.onInit(ag);}}
 	void onChange(AlgoritmoGenetico ag){for(AGobserver o : observers){o.onChange(ag);}}	
 	void onError(String err){for(AGobserver o : observers){o.onError(err);}}
+	void onEnd(AlgoritmoGenetico ag){for(AGobserver o : observers){o.onEnd(ag);}}
 
 	//Los getters y setters de los atributos compactados
 	public ArrayList<ISeleccion> getSelecciones() {return problema.getSelecciones();}
@@ -182,6 +189,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public double getMejorGen() {return mejorGen;}
 	public double getMediaFitness() {return mediaFitness;}
 	public int getGenActual() {return genActual;}
+	public boolean getIntervalos() {return intervalos;}
 	
 	
 	public void setTamPoblacion(int tamPoblacion) {this.tamPoblacion = tamPoblacion;}
@@ -189,6 +197,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public void setProbCruce(double probCruce) {this.probCruce = probCruce;}
 	public void setProbMutacion(double probMutacion) {this.probMutacion = probMutacion;}
 	public void setElitismo(double elitismo) {this.elitismo = elitismo;}
+	public void setIntervalos(boolean intervalos) {this.intervalos = intervalos;}
 	public void setPoblacion(ArrayList<Individuo> poblacion) {this.poblacion = poblacion;}
 	public void setProblema(Problema problema) {this.problema = problema;}
 	public void setSeleccion(ISeleccion seleccion) {this.seleccion = seleccion;}

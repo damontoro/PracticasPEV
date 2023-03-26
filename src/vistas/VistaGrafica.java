@@ -24,7 +24,7 @@ public class VistaGrafica extends JPanel implements AGobserver {
 	private ArrayList<Double> mediaFitness = new ArrayList<Double>();
 	private ArrayList<Double> mejorAbsoluto = new ArrayList<Double>();
 
-	ArrayList<Integer> yData = new ArrayList<Integer>();
+	ArrayList<Integer> xData = new ArrayList<Integer>();
 
 	public VistaGrafica(AlgoritmoGenetico ag, int width, int height) {
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -48,10 +48,10 @@ public class VistaGrafica extends JPanel implements AGobserver {
 		mejorFitness.add(0.0);
 		mediaFitness.add(0.0);
 		mejorAbsoluto.add(0.0);
-		yData.add(0);
-		chart.addSeries("Mejor Individuo", mejorFitness, yData);
-		chart.addSeries("Media Fitness", mediaFitness, yData);
-		chart.addSeries("Mejor Absoluto", mejorFitness, yData);
+		xData.add(0);
+		chart.addSeries("Mejor Individuo", mejorFitness, xData);
+		chart.addSeries("Media Fitness", mediaFitness, xData);
+		chart.addSeries("Mejor Absoluto", mejorFitness, xData);
 
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
@@ -64,49 +64,58 @@ public class VistaGrafica extends JPanel implements AGobserver {
 		mejorFitness.clear();
 		mediaFitness.clear();
 		mejorAbsoluto.clear();
-		yData.clear();
+		xData.clear();
 
 		ag.addObserver(this);
 	}
 
-	@Override
-	public void onInit(AlgoritmoGenetico ag) {
-		chart.removeSeries("Mejor Individuo");
-		chart.removeSeries("Media Fitness");
-		chart.removeSeries("Mejor Absoluto");
+	private void updateChart(AlgoritmoGenetico ag) {
+		xData.add(ag.getGenActual());
+		mejorFitness.add(ag.getMejorGen());
+		mediaFitness.add(ag.getMediaFitness());
+		mejorAbsoluto.add(ag.getMejorAbs().getFitness());
+		chart.updateXYSeries("Mejor Individuo", xData, mejorFitness, null);
+		chart.updateXYSeries("Media Fitness", xData, mediaFitness, null);
+		chart.updateXYSeries("Mejor Absoluto", xData, mejorAbsoluto, null);
+
+		this.repaint();
+		this.revalidate();
+	}
+
+	private void resetChart(AlgoritmoGenetico ag) {
+
+		String xtitle = ag.getIntervalos() ? "Ejecución" : "Generacion";
+		chart.setXAxisTitle(xtitle);
 
 		mejorFitness.clear();
 		mediaFitness.clear();
 		mejorAbsoluto.clear();
-		yData.clear();
-
-		mejorFitness.add(ag.getMejorGen());
-		mediaFitness.add(ag.getMediaFitness());
-		mejorAbsoluto.add(ag.getMejorAbs().getFitness());
-		yData.add(0);
-		
-		chart.addSeries("Mejor Individuo", mejorFitness, yData);
-		chart.addSeries("Media Fitness", mediaFitness, yData);
-		chart.addSeries("Mejor Absoluto", mejorFitness, yData);
-	}
-
-	@Override
-	public void onChange(AlgoritmoGenetico ag) {
-		yData.add(ag.getGenActual());
-		mejorFitness.add(ag.getMejorGen());
-		mediaFitness.add(ag.getMediaFitness());
-		mejorAbsoluto.add(ag.getMejorAbs().getFitness());
-		chart.updateXYSeries("Mejor Individuo", yData, mejorFitness, null);
-		chart.updateXYSeries("Media Fitness", yData, mediaFitness, null);
-		chart.updateXYSeries("Mejor Absoluto", yData, mejorAbsoluto, null);
+		xData.clear();
 
 		this.repaint();
 		this.revalidate();
 	}
 
 	@Override
+	public void onInit(AlgoritmoGenetico ag) {
+
+		if (!ag.getIntervalos()) {
+			resetChart(ag);
+		}
+	}
+
+	@Override
+	public void onChange(AlgoritmoGenetico ag) {
+		if (!ag.getIntervalos())
+			updateChart(ag);
+	}
+
+	@Override
 	public void onError(String err) {}
 
 	@Override
-	public void onEnd(AlgoritmoGenetico ag) {}
+	public void onEnd(AlgoritmoGenetico ag) {
+		if (ag.getIntervalos())
+			updateChart(ag);
+	}
 }

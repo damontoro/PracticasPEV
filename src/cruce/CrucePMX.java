@@ -16,7 +16,7 @@ public class CrucePMX implements ICruce{
     public <T> ArrayList<Individuo> cruzar(ArrayList<Individuo> padres, Problema problema, Random rand,
             double probCruce) {
         ArrayList<Individuo> hijos = new ArrayList<Individuo>();
-		for(int i = 0; i < padres.size(); i+=2){
+		for(int i = 0; i < padres.size() - (padres.size() % 2); i+=2){
 
 			if(rand.nextDouble() < probCruce){
 				hijos.add(padres.get(i));
