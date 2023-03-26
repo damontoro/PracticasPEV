@@ -24,17 +24,18 @@ public class MutacionHeuristica implements IMutacion{
 		if (rand.nextDouble() > probMutacion) return individuo;
 		
 		ArrayList<Integer> genes = individuo.getGenotipo();
+
 		Set<Integer> posiciones = new HashSet<Integer>();
 		ArrayList<Integer> posList = new ArrayList<Integer>();
 		while(posiciones.size() < 3){
 			int pos = rand.nextInt(individuo.getGenotipo().size());
 			if(posiciones.add(pos))
 				posList.add(pos);
-			
 		}
 		
 		double mejorFitness = problema.evaluar(individuo);
 		ArrayList<Integer> mejorGenotipo = individuo.getGenotipo();
+		
 		for(int [] permut : permuts){
 			ArrayList<Integer> aux = new ArrayList<Integer>(genes);
 			int i = 0;
@@ -43,7 +44,8 @@ public class MutacionHeuristica implements IMutacion{
 				aux.set(posList.get(permut[i] - 1), genes.get(pos));
 				i++;
 			}
-			double fit = problema.evaluar(aux);
+
+			double fit = problema.evaluar(problema.build(aux));
 			if(fit < mejorFitness){
 				mejorFitness = fit;
 				mejorGenotipo = aux;

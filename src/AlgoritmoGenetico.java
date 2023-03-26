@@ -91,8 +91,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	}
 
 	void mutacion(){
-		for(Individuo i : poblacion)
-			i = mutacion.mutar(i, problema, random, probMutacion);
+		for(int i = 0; i < poblacion.size(); i++)
+			poblacion.set(i, mutacion.mutar(poblacion.get(i), problema, random, probMutacion));
 	}
 
 	void introducirElite(){

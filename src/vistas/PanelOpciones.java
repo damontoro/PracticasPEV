@@ -72,7 +72,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		// Inicializar componentes
 
 		labelList = new ArrayList<>();
-		generaciones = new JTextField("300");
+		generaciones = new JTextField("250");
 		generaciones.setHorizontalAlignment(JTextField.CENTER);
 
 		minPoblacion = new JTextField("200");
