@@ -69,7 +69,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	void evalPoblacion(){
 
 		for(Individuo i : poblacion){
-			i.setFitness(problema.evaluar(i.getFenotipo()));
+			i.setFitness(problema.evaluar(i));
 		}
 	}
 
@@ -86,7 +86,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	}
 
 	void cruce(){
-		//Collections.shuffle(poblacion);
+		Collections.shuffle(poblacion);
 		poblacion = cruce.cruzar(poblacion, problema, random, probCruce); //N individuos cruzados
 	}
 
@@ -110,19 +110,11 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		this.mediaFitness = acum / poblacion.size();
 
 		ordenarPoblacion();
-		
-		if(problema.getTipo() == TipoProblema.MAXIMIZACION){
-			if(mejorAbs.getFitness() <= poblacion.get(0).getFitness()){
-				mejorAbs = poblacion.get(0);
-			}
-			mejorGen = poblacion.get(0).getFitness();
+
+		if(problema.compare(poblacion.get(0) , mejorAbs) < 0){
+			mejorAbs = poblacion.get(0);
 		}
-		else{
-			if(mejorAbs.getFitness() >= poblacion.get(0).getFitness()){
-				mejorAbs = poblacion.get(0);
-			}
-			mejorGen = poblacion.get(0).getFitness();
-		}
+		this.mejorGen = poblacion.get(0).getFitness();
 	}
 
 	public void run(){
@@ -157,15 +149,12 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 			return mejorGen / mediaFitness;
 		}
 		else{
-			return mediaFitness / mejorGen;
+			return ((mediaFitness - mejorGen) + mediaFitness) / mediaFitness ;
 		}
 	}
 
 	private void ordenarPoblacion(){
-		if(problema.getTipo() == TipoProblema.MAXIMIZACION)
-			poblacion.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
-		else
-			poblacion.sort((a, b) -> Double.compare(a.getFitness(), b.getFitness()));
+		poblacion.sort((a, b) -> problema.compare(a, b));
 	}
 
 	public void reset(){
@@ -186,18 +175,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	void onError(String err){for(AGobserver o : observers){o.onError(err);}}
 
 	//Los getters y setters de los atributos compactados
-	public int getTamPoblacion() {return tamPoblacion;}
-	public int getNumGeneraciones() {return numGeneraciones;}
-	public double getProbCruce() {return probCruce;}
-	public double getProbMutacion() {return probMutacion;}
-	public double getElitismo() {return elitismo;}
-	public ArrayList<Individuo> getPoblacion() {return poblacion;}
-	public Problema getProblema() {return problema;}
-	public ISeleccion getSeleccion() {return seleccion;}
 	public ArrayList<ISeleccion> getSelecciones() {return problema.getSelecciones();}
-	public ICruce getCruce() {return cruce;}
 	public ArrayList<ICruce> getCruces() {return problema.getCruces();}
-	public IMutacion getMutacion() {return mutacion;}
 	public ArrayList<IMutacion> getMutaciones() {return problema.getMutaciones();}
 	public Individuo getMejorAbs() {return mejorAbs;}
 	public double getMejorGen() {return mejorGen;}

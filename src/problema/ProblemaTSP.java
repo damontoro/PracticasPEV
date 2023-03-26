@@ -20,22 +20,22 @@ public class ProblemaTSP extends Problema{
 	public ProblemaTSP() {
 		super();
 		tipo = TipoProblema.MINIMIZACION;
+		selecciones.add(new SeleccionRanking());
 		selecciones.add(new SeleccionRuleta());
 		selecciones.add(new SeleccionEstocastica());
 		selecciones.add(new SeleccionTruncamiento());
 		selecciones.add(new SeleccionRestos());
 		selecciones.add(new SeleccionTorneoDet());
 		selecciones.add(new SeleccionTorneoProb());
-		selecciones.add(new SeleccionRanking());
-
+		
+		mutaciones.add(new MutacionInversion());
 		mutaciones.add(new MutacionIntercambio());
 		mutaciones.add(new MutacionInsercion());
-		mutaciones.add(new MutacionInversion());
 		mutaciones.add(new MutacionHeuristica());
 
+		cruces.add(new CruceERX());
 		cruces.add(new CruceCiclos());
 		cruces.add(new CrucePMX());
-		cruces.add(new CruceERX());
 		cruces.add(new CruceOX());
 		cruces.add(new CrucePosPriori());
 		cruces.add(new CruceOrdPriori());
@@ -59,7 +59,8 @@ public class ProblemaTSP extends Problema{
 	}
 
 	@Override
-	public <T> double evaluar(ArrayList<T> fenotipo) {
+	public <T> double evaluar(Individuo ind) {
+		ArrayList<T> fenotipo = ind.getFenotipo();
 		int distancia = 0;
 		try{
 			distancia += calcDistancia((Integer)fenotipo.get(0), Ciudad.MADRID.getValue());
@@ -73,7 +74,6 @@ public class ProblemaTSP extends Problema{
 		}
 		return distancia;
 	}
-	
 
 	private int calcDistancia(int ciudad1, int ciudad2){
 			int aux1, aux2;
@@ -120,7 +120,7 @@ public class ProblemaTSP extends Problema{
 		{142,	313,	511,	282,	555,	562,	562,	404,	451,	708,	305,	244,	445,	776},
 		{640,	615,	909,	817,	1122,	100,	720,	683,	1018,	1384,	384,	911,	1008,	1218,	662},
 		{363,	353,	166,	534,	438,	868,	829,	671,	485,	335,	584,	278,	166,	1043,	479,	968},
-		{309,	480,	621,	173,	459,	563,	396,	238,	355,	721,	396,	248,	458,	667,	486,	663,	492},
+		{309,	480,	621,	173,	459,	563,	396,	238,	355,	721,	396,	248,	458,	667,	136,	663,	492},
 		{506,	703,	516,	552,	251,	1140,	939,	781,	323,	219,	856,	433,	232,	1006,	677,	1240,	350,	690},
 		{495,	570,	830,	490,	798,	274,	322,	359,	694,	1060,	355,	587,	797,	905,	406,	374,	831,	339,	1029},
 		{264,	415,	228,	435,	376,	804,	730,	572,	423,	367,	520,	179,	104,	944,	380,	904,	99,		393,	336,	732},

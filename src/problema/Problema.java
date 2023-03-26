@@ -12,11 +12,7 @@ public abstract class Problema implements Cloneable{
 	
 	protected TipoProblema tipo;
 
-
-
-	public Problema() {
-		
-	}
+	public Problema() {}
 
 	public TipoProblema getTipo() {return tipo;}
 	public void setTipo(TipoProblema tipo) {this.tipo = tipo;}
@@ -25,7 +21,16 @@ public abstract class Problema implements Cloneable{
 	abstract public Individuo build(Individuo i);
 	abstract public <T> Individuo build(ArrayList<T> valores);
 	
-	abstract public <T> double evaluar(ArrayList<T> fenotipo);
+	abstract public <T> double evaluar(Individuo i);
+
+	public int compare(Individuo i1, Individuo i2) {
+		double fit1 = i1.getFitness();
+		double fit2 = i2.getFitness();
+		if (tipo == TipoProblema.MINIMIZACION)
+			return Double.compare(fit1, fit2);
+		else
+			return Double.compare(fit2, fit1);
+	}
 
     abstract public ArrayList<IMutacion> getMutaciones();
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import src.individuo.Individuo;
-import src.individuo.IndividuoEntero;
 import src.problema.Problema;
 import src.utils.TipoProblema;
 import src.utils.Utils;
@@ -51,5 +50,10 @@ public class SeleccionRanking implements ISeleccion {
 			fitness.set((int)i, accPunc);
 			accPunc += probOfIth;
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Ranking";
 	}
 }

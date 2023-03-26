@@ -84,9 +84,6 @@ public class CrucePMX implements ICruce{
 
             hijos.add(problema.build(genotipoHijo1));
             hijos.add(problema.build(genotipoHijo2));
-			
-				problema.evaluar(genotipoHijo1);
-				problema.evaluar(genotipoHijo2);
 		}
 		return hijos;
     }

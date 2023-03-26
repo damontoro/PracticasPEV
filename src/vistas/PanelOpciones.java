@@ -72,21 +72,21 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		// Inicializar componentes
 
 		labelList = new ArrayList<>();
-		generaciones = new JTextField("250");
+		generaciones = new JTextField("300");
 		generaciones.setHorizontalAlignment(JTextField.CENTER);
 
-		minPoblacion = new JTextField("100");
-		maxPoblacion = new JTextField("100");
+		minPoblacion = new JTextField("200");
+		maxPoblacion = new JTextField("200");
 		minPoblacion.setHorizontalAlignment(JTextField.CENTER);
 		maxPoblacion.setHorizontalAlignment(JTextField.CENTER);
 		
 		minProbCru = new JSpinner(new SpinnerNumberModel(60, 0, 100, 1));
 		maxProbCru = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
 
-		minProbMut = new JSpinner(new SpinnerNumberModel(1, 0, 100, 1));
+		minProbMut = new JSpinner(new SpinnerNumberModel(5, 0, 100, 1));
 		maxProbMut = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
 
-		minElitismo = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+		minElitismo = new JSpinner(new SpinnerNumberModel(1, 0, 100, 1));
 		maxElitismo = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
 
 		selSeleccion = new JComboBox<>();

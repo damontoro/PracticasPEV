@@ -33,7 +33,7 @@ public class MutacionHeuristica implements IMutacion{
 			
 		}
 		
-		double mejorFitness = problema.evaluar(genes);
+		double mejorFitness = problema.evaluar(individuo);
 		ArrayList<Integer> mejorGenotipo = individuo.getGenotipo();
 		for(int [] permut : permuts){
 			ArrayList<Integer> aux = new ArrayList<Integer>(genes);
