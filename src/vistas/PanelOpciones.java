@@ -170,12 +170,12 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		}
 		else{
 			loadData();
+			if (min >= max){
+				onError("El valor mínimo del intervalo debe ser menor que el máximo");
+			}
 			this.setEnabled(false);
 			int auxmin = min;
-			for (int i = min; i <= max; i++){
-				loadData();
-				ag.run();
-			}
+			ag.run((max - min + 1) / step);
 			minSIntervalo.setValue(auxmin);
 			this.setEnabled(true);
 		}
@@ -223,10 +223,6 @@ public class PanelOpciones extends JPanel implements AGobserver{
 			this.max = (int)maxSIntervalo.getValue();
 			this.step = (int)stepS.getValue();
 		}
-		if (min > max){
-			JOptionPane.showConfirmDialog(null, "El valor mínimo del intervalo debe ser menor que el máximo","ERROR", JOptionPane.DEFAULT_OPTION, 0);
-			onError("Compruebe los valores del intervalo");
-		}
 		ag.setIntervalos(intervalos);
 		ag.setNumGeneraciones((int)generaciones.getValue());
 		ag.setTamPoblacion((int)(minPoblacion.getValue()));
@@ -242,18 +238,24 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	public void onInit(AlgoritmoGenetico ag) {}
 
 	@Override
-	public void onChange(AlgoritmoGenetico ag) {}
+	public void onChange(AlgoritmoGenetico ag) {
+		if(intervalos){
+			minSIntervalo.setValue((int)minSIntervalo.getValue() + step);
+			loadData();
+		}
+	}
 
 	@Override
-	public void onError(String err) {reset();}
+	public void onError(String err) {
+		JOptionPane.showConfirmDialog(null, err,"ERROR", JOptionPane.DEFAULT_OPTION, 0);
+		reset();
+	}
 
 	@Override
 	public void onEnd(AlgoritmoGenetico ag) {
 		if (intervalos){
-			min += step;
 			minSIntervalo.setValue(min);
 		}
-
 	}
 
 	private JPanel intervaloPanel(String title, JSpinner min, JSpinner max, JButton intBtn){

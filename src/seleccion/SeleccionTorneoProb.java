@@ -22,9 +22,9 @@ public class SeleccionTorneoProb implements ISeleccion, Cloneable{
 			}
 
 			//Ordenamos el torneo por fitness de mayor a menor
-			torneo.sort((a, b) -> Double.compare(b.getFitness(), a.getFitness()));
+			torneo.sort((a, b) -> p.compare(a, b));
 			selected.add(
-				rand.nextDouble() > 0.5 ? p.build(torneo.get(0)) : p.build(torneo.get(torneo.size() - 1))
+				rand.nextDouble() > 0.3 ? p.build(torneo.get(0)) : p.build(torneo.get(torneo.size() - 1))
 			);
 		}
 

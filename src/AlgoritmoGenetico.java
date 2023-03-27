@@ -120,6 +120,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	}
 
 	public void run(){
+		this.setIntervalos(false);
 		try{
 			onInit(this);
 			initPoblacion();
@@ -148,6 +149,27 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 			e.printStackTrace();
 			Thread.currentThread().interrupt();
 		}
+	}
+
+	public void run(int steps){
+		this.setIntervalos(true);
+		try{
+			onInit(this);
+			for (int i = 0; i < steps; i++) {
+				initPoblacion();
+				for(this.genActual = 0; this.genActual < numGeneraciones; this.genActual++){
+					extraerElite();
+					seleccion();
+					cruce();
+					mutacion();
+					evalPoblacion();
+					introducirElite();
+					cogerDatos();
+				}
+				onChange(this);
+			}
+			onEnd(this);
+		}catch(Exception e){onError(e.getMessage());}
 	}
 
 	private double presionselectiva(){

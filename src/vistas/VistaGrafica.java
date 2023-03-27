@@ -70,7 +70,8 @@ public class VistaGrafica extends JPanel implements AGobserver {
 	}
 
 	private void updateChart(AlgoritmoGenetico ag) {
-		xData.add(ag.getGenActual());
+		if (xData.isEmpty()) {xData.add(1);}
+		else{xData.add(xData.get(xData.size() - 1) + 1);}
 		mejorFitness.add(ag.getMejorGen());
 		mediaFitness.add(ag.getMediaFitness());
 		mejorAbsoluto.add(ag.getMejorAbs().getFitness());
@@ -98,16 +99,12 @@ public class VistaGrafica extends JPanel implements AGobserver {
 
 	@Override
 	public void onInit(AlgoritmoGenetico ag) {
-
-		if (!ag.getIntervalos()) {
-			resetChart(ag);
-		}
+		resetChart(ag);
 	}
 
 	@Override
 	public void onChange(AlgoritmoGenetico ag) {
-		if (!ag.getIntervalos())
-			updateChart(ag);
+		updateChart(ag);
 	}
 
 	@Override
@@ -115,7 +112,5 @@ public class VistaGrafica extends JPanel implements AGobserver {
 
 	@Override
 	public void onEnd(AlgoritmoGenetico ag) {
-		if (ag.getIntervalos())
-			updateChart(ag);
 	}
 }
