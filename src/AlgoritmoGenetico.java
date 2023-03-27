@@ -14,7 +14,6 @@ import src.cruce.*;
 import src.mutacion.*;
 import src.patrones.AGobserver;
 import src.patrones.Observable;
-import src.utils.TipoProblema;
 
 
 public class AlgoritmoGenetico implements Observable<AGobserver>{
@@ -136,7 +135,6 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				cogerDatos();
 				onChange(this);
 				if(!intervalos){
-					System.out.println("Presion selectiva: " + presionselectiva());
 					Thread.sleep(10);
 				}
 				
@@ -153,11 +151,11 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		}
 	}
 
-	public void run(int steps){
+	public void run(int step, int min, int max){
 		this.setIntervalos(true);
 		try{
 			onInit(this);
-			for (int i = 0; i < steps; i++) {
+			for (this.ejecucionActual = min; this.ejecucionActual <= max; this.ejecucionActual+= step) {
 				initPoblacion();
 				for(int j = 0; j < numGeneraciones; j++){
 					extraerElite();
@@ -172,15 +170,6 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 			}
 			onEnd(this);
 		}catch(Exception e){onError(e.getMessage());}
-	}
-
-	private double presionselectiva(){
-		if(problema.getTipo() == TipoProblema.MAXIMIZACION){
-			return mejorGen / mediaFitness;
-		}
-		else{
-			return ((mediaFitness - mejorGen) + mediaFitness) / mediaFitness ;
-		}
 	}
 
 	private void ordenarPoblacion(){
@@ -209,6 +198,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public ArrayList<ISeleccion> getSelecciones() {return problema.getSelecciones();}
 	public ArrayList<ICruce> getCruces() {return problema.getCruces();}
 	public ArrayList<IMutacion> getMutaciones() {return problema.getMutaciones();}
+	public Problema getProblema() {return problema;}
 	public Individuo getMejorAbs() {return mejorAbs;}
 	public double getMejorGen() {return mejorGen;}
 	public double getMediaFitness() {return mediaFitness;}

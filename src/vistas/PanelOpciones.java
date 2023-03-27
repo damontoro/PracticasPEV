@@ -116,8 +116,6 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		spinnerList.add(maxElitismo);
 		JButton btnElitismo = new JButton("Intervalo");
 
-		alignSpinners();
-
 		selSeleccion = new JComboBox<>();
 		selCruce = new JComboBox<>();
 		selMutacion = new JComboBox<>();
@@ -152,6 +150,8 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		footer.add(btnIniciar);
 		footer.add(Box.createRigidArea(new Dimension(2, 0)));
 
+		alignSpinners();
+
 		this.add(footer);
 
 		changeMode(null, null, null);
@@ -178,14 +178,17 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		}
 		else{
 			loadData();
+			this.min = (int)minSIntervalo.getValue();
+			this.max = (int)maxSIntervalo.getValue();
+			this.step = (int)stepS.getValue();
 			if (min >= max){
 				onError("El valor mínimo del intervalo debe ser menor que el máximo");
 			}
-			this.setEnabled(false);
-			int auxmin = min;
-			ag.run((max - min + 1) / step);
-			minSIntervalo.setValue(auxmin);
-			this.setEnabled(true);
+			else{
+				this.setEnabled(false);
+				ag.run(step, min, max);
+				this.setEnabled(true);
+			}
 		}
 	}
 
@@ -226,11 +229,6 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	}
 
 	private void loadData(){
-		if (intervalos){
-			this.min = (int)minSIntervalo.getValue();
-			this.max = (int)maxSIntervalo.getValue();
-			this.step = (int)stepS.getValue();
-		}
 		ag.setIntervalos(intervalos);
 		ag.setNumGeneraciones((int)generaciones.getValue());
 		ag.setTamPoblacion((int)(minPoblacion.getValue()));
@@ -245,7 +243,9 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	@Override
 	public void onInit(AlgoritmoGenetico ag) {
 		if (intervalos){
-			ag.setEjecucionActual((int)minSIntervalo.getValue());
+			this.min = (int)minSIntervalo.getValue();
+			this.max = (int)maxSIntervalo.getValue();
+			this.step = (int)stepS.getValue();
 			ag.setTituloEjeX(spinnerMap.get(minSIntervalo));
 		}
 		else {
@@ -256,7 +256,6 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	@Override
 	public void onChange(AlgoritmoGenetico ag) {
 		if(intervalos){
-			ag.setEjecucionActual((int)minSIntervalo.getValue());
 			minSIntervalo.setValue((int)minSIntervalo.getValue() + step);
 			loadData();
 		}
@@ -303,9 +302,9 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		this.labelList.add(minL);
 		this.labelList.add(maxL);
 
-		panel.add(panelMin);
 		panel.add(panelMax);
-
+		panel.add(panelMin);
+		
 		contentPanel.add(panel);
 
 		intBtn.addActionListener((e) -> {intButton(minL, maxL, min, max);});

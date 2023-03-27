@@ -1,6 +1,7 @@
 package src.vistas;
 
 import src.AlgoritmoGenetico;
+import src.individuo.Individuo;
 import src.patrones.AGobserver;
 
 
@@ -13,6 +14,7 @@ import java.awt.FlowLayout;
 public class MapView extends JPanel implements AGobserver{
 	
 	SpainMap imagen;
+	Individuo mejorAbs;
 
 	public MapView(AlgoritmoGenetico ag) {
 
@@ -28,17 +30,22 @@ public class MapView extends JPanel implements AGobserver{
 	
 	@Override
 	public void onInit(AlgoritmoGenetico ag) {
+		mejorAbs = null;
 	}
 
 	@Override
-	public void onChange(AlgoritmoGenetico ag) {}
+	public void onChange(AlgoritmoGenetico ag) {
+		if(mejorAbs == null || (ag.getProblema().compare(ag.getMejorAbs(), mejorAbs) < 0)){
+			mejorAbs = ag.getMejorAbs();
+			imagen.setFenotipo(mejorAbs.getFenotipo());
+		}
+	}
 
 	@Override
 	public void onError(String err) {}
 
 	@Override
 	public void onEnd(AlgoritmoGenetico ag) {
-		imagen.setFenotipo(ag.getMejorAbs().getFenotipo());
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

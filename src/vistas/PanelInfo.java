@@ -8,13 +8,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import src.AlgoritmoGenetico;
+import src.individuo.Individuo;
 import src.patrones.AGobserver;
 
 public class PanelInfo extends JPanel implements AGobserver {
 
     private static final long serialVersionUID = 1L;
 
-    private JLabel fenotipo, fitness;
+    private JLabel fenotipo, fitness, ejecucion;
+    private Individuo mejorAbs;
 
     public PanelInfo(AlgoritmoGenetico ag, int width, int height) {
         this.setPreferredSize(new Dimension(width, height));
@@ -24,6 +26,9 @@ public class PanelInfo extends JPanel implements AGobserver {
         this.add(Box.createRigidArea(new Dimension(20, 0)));
         this.add(new JLabel("Fenotipo: "));
         this.add(fenotipo = new JLabel());
+        this.add(Box.createRigidArea(new Dimension(20, 0)));
+        this.add(ejecucion = new JLabel());
+        ejecucion.setVisible(false);
 
         ag.addObserver(this);
     }
@@ -32,12 +37,29 @@ public class PanelInfo extends JPanel implements AGobserver {
     public void onInit(AlgoritmoGenetico ag) {
         this.fenotipo.setText("");
         this.fitness.setText("");
+        if(ag.getIntervalos()){
+            this.ejecucion.setVisible(true);
+            mejorAbs = null;
+        }
+        else{
+            this.ejecucion.setVisible(false);
+        }
     }
 
     @Override
     public void onChange(AlgoritmoGenetico ag) {
-        this.fenotipo.setText(ag.getMejorAbs().getFenotipo().toString());
-        this.fitness.setText(String.valueOf(ag.getMejorAbs().getFitness()));
+        if(!ag.getIntervalos()){
+            this.fenotipo.setText(ag.getMejorAbs().getFenotipo().toString());
+            this.fitness.setText(String.valueOf(ag.getMejorAbs().getFitness()));
+        }
+        else{
+            if(mejorAbs == null || (ag.getProblema().compare(ag.getMejorAbs(), mejorAbs) < 0)){
+                mejorAbs = ag.getMejorAbs();
+                this.fenotipo.setText(mejorAbs.getFenotipo().toString());
+                this.fitness.setText(String.valueOf(mejorAbs.getFitness()));
+                this.ejecucion.setText(ag.getTituloEjeX() + ": " + ag.getEjecucionActual());
+            }
+        }
     }
 
     @Override

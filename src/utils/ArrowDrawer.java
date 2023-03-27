@@ -1,7 +1,5 @@
 package src.utils;
 
-import javax.swing.JLabel;
-
 import java.awt.*;
 import java.awt.geom.*;
 
