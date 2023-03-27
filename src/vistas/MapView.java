@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -111,7 +112,12 @@ public class MapView extends JPanel implements AGobserver{
 	@Override
 	public void onEnd(AlgoritmoGenetico ag) {
 		imagen.setFenotipo(ag.getMejorAbs().getFenotipo());
-		imagen.repaint();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				imagen.repaint();
+			}
+		});
 	}
 
 

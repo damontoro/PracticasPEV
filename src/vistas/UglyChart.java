@@ -1,9 +1,15 @@
 package src.vistas;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.math.plot.*;
 import java.util.ArrayList;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import src.AlgoritmoGenetico;
 import src.patrones.AGobserver;
@@ -12,38 +18,39 @@ public class UglyChart extends JPanel implements AGobserver{
 
 
 	private Plot2DPanel plot;
+
 	private ArrayList<Double> mejorFitness = new ArrayList<Double>();
 	private ArrayList<Double> mediaFitness = new ArrayList<Double>();
 	private ArrayList<Double> mejorAbsoluto = new ArrayList<Double>();
-
-	ArrayList<Integer> yData = new ArrayList<Integer>();
 
 
 	public UglyChart(AlgoritmoGenetico ag){
 
 		ag.addObserver(this);
-		plot = new Plot2DPanel();
-
+		setLayout(new BorderLayout());
+		setBackground(Color.WHITE);
 		
-		this.setSize(900, 900);
-		this.add(plot);
-		this.setVisible(true);
+		plot = new Plot2DPanel();
+		
+		plot.setAxisLabels("  Generacion", "Valor de la función");
+
+		plot.addLegend("SOUTH");
+		
+		this.add(plot, BorderLayout.CENTER);
+		setVisible(true);
 	}
 
 	@Override
 	public void onInit(AlgoritmoGenetico ag) {
-		plot.removeAll();
+		plot.removeAllPlots();
 
 		mejorFitness.clear();
 		mediaFitness.clear();
 		mejorAbsoluto.clear();
-		yData.clear();
-
 	}
 
 	@Override
 	public void onChange(AlgoritmoGenetico ag) {
-		yData.add(ag.getEjecucionActual());
 		mejorFitness.add(ag.getMejorGen());
 		mediaFitness.add(ag.getMediaFitness());
 		mejorAbsoluto.add(ag.getMejorAbs().getFitness());
@@ -51,7 +58,6 @@ public class UglyChart extends JPanel implements AGobserver{
 
 	@Override
 	public void onError(String err) {
-		
 	}
 
 	@Override
@@ -60,21 +66,24 @@ public class UglyChart extends JPanel implements AGobserver{
 		double [] mejorFitness = new double [this.mejorFitness.size()];
 		double [] mediaFitness = new double [this.mediaFitness.size()];
 		double [] mejorAbsoluto = new double [this.mejorAbsoluto.size()];
-		double [] yData = new double [this.yData.size()];
+		double [] yData = new double [this.mejorFitness.size()];
 
 		for(int i = 0; i < mejorFitness.length; i++){
 			mejorFitness[i] = this.mejorFitness.get(i);
 			mediaFitness[i] = this.mediaFitness.get(i);
 			mejorAbsoluto[i] = this.mejorAbsoluto.get(i);
-			yData[i] = this.yData.get(i);
+			yData[i] = i + 1;
 		}
 
-		plot.addLinePlot("Mejor Individuo", yData, mejorFitness);
-		plot.addLinePlot("Media Fitness", yData, mediaFitness);
-		plot.addLinePlot("Mejor Absoluto", yData, mejorAbsoluto);
-
-		this.repaint();
-		this.revalidate();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				plot.removeAllPlots();
+				plot.addLinePlot("Mejor Individuo", yData, mejorFitness);
+				plot.addLinePlot("Media Fitness", yData, mediaFitness);
+				plot.addLinePlot("Mejor Absoluto", yData, mejorAbsoluto);
+			}
+		});
 	}
 
 }
