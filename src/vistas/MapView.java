@@ -1,5 +1,8 @@
 package src.vistas;
 
+import src.AlgoritmoGenetico;
+import src.individuo.Individuo;
+import src.patrones.AGobserver;
 import src.utils.ArrowDrawer;
 
 import java.awt.Point;
@@ -10,45 +13,50 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
+import java.awt.Graphics2D;
+import java.awt.Graphics;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.MouseInfo;
 import java.awt.PointerInfo;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 
-public class MapView extends JPanel{
+public class MapView extends JPanel implements AGobserver{
 	
-	private static final int POINT_SIZE = 10;
+	SpainMap imagen;
 
-	public MapView() {
+	public MapView(AlgoritmoGenetico ag) {
 
-		ImageIcon icon = new ImageIcon("assets/espana.gif");
-		JLabel label = new JLabel(icon);
+		ag.addObserver(this);
+		//imagen = new JLabel(icon);
+		imagen = new SpainMap();
+		this.setMaximumSize(new Dimension(592, 539));
 		JButton b1 = new JButton("Flecha");
 		JButton b2 = new JButton("Save Positions");
 		this.setLayout(new FlowLayout());
 		this.setVisible(true);
-		this.add(label);
-		this.add(b1);
-		this.add(b2);
-
-		ArrayList<Point> points = new ArrayList<Point>();
-		label.addMouseListener(new java.awt.event.MouseAdapter() {
+		this.add(imagen);
+		//this.add(b1);
+		//this.add(b2);
+	}
+		/*ArrayList<Point> points = new ArrayList<Point>();
+		imagen.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				Point b = evt.getPoint();
 				points.add(b);
-				label.getGraphics().fillOval(b.x  - POINT_SIZE/2, b.y  - POINT_SIZE/2, POINT_SIZE, POINT_SIZE);
+				imagen.getGraphics().fillOvpoints[fenotipo.get(i)].getX()  - POINT_SIZE/2, b.y  - POINT_SIZE/2, POINT_SIZE, POINT_SIZE);
 			}
 		});
+
 		
 		//Paint a line between the points when i press the button b1
 		b1.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				for (int i = 0; i < points.size() - 1; i++) {
-					ArrowDrawer.drawArrow(points.get(i), points.get(i + 1), label);
+					ArrowDrawer.drawArrow(points.get(i), points.get(i + 1), imagen);
 				}
 			}
 		});
@@ -72,6 +80,7 @@ public class MapView extends JPanel{
 			}
 		});
 	}
+	*/
 
 	private void writePoint(Point point, BufferedOutputStream out, boolean ini) {
 		StringBuilder a = new StringBuilder();
@@ -88,4 +97,23 @@ public class MapView extends JPanel{
 			System.out.println("Error: " + e);
 		}
 	}
+
+	@Override
+	public void onInit(AlgoritmoGenetico ag) {
+	}
+
+	@Override
+	public void onChange(AlgoritmoGenetico ag) {}
+
+	@Override
+	public void onError(String err) {}
+
+	@Override
+	public void onEnd(AlgoritmoGenetico ag) {
+		imagen.setFenotipo(ag.getMejorAbs().getFenotipo());
+		imagen.repaint();
+	}
+
+
+
 }

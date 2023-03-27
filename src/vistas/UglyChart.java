@@ -19,16 +19,11 @@ public class UglyChart extends JPanel implements AGobserver{
 	ArrayList<Integer> yData = new ArrayList<Integer>();
 
 
-	public UglyChart(){
+	public UglyChart(AlgoritmoGenetico ag){
 
+		ag.addObserver(this);
 		plot = new Plot2DPanel();
 
-		// create your PlotPanel (you can use it as a JPanel)
-
-		// define the legend position
-		plot.addLegend("SOUTH");
-
-		// put the PlotPanel in a JFrame like a JPanel
 		
 		this.setSize(900, 900);
 		this.add(plot);
@@ -44,21 +39,23 @@ public class UglyChart extends JPanel implements AGobserver{
 		mejorAbsoluto.clear();
 		yData.clear();
 
-		mejorFitness.add(ag.getMejorGen());
-		mediaFitness.add(ag.getMediaFitness());
-		mejorAbsoluto.add(ag.getMejorAbs().getFitness());
-		yData.add(0);
-		
 	}
 
 	@Override
 	public void onChange(AlgoritmoGenetico ag) {
-		yData.add(ag.getGenActual());
+		yData.add(ag.getEjecucionActual());
 		mejorFitness.add(ag.getMejorGen());
 		mediaFitness.add(ag.getMediaFitness());
 		mejorAbsoluto.add(ag.getMejorAbs().getFitness());
+	}
 
-		plot.removeAll();
+	@Override
+	public void onError(String err) {
+		
+	}
+
+	@Override
+	public void onEnd(AlgoritmoGenetico ag) {
 
 		double [] mejorFitness = new double [this.mejorFitness.size()];
 		double [] mediaFitness = new double [this.mediaFitness.size()];
@@ -78,17 +75,6 @@ public class UglyChart extends JPanel implements AGobserver{
 
 		this.repaint();
 		this.revalidate();
-		
-	}
-
-	@Override
-	public void onError(String err) {
-		
-	}
-
-	@Override
-	public void onEnd(AlgoritmoGenetico ag) {
-		
 	}
 
 }
