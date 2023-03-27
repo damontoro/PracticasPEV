@@ -15,7 +15,7 @@ public class CruceMonopunto implements ICruce, Cloneable{
 		ArrayList<Individuo> hijos = new ArrayList<Individuo>();
 		for(int i = 0; i < padres.size(); i+=2){
 
-			if(rand.nextDouble() < probCruce){
+			if(rand.nextDouble() > probCruce){
 				hijos.add(padres.get(i));
 				hijos.add(padres.get(i + 1));
 				continue;

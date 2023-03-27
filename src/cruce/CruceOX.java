@@ -17,7 +17,7 @@ public class CruceOX implements ICruce{
 		ArrayList<Individuo> hijos = new ArrayList<Individuo>();
 		for(int i = 0; i < padres.size() - (padres.size() % 2); i+=2){
 			
-			if(rand.nextDouble() < probCruce){
+			if(rand.nextDouble() > probCruce){
 				hijos.add(padres.get(i));
 				hijos.add(padres.get(i + 1));
 				continue;

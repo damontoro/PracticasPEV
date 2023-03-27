@@ -20,6 +20,7 @@ import javax.swing.Box;
 import javax.swing.JComponent;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 
 import src.AlgoritmoGenetico;
@@ -48,6 +49,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 	private ArrayList<JLabel> labelList;
 	private ArrayList<JSpinner> spinnerList;
+	private Map<JSpinner, String> spinnerMap;
 
 	private JComboBox<ISeleccion> selSeleccion;
 	private JComboBox<ICruce> selCruce;
@@ -81,6 +83,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 		labelList = new ArrayList<>();
 		spinnerList = new ArrayList<>();
+		spinnerMap = new java.util.HashMap<>();
 
 		generaciones = new JSpinner(new SpinnerNumberModel(100, 0, Integer.MAX_VALUE, 1));
 		spinnerList.add(generaciones);
@@ -88,24 +91,28 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		minPoblacion = new JSpinner(new SpinnerNumberModel(100, 0, Integer.MAX_VALUE, 1));
 		maxPoblacion = new JSpinner(new SpinnerNumberModel(100, 0, Integer.MAX_VALUE, 1));
 		spinnerList.add(minPoblacion);
+		spinnerMap.put(minPoblacion, "Poblacion");
 		spinnerList.add(maxPoblacion);
 		JButton btnPoblacion = new JButton("Intervalo");
 		
 		minProbCru = new JSpinner(new SpinnerNumberModel(60, 0, 100, 1));
-		maxProbCru = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
-		spinnerList.add(minProbCru); 
+		maxProbCru = new JSpinner(new SpinnerNumberModel(60, 0, 100, 1));
+		spinnerList.add(minProbCru);
+		spinnerMap.put(minProbCru, "Probabilidad de cruce (%)");
 		spinnerList.add(maxProbCru);
 		JButton btnProbCru = new JButton("Intervalo");
 
 		minProbMut = new JSpinner(new SpinnerNumberModel(5, 0, 100, 1));
-		maxProbMut = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+		maxProbMut = new JSpinner(new SpinnerNumberModel(5, 0, 100, 1));
 		spinnerList.add(minProbMut);
+		spinnerMap.put(minProbMut, "Probabilidad de mutación (%)");
 		spinnerList.add(maxProbMut);
 		JButton btnProbMut = new JButton("Intervalo");
 
 		minElitismo = new JSpinner(new SpinnerNumberModel(1, 0, 100, 1));
-		maxElitismo = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+		maxElitismo = new JSpinner(new SpinnerNumberModel(1, 0, 100, 1));
 		spinnerList.add(minElitismo);
+		spinnerMap.put(minElitismo, "Porcentaje elitismo");
 		spinnerList.add(maxElitismo);
 		JButton btnElitismo = new JButton("Intervalo");
 
@@ -121,17 +128,18 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 		this.add(createViewPanel(generaciones, "Generaciones"));
 		this.add(intervaloPanel("Poblacion", minPoblacion, maxPoblacion, btnPoblacion));
-		this.add(intervaloPanel("Probabilidad de cruce", minProbCru, maxProbCru, btnProbCru));
-		this.add(intervaloPanel("Probabilidad de mutacion", minProbMut, maxProbMut, btnProbMut));
+		this.add(intervaloPanel("Probabilidad de cruce (%)", minProbCru, maxProbCru, btnProbCru));
+		this.add(intervaloPanel("Probabilidad de mutación (%)", minProbMut, maxProbMut, btnProbMut));
 		this.add(intervaloPanel("Porcentaje elitismo", minElitismo, maxElitismo, btnElitismo));
 
-		this.add(createViewPanel(selSeleccion, "Seleccion"));
+		this.add(createViewPanel(selSeleccion, "Selección"));
 		this.add(createViewPanel(selCruce, "Cruce"));
-		this.add(createViewPanel(selMutacion, "Mutacione"));
+		this.add(createViewPanel(selMutacion, "Mutaciones"));
 
 		JPanel footer = new JPanel();
 		footer.setLayout(new BoxLayout(footer, BoxLayout.LINE_AXIS));
 		stepS = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
+		spinnerList.add(stepS);
 		btnIniciar = new JButton("Evolucionar");
 		btnIniciar.addActionListener((e) -> {runButton();});
 		stepLabel = new JLabel("Step: ");
@@ -235,11 +243,20 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	}
 
 	@Override
-	public void onInit(AlgoritmoGenetico ag) {}
+	public void onInit(AlgoritmoGenetico ag) {
+		if (intervalos){
+			ag.setEjecucionActual((int)minSIntervalo.getValue());
+			ag.setTituloEjeX(spinnerMap.get(minSIntervalo));
+		}
+		else {
+			ag.setTituloEjeX("Generación");
+		}
+	}
 
 	@Override
 	public void onChange(AlgoritmoGenetico ag) {
 		if(intervalos){
+			ag.setEjecucionActual((int)minSIntervalo.getValue());
 			minSIntervalo.setValue((int)minSIntervalo.getValue() + step);
 			loadData();
 		}

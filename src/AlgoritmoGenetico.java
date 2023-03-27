@@ -24,10 +24,12 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	private Problema problema; //Aqui tenemos nuestro fitness, min y maximo
 
 	private boolean intervalos;
+	private String tituloEjeX;
+
 
 	private int tamPoblacion;
 	private int numGeneraciones;
-	private int genActual;
+	private int ejecucionActual;
 	private double probCruce;
 	private double probMutacion;
 	private double elitismo;
@@ -124,7 +126,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		try{
 			onInit(this);
 			initPoblacion();
-			for(this.genActual = 0; this.genActual < numGeneraciones; this.genActual++){
+			for(this.ejecucionActual = 1; this.ejecucionActual <= numGeneraciones; this.ejecucionActual++){
 				extraerElite();
 				seleccion();
 				cruce();
@@ -157,7 +159,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 			onInit(this);
 			for (int i = 0; i < steps; i++) {
 				initPoblacion();
-				for(this.genActual = 0; this.genActual < numGeneraciones; this.genActual++){
+				for(int j = 0; j < numGeneraciones; j++){
 					extraerElite();
 					seleccion();
 					cruce();
@@ -210,8 +212,9 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public Individuo getMejorAbs() {return mejorAbs;}
 	public double getMejorGen() {return mejorGen;}
 	public double getMediaFitness() {return mediaFitness;}
-	public int getGenActual() {return genActual;}
+	public int getEjecucionActual() {return ejecucionActual;}
 	public boolean getIntervalos() {return intervalos;}
+	public String getTituloEjeX() {return tituloEjeX;}
 	
 	
 	public void setTamPoblacion(int tamPoblacion) {this.tamPoblacion = tamPoblacion;}
@@ -220,6 +223,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public void setProbMutacion(double probMutacion) {this.probMutacion = probMutacion;}
 	public void setElitismo(double elitismo) {this.elitismo = elitismo;}
 	public void setIntervalos(boolean intervalos) {this.intervalos = intervalos;}
+	public void setEjecucionActual(int ejecucionActual) {this.ejecucionActual = ejecucionActual;}
+	public void setTituloEjeX(String tituloEjeX) {this.tituloEjeX = tituloEjeX;}
 	public void setPoblacion(ArrayList<Individuo> poblacion) {this.poblacion = poblacion;}
 	public void setProblema(Problema problema) {this.problema = problema;}
 	public void setSeleccion(ISeleccion seleccion) {this.seleccion = seleccion;}
