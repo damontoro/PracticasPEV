@@ -7,9 +7,6 @@ import org.math.plot.*;
 import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 
 import src.AlgoritmoGenetico;
 import src.patrones.AGobserver;

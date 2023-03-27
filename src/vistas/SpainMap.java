@@ -11,7 +11,6 @@ import java.awt.Point;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 public class SpainMap extends JLabel{
 	

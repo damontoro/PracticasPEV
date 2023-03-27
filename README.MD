@@ -8,13 +8,15 @@ Problemas:
 TODO:
 
 	MAS IMPORTANTE:
-		Modificar los nombres de la gui para que sea correcto lo de probabilidad/porcentaje y mutacione
+		Arreglar para que el limite superior del intervalo sea inclusivo
+		Hacer las mutaciones y cruces
+		Guardar el mejor resultado en el modo intervalos
+		Hacer la memoria
 
 	DAVID: HACE EL CRUCE (propia)
 	NACHO: HACE LA MUTACION (propia)
 
 	MENOS IMPORTANTE:
-		HACER SHUFFLE BIEN
 		Refactorizar los cruces para quitar cod repetido
 		Generalizar los metodos para ruleta y estocástica
 
