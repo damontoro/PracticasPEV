@@ -37,39 +37,28 @@ public class PanelInfo extends JPanel implements AGobserver {
     public void onInit(AlgoritmoGenetico ag) {
         this.fenotipo.setText("");
         this.fitness.setText("");
-        if(ag.getIntervalos()){
-            this.ejecucion.setVisible(true);
-            mejorAbs = null;
-        }
-        else{
-            this.ejecucion.setVisible(false);
-        }
+        mejorAbs = null;
+        this.ejecucion.setVisible(ag.getIntervalos());
     }
 
     @Override
     public void onChange(AlgoritmoGenetico ag) {
-        if(!ag.getIntervalos()){
-            this.fenotipo.setText(ag.getMejorAbs().getFenotipo().toString());
-            this.fitness.setText(String.valueOf(ag.getMejorAbs().getFitness()));
+        if(mejorAbs == null || (ag.getProblema().compare(ag.getMejorAbs(), mejorAbs) < 0)){
+            mejorAbs = ag.getMejorAbs();
+            this.fenotipo.setText(mejorAbs.getFenotipo().toString());
+            this.fitness.setText(String.valueOf(mejorAbs.getFitness()));
         }
-        else{
-            if(mejorAbs == null || (ag.getProblema().compare(ag.getMejorAbs(), mejorAbs) < 0)){
-                mejorAbs = ag.getMejorAbs();
-                this.fenotipo.setText(mejorAbs.getFenotipo().toString());
-                this.fitness.setText(String.valueOf(mejorAbs.getFitness()));
-                this.ejecucion.setText(ag.getTituloEjeX() + ": " + ag.getEjecucionActual());
-            }
+        if(ag.getIntervalos()){
+            this.ejecucion.setText(ag.getTituloEjeX() + ": " + ag.getEjecucionActual());
         }
     }
 
     @Override
     public void onError(String err) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void onEnd(AlgoritmoGenetico ag) {
-        // TODO Auto-generated method stub
     }
 
 }
