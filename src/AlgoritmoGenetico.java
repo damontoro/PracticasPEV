@@ -137,7 +137,6 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				if(!intervalos){
 					Thread.sleep(10);
 				}
-				
 			}
 			onEnd(this);
 		}

@@ -5,16 +5,12 @@ import src.individuo.Individuo;
 import src.patrones.AGobserver;
 import src.problema.ProblemaTSP;
 
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 
 
 public class MapView extends JPanel implements AGobserver{
@@ -74,7 +70,6 @@ public class MapView extends JPanel implements AGobserver{
 	public void onChange(AlgoritmoGenetico ag) {
 		if(mejorAbs == null || (ag.getProblema().compare(ag.getMejorAbs(), mejorAbs) < 0)){
 			mejorAbs = ag.getMejorAbs();
-			imagen.setFenotipo(mejorAbs.getFenotipo());
 		}
 	}
 
@@ -87,6 +82,7 @@ public class MapView extends JPanel implements AGobserver{
 			@Override
 			public void run() {
 				setCiudades();
+				imagen.setFenotipo(mejorAbs.getFenotipo());
 				imagen.repaint();
 			}
 		});

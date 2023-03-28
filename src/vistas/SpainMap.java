@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 public class SpainMap extends JLabel{
 	
 	private static final int POINT_SIZE = 10;
-	private static final ImageIcon icon = new ImageIcon("assets/espana.gif");
+	final public ImageIcon icon = new ImageIcon(getClass().getResource("/src/assets/espana.gif"));
 	ArrayList<Integer> fenotipo = null;
 
 	public SpainMap() {
