@@ -11,7 +11,7 @@ import src.AlgoritmoGenetico;
 
 public class MainWindow extends JFrame{
 
-    private final int INI_WIDTH = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 65/100);
+    private final int INI_WIDTH = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 75/100);
     private final int INI_HEIGHT = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 75/100);
     private  AlgoritmoGenetico ag;
 
