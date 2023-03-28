@@ -13,17 +13,20 @@ public class MutacionInverHeuris implements IMutacion{
 	public Individuo mutar(Individuo individuo, Problema problema, Random rand, double probMutacion) {
 		if (rand.nextDouble() > probMutacion) return individuo;
 
+		Individuo mejor = problema.build(individuo);
 		double fitOriginal = problema.evaluar(individuo);
-		double prob = 0;
+		mejor.setFitness(fitOriginal);
 		double fitNuevo = 0;
-		do{
-		individuo = invierte(individuo, rand, problema);
-		fitNuevo = problema.evaluar(individuo);
-		prob = ((fitOriginal + fitNuevo) / 2) + (fitNuevo - fitOriginal);
-		prob /= (fitOriginal + fitNuevo);
-		}while ((fitNuevo == fitOriginal) || !((prob < 0.5) || (prob > 0.54)));
+		for (int i = 0; i < rand.nextInt(3,7); i++){
+			individuo = invierte(individuo, rand, problema);
+			fitNuevo = problema.evaluar(individuo);
+			if (fitNuevo < fitOriginal){
+				mejor = problema.build(individuo.getGenotipo());
+				fitOriginal = fitNuevo;
+			}
+		}
 
-		return individuo;
+		return mejor;
 	}
 
 	private Individuo invierte(Individuo individuo, Random rand, Problema problema){
