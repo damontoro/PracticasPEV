@@ -185,9 +185,9 @@ public class PanelOpciones extends JPanel implements AGobserver{
 				onError("El valor mínimo del intervalo debe ser menor que el máximo");
 			}
 			else{
-				this.setEnabled(false);
+				this.btnIniciar.setEnabled(false);
 				ag.run(step, min, max);
-				this.setEnabled(true);
+				this.btnIniciar.setEnabled(true);
 			}
 		}
 	}
@@ -224,6 +224,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	}
 
 	private void reset(){
+		onEnd(ag);
 		if(worker != null && !worker.isDone()) 
 			worker.cancel(true);
 	}
@@ -269,7 +270,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 	@Override
 	public void onEnd(AlgoritmoGenetico ag) {
-		if (intervalos){
+		if (intervalos && minSIntervalo != null){
 			minSIntervalo.setValue(min);
 		}
 	}

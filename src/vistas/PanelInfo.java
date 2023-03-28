@@ -47,9 +47,9 @@ public class PanelInfo extends JPanel implements AGobserver {
             mejorAbs = ag.getMejorAbs();
             this.fenotipo.setText(mejorAbs.getFenotipo().toString());
             this.fitness.setText(String.valueOf(mejorAbs.getFitness()));
-        }
-        if(ag.getIntervalos()){
-            this.ejecucion.setText(ag.getTituloEjeX() + ": " + ag.getEjecucionActual());
+            if(ag.getIntervalos()){
+                this.ejecucion.setText(ag.getTituloEjeX() + ": " + ag.getEjecucionActual());
+            }
         }
     }
 
