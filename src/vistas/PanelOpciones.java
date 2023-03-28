@@ -224,7 +224,6 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	}
 
 	private void reset(){
-		//onEnd(ag);
 		if(worker != null && !worker.isDone()) 
 			worker.cancel(true);
 	}
