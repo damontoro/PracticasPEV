@@ -37,6 +37,7 @@ public class ProblemaTSP extends Problema {
 		cruces.add(new CruceCiclos());
 		cruces.add(new CrucePMX());
 		cruces.add(new CruceOX());
+		cruces.add(new CrucePropio());
 		cruces.add(new CrucePosPriori());
 		cruces.add(new CruceOrdPriori());
 		cruces.add(new CruceMonoOrd());
