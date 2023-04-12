@@ -20,7 +20,7 @@ public abstract class Individuo {
 	}
 	
 	abstract public <T> ArrayList<T> getFenotipo();
-	abstract public <T> ArrayList<T> getGenotipo();
+	abstract public <T> T getGenotipo();
 
 	public void setFitness(double fitness) { this.fitness = fitness; }
 	public static void setTamCromosoma(Integer tamCrom) { tamCromosoma = tamCrom; }

@@ -2,6 +2,7 @@ package src.problema;
 
 import java.util.ArrayList;
 
+import src.utils.BinTree;
 import src.utils.TipoProblema;
 import src.cruce.ICruce;
 import src.individuo.Individuo;
