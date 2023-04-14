@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
 import src.seleccion.SeleccionRuleta;
+import src.utils.TipoConst;
 import src.problema.*;
 import src.cruce.*;
 import src.mutacion.*;
@@ -47,7 +48,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 
 	public AlgoritmoGenetico() {
 
-		this.problema = new ProblemaTSP();
+		this.problema = new ProblemaRegSim();
 
 		this.poblacion = new ArrayList<Individuo>();
 		this.elite = new ArrayList<Individuo>();
@@ -62,7 +63,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	void initPoblacion(){
 		reset();
 		for(int i = 0; i < tamPoblacion; i++)
-			poblacion.add(problema.build());
+			poblacion.add(problema.build(TipoConst.COMPLETO));
 
 		mejorAbs = poblacion.get(0);
 		evalPoblacion();

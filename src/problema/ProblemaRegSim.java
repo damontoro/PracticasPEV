@@ -1,12 +1,16 @@
 package src.problema;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 import src.cruce.ICruce;
 import src.individuo.Individuo;
+import src.individuo.IndividuoArboreo;
 import src.mutacion.IMutacion;
 import src.seleccion.ISeleccion;
+import src.utils.TipoConst;
 import src.utils.Pair;
 import src.utils.BinTree;
 import src.utils.BinTree.Node;
@@ -16,22 +20,31 @@ import src.utils.TipoProblema;
 public class ProblemaRegSim extends Problema{
 
 
-	public static enum Literals {
+	public static enum Symbols {
 		INT(0), SUM(1), SUB(2), MUL(3), X(4);
 		
 		private final int id;
-		private Literals(int id) {this.id = id;}
+		private Symbols(int id) {this.id = id;}
 		public final int getValue() {return id;}
 	} //Int solo puede ser -2, -1, 0, 1, 2
 
 	//x, f(x)
-	private ArrayList<Pair<Integer, Integer>> dataSet;
+	private ArrayList<Pair<Double, Double>> dataSet;
 
 	public ProblemaRegSim() {
 		super();
 		tipo = TipoProblema.MINIMIZACION;
+		dataSet = new ArrayList<Pair<Double, Double>>();
+
+		loadDataSet();
 	}
 
+	public static List<Symbols> getLiterals() {
+		return Arrays.asList(Symbols.INT, Symbols.X);
+	}
+	public static List<Symbols> getFunctions() {
+		return Arrays.asList(Symbols.SUM, Symbols.SUB, Symbols.MUL);
+	}
 
 	private double calcArbol(BinTree arbol, double value) {
 		switch(arbol.getRoot().getId()) {
@@ -44,16 +57,26 @@ public class ProblemaRegSim extends Problema{
 		}
 	}
 
+	private void loadDataSet() {
+		for (double ini = -1.0; ini <= 1.0 ; ini += 0.02) {
+			dataSet.add(new Pair<Double, Double>(ini,
+				Math.pow(ini, 4) + 
+				Math.pow(ini, 3) +
+				Math.pow(ini, 2) +
+				ini + 1)
+			);
+		}
+	}
+
+
 	@Override
-	public Individuo build() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'build'");
+	public Individuo build(TipoConst tipo) {
+		return new IndividuoArboreo(tipo);
 	}
 
 	@Override
 	public Individuo build(Individuo i) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'build'");
+		return new IndividuoArboreo((IndividuoArboreo)i);
 	}
 
 	@Override
@@ -77,20 +100,17 @@ public class ProblemaRegSim extends Problema{
 
 	@Override
 	public ArrayList<IMutacion> getMutaciones() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getMutaciones'");
+		return new ArrayList<>();
 	}
 
 	@Override
 	public ArrayList<ICruce> getCruces() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getCruces'");
+		return new ArrayList<>();
 	}
 
 	@Override
 	public ArrayList<ISeleccion> getSelecciones() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getSelecciones'");
+		return new ArrayList<>();
 	}
 	
 
