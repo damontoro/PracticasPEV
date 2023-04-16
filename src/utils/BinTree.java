@@ -53,14 +53,15 @@ public class BinTree {
 	}
 
 
-	public BinTree getRightChild(){return new BinTree(root.right);}
-	public BinTree getLeftChild(){return new BinTree(root.left);}
+	public BinTree getRightChild(){return root.right == null ? new BinTree() : new BinTree(root.right);}
+	public BinTree getLeftChild(){return root.left == null ? new BinTree() : new BinTree(root.left);}
 	public Node getRoot(){return root;}
 	public int getHeight(){return height;}
 
 	@Override
 	public String toString(){
-		return "(" + root.left.toString() + root.toString() + root.right.toString() + ")";
+		if(root == null) return "";
+		return '(' + getLeftChild().toString() + root.toString() + getRightChild().toString() + ')';
 	}
 
 }

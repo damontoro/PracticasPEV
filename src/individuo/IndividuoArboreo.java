@@ -39,7 +39,7 @@ public class IndividuoArboreo extends Individuo{
 
 	private BinTree buildCompleto(int height){
 		if(height == ini_depth)
-			return new BinTree(ProblemaRegSim.getLiterals().get(random.nextInt(0, 1)),
+			return new BinTree(ProblemaRegSim.getLiterals().get(random.nextInt(0, 2)),
 					          random.nextInt(-2,2));
 
 		return new BinTree(

@@ -26,6 +26,20 @@ public class ProblemaRegSim extends Problema{
 		private final int id;
 		private Symbols(int id) {this.id = id;}
 		public final int getValue() {return id;}
+
+		@Override
+		public String toString() {
+			switch(id) {
+				case 0: return Integer.valueOf(getValue()).toString();
+				case 1: return "+";
+				case 2: return "-";
+				case 3: return "*";
+				case 4: return "x";
+				default: return "ERROR";
+			}
+		}
+
+
 	} //Int solo puede ser -2, -1, 0, 1, 2
 
 	//x, f(x)

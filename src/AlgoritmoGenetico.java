@@ -127,13 +127,14 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 			onInit(this);
 			initPoblacion();
 			for(this.ejecucionActual = 1; this.ejecucionActual <= numGeneraciones; this.ejecucionActual++){
-				extraerElite();
+				/*extraerElite();
 				seleccion();
 				cruce();
 				mutacion();
 				evalPoblacion();
 				introducirElite();
 				cogerDatos();
+				*/
 				onChange(this);
 				if(!intervalos){
 					Thread.sleep(10);
