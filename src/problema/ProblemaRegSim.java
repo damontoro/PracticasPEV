@@ -61,8 +61,8 @@ public class ProblemaRegSim extends Problema{
 	}
 
 	private double calcArbol(BinTree arbol, double value) {
-		switch(arbol.getRoot().getId()) {
-			case INT: return arbol.getRoot().getValue();
+		switch(arbol.getId()) {
+			case INT: return arbol.getValue();
 			case SUM: return calcArbol(arbol.getLeftChild(), value) + calcArbol(arbol.getRightChild(), value);
 			case SUB: return calcArbol(arbol.getLeftChild(), value) - calcArbol(arbol.getRightChild(), value);
 			case MUL: return calcArbol(arbol.getLeftChild(), value) * calcArbol(arbol.getRightChild(), value);
@@ -101,15 +101,20 @@ public class ProblemaRegSim extends Problema{
 
 	@Override
 	public <T> double evaluar(Individuo i) {
-		double fitness = 0;
+		try{
+			double fitness = 0;
 
-		for(int j = 0; j < dataSet.size(); j++){
-			double valueInd;
-			valueInd = calcArbol((BinTree)i.getGenotipo(), dataSet.get(j).getFirst());
-			fitness += Math.pow(Math.abs(valueInd - dataSet.get(j).getSecond()), 2);
+			for(int j = 0; j < dataSet.size(); j++){
+				double valueInd;
+				valueInd = calcArbol((BinTree)i.getGenotipo(), dataSet.get(j).getFirst());
+				fitness += Math.pow(dataSet.get(j).getSecond() - valueInd, 2);
+			}
+			fitness = Math.sqrt(fitness);
+			return fitness;
+		}catch(Exception e) {
+			System.out.println("Error en evaluar");
+			return 0;
 		}
-		fitness = Math.sqrt(fitness);
-		return fitness;
 	}
 
 	@Override

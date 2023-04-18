@@ -42,19 +42,19 @@ public class TreeView extends JPanel implements AGobserver{
 
 	private void paintTree(Graphics graphics) {
 		graphics.setColor(Color.BLACK);
-		graphics.drawString(tree.getRoot().toString(), getWidth()/2,20);
+		graphics.drawString(tree.toString(), getWidth()/2,20);
 		paintNode(graphics, tree, getWidth()/2, 20, 1);
 		
 	}
 	private void paintNode(Graphics graphics, BinTree node, int x, int y, int height) {
 		if(node.getLeftChild() != null) {
 			graphics.drawLine(x, y, x-50, y+50);
-			graphics.drawString(node.getLeftChild().getRoot().toString(), x-50, y+50);
+			graphics.drawString(node.getLeftChild().toString(), x-50, y+50);
 			paintNode(graphics, node.getLeftChild(), x-50, y+50, height+1);
 		}
 		if(node.getRightChild() != null) {
 			graphics.drawLine(x, y, x+50, y+50);
-			graphics.drawString(node.getRightChild().getRoot().toString(), x+50, y+50);
+			graphics.drawString(node.getRightChild().toString(), x+50, y+50);
 			paintNode(graphics, node.getRightChild(), x+50, y+50, height+1);
 		}
 	}

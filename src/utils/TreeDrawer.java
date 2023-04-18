@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 public class TreeDrawer {
     
     public static void paintTree(BinTree tree, Graphics2D g2d, int x_, int y_) {
-        if (tree.getRoot() != null) {
+        if (tree != null) {
             int x = getWidth(tree.getRightChild()) - x_;
             int y = getHeight(tree.getLeftChild()) + y_;
             drawNode(tree, g2d, x, y);
@@ -28,9 +28,9 @@ public class TreeDrawer {
     private static void drawNode(BinTree tree, Graphics2D g2d, int x, int y) {
         g2d.drawOval(x, y, 40, 40);
         g2d.drawString(
-			tree.getRoot().getId() == Symbols.INT ? 
-			Integer.toString(tree.getRoot().getValue()) : 
-			tree.getRoot().getId().toString(),
+			tree.getId() == Symbols.INT ? 
+			Integer.toString(tree.getValue()) : 
+			tree.getId().toString(),
 			x+10, y+25);
     }
 
@@ -39,7 +39,7 @@ public class TreeDrawer {
     }
 
     private static int getHeight(BinTree tree) {
-        if (tree == null ) {
+        if (tree == null) {
             return 0;
         } else {
             int leftHeight = getHeight(tree.getLeftChild());
