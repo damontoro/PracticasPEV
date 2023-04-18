@@ -134,15 +134,15 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				evalPoblacion();
 				introducirElite();
 				cogerDatos();
-				*/
+				
 				onChange(this);
 				if(!intervalos){
 					Thread.sleep(10);
-				}
+				}*/
 			}
 			onEnd(this);
 		}
-		catch(InterruptedException e){}
+		//catch(InterruptedException e){}
 		catch(Exception e){
 			onError("Error en el algoritmo genetico");
 			//Mensaje por favor revisa las opciones del algoritmo genetico usando un JOption pane

@@ -7,8 +7,8 @@ public class TreeDrawer {
     
     public static void paintTree(BinTree tree, Graphics2D g2d, int x_, int y_) {
         if (tree.getRoot() != null) {
-            int x = getWidth(tree.getRightChild()) + 20;
-            int y = getHeight(tree.getLeftChild()) + 20;
+            int x = getWidth(tree.getRightChild()) - x_;
+            int y = getHeight(tree.getLeftChild()) + y_;
             drawNode(tree, g2d, x, y);
             if (tree.getLeftChild() != null) {
                 int x2 = x - getWidth(tree.getLeftChild().getRightChild()) - 20;
@@ -31,7 +31,7 @@ public class TreeDrawer {
 			tree.getRoot().getId() == Symbols.INT ? 
 			Integer.toString(tree.getRoot().getValue()) : 
 			tree.getRoot().getId().toString(),
-			x+15, y+25);
+			x+10, y+25);
     }
 
     private static void drawEdge(int x1, int y1, int x2, int y2, Graphics2D g2d) {
