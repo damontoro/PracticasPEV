@@ -11,7 +11,7 @@ import src.utils.TipoProblema;
 
 public class ProblemaTSP extends Problema {
 
-	private static final int NUM_CIUDADES = 27;
+	private static final int NUM_CIUDADES = 28;
 
 	private ArrayList<IMutacion> mutaciones = new ArrayList<IMutacion>();
 	private ArrayList<ICruce> cruces = new ArrayList<ICruce>();
@@ -46,7 +46,7 @@ public class ProblemaTSP extends Problema {
 
 	@Override
 	public Individuo build() {
-		return new IndividuoEntero(NUM_CIUDADES - 1);
+		return new IndividuoEntero(NUM_CIUDADES);
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class IndividuoEntero extends Individuo{
 
 		genotipo = new ArrayList<Integer>();
 		for (int i = 0; i < Individuo.tamCromosoma; i++) {
-			if(i == Ciudad.MADRID.getValue()) ++i;
+			if(i == Ciudad.MADRID.getValue()) continue;
 			genotipo.add(i);
 		}
 		Collections.shuffle(genotipo);
