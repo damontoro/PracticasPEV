@@ -1,70 +1,81 @@
 package src.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+public class BinTree<T> {
 
-import src.problema.ProblemaRegSim;
-import src.problema.ProblemaRegSim.Symbols;
+	private Node<T> root;
+	private Integer height;
 
-public class BinTree {
+	private static class Node<T>{
+		private T elem;
 
-	private Node root;
-	private int height;
+		Node<T> left;
+		Node<T> right;
 
-	public static class Node{
-		private Symbols id; //Either literal, mul, sub, add
-		private Integer value; //Esto solo sirve si el id es literal
-
-		Node left;
-		Node right;
-
-		public Node(){
-			id = null;
-			value = null;
+		public Node(T elem){
+			this.elem = elem;
 			left = null;
 			right = null;
 		}
 
-		public Node(Symbols id, Integer value){
-			this.id = id;
-			this.value = value;
-			left = null;
-			right = null;
+		public Node(Node<T> node){
+			this.elem = node.elem;
+			this.left = node.left != null ? new Node<>(node.left) : null;
+			this.right = node.right != null ? new Node<>(node.right) : null;
+		}
+
+		public Node(Node<T> left, Node<T> right, T elem){
+			this.elem = elem;
+			this.left = new Node<>(left);
+			this.right = new Node<>(right);
 		}
 
 		@Override
 		public String toString(){
-			if(id == Symbols.INT) return value.toString();
-			else return id.toString();
+			return elem.toString();
 		}
-
-		public Symbols getId(){return id;}
-		public Integer getValue(){return value;}
-		public void setId(Symbols id){this.id = id;}
-		public void setValue(Integer value){this.value = value;}
 	}
 	
-	public BinTree(){root = null; height = 0;}
-	public BinTree(Symbols id, Integer value){root = new Node(id, value); height = 1;}
-	private BinTree(Node root){this.root = root; height = 1;}
-
-	public BinTree(BinTree tree){
-		//A constructor copying the tree passed as parameter using the inorder traversal
-		root = buildTree(tree.getInOrder(), 0, tree.getInOrder().size() - 1);
+	public BinTree(){
+		root = null; 
+		height = null;
 	}
 
-	public BinTree(BinTree left, BinTree right, Symbols id, Integer value){
-		root = new Node(id, value);
-		root.left = left.getRoot();
-		root.right = right.getRoot();
-		height = Math.max(left.getHeight(), right.getHeight()) + 1;
+	public BinTree(BinTree<T> tree){
+		root = new Node<T>(tree.root);
+		height = tree.getHeight();
 	}
 
-	public BinTree getRightChild(){return root.right == null ? null : new BinTree(root.right);}
-	public BinTree getLeftChild(){return root.left == null ? null : new BinTree(root.left);}
-	public int getHeight(){return height;}
-	public Symbols getId(){return root.id;}
-	public Integer getValue(){return root.value;}
+	private BinTree(Node<T> root){
+		this.root = new Node<T>(root.left, root.right, root.elem);
+		height = null;
+	}
+
+	public BinTree(T elem){
+		root = new Node<T>(elem);
+		height = 1;
+	}
+
+	public BinTree(BinTree<T> izq, BinTree<T> der, T elem){
+		root = new Node<T>(izq.root, der.root, elem);
+		height = Math.max(izq.getHeight(), der.getHeight()) + 1;
+	}
+
+	public boolean isEmpty(){return root == null;}
+	public boolean isLeaf(){return root.left == null && root.right == null;}
+	public BinTree<T> getRightChild(){return root.right == null ? null : new BinTree<T>(root.right);}
+	public BinTree<T> getLeftChild(){return root.left == null ? null : new BinTree<T>(root.left);}
+	public T getElem(){return root.elem;}
+
+	public Integer getHeight(){
+		if (height == null)
+			height = calculateHeight(root);
+		return height;
+	}
+
+	private Integer calculateHeight(Node<T> root){
+		if(root == null) return 0;
+		return Math.max(calculateHeight(root.left), calculateHeight(root.right)) + 1;
+	}
 
 	@Override
 	public String toString(){
@@ -76,42 +87,8 @@ public class BinTree {
 		sb.append(root.toString());
 		if(getRightChild() != null) sb.append(getRightChild().toString());
 		sb.append(")");
-
-		if(sb.length() < 4)
-			return root.toString();
 		
 		return sb.toString();
 	}
-
-	private Node getRoot(){return root;}
-
-	private ArrayList<Pair<Symbols, Integer>> getInOrder(){
-		ArrayList<Pair<Symbols, Integer>> list = new ArrayList<Pair<Symbols, Integer>>();
-		if(root == null) return list;
-
-		if(getLeftChild() != null) list.addAll(getLeftChild().getInOrder());
-		list.add(new Pair<Symbols, Integer>(root.id, root.value));
-		if(getRightChild() != null) list.addAll(getRightChild().getInOrder());
-
-		return list;
-	}
-
-	private Node buildTree(ArrayList<Pair<Symbols, Integer>> inOrder, int start, int end) {
-        if (start > end) {
-            return null;
-        }
-
-        // find the middle element in the inorder traversal
-        int mid = (start + end) / 2;
-
-        // create a new node with the middle element
-        Node node = new Node(inOrder.get(mid).getFirst(), inOrder.get(mid).getSecond());
-
-        // recursively build the left and right subtrees
-        node.left = buildTree(inOrder,start, mid - 1);
-        node.right = buildTree(inOrder,mid + 1, end);
-
-        return node;
-    }
 
 }

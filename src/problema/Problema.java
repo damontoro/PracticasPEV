@@ -30,6 +30,7 @@ public abstract class Problema implements Cloneable{
 	abstract public Individuo build(TipoConst tipo);
 	abstract public Individuo build(Individuo i);
 	abstract public <T> Individuo build(ArrayList<T> valores);
+	abstract public Individuo build(String postOrden);
 	
 	abstract public <T> double evaluar(Individuo i);
 

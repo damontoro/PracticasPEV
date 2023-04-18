@@ -9,38 +9,75 @@ import src.cruce.ICruce;
 import src.individuo.Individuo;
 import src.individuo.IndividuoArboreo;
 import src.mutacion.IMutacion;
+import src.problema.ProblemaRegSim.Symbol.Symbols;
 import src.seleccion.ISeleccion;
 import src.utils.TipoConst;
 import src.utils.Pair;
 import src.utils.BinTree;
-import src.utils.BinTree.Node;
 
 import src.utils.TipoProblema;
 
 public class ProblemaRegSim extends Problema{
 
 
-	public static enum Symbols {
-		INT(0), SUM(1), SUB(2), MUL(3), X(4);
-		
-		private final int id;
-		private Symbols(int id) {this.id = id;}
-		public final int getValue() {return id;}
+	public static class Symbol{
+
+		private Symbols symbol;
+		private Integer value;
+
+		public Symbol(Symbols symbol, Integer value) {
+			this.symbol = symbol;
+			this.value = value;
+		}
+
+		public static enum Symbols {
+			INT(0), SUM(1), SUB(2), MUL(3), X(4);
+
+			private final Integer id;
+			private Symbols(Integer id) {this.id = id;}
+			public final int getValue() {return this.id;}
+
+		} //Int solo puede ser -2, -1, 0, 1, 2
 
 		@Override
 		public String toString() {
-			switch(id) {
-				case 0: return Integer.valueOf(getValue()).toString();
-				case 1: return "+";
-				case 2: return "-";
-				case 3: return "*";
-				case 4: return "x";
+			switch(this.symbol) {
+				case INT: return Integer.valueOf(getValue()).toString();
+				case SUM: return "+";
+				case SUB: return "-";
+				case MUL: return "*";
+				case X: return "x";
 				default: return "ERROR";
 			}
 		}
 
+		public static Symbol getSymbol(String s) {
+			switch(s) {
+				case "+": return new Symbol(Symbols.SUM, null);
+				case "-": return new Symbol(Symbols.SUB, null);
+				case "*": return new Symbol(Symbols.MUL, null);
+				case "x": return new Symbol(Symbols.X, null);
+				default: return new Symbol(Symbols.INT, Integer.valueOf(s));
+			}
+		}
 
-	} //Int solo puede ser -2, -1, 0, 1, 2
+		public Symbols getSymbol() {
+			return symbol;
+		}
+
+		public void setSymbol(Symbols symbol) {
+			this.symbol = symbol;
+		}
+
+		public Integer getValue() {
+			return value;
+		}
+
+		public void setValue(Integer value) {
+			this.value = value;
+		}
+
+	} 
 
 	//x, f(x)
 	private ArrayList<Pair<Double, Double>> dataSet;
@@ -60,9 +97,9 @@ public class ProblemaRegSim extends Problema{
 		return Arrays.asList(Symbols.SUM, Symbols.SUB, Symbols.MUL);
 	}
 
-	private double calcArbol(BinTree arbol, double value) {
-		switch(arbol.getId()) {
-			case INT: return arbol.getValue();
+	private double calcArbol(BinTree<Symbol> arbol, double value) {
+		switch(arbol.getElem().symbol) {
+			case INT: return arbol.getElem().getValue();
 			case SUM: return calcArbol(arbol.getLeftChild(), value) + calcArbol(arbol.getRightChild(), value);
 			case SUB: return calcArbol(arbol.getLeftChild(), value) - calcArbol(arbol.getRightChild(), value);
 			case MUL: return calcArbol(arbol.getLeftChild(), value) * calcArbol(arbol.getRightChild(), value);
@@ -98,6 +135,10 @@ public class ProblemaRegSim extends Problema{
 		throw new UnsupportedOperationException("Unimplemented method 'build'");
 	}
 
+	public Individuo build(String postOrden) {
+		return new IndividuoArboreo(postOrden);
+	}
+
 
 	@Override
 	public <T> double evaluar(Individuo i) {
@@ -106,7 +147,7 @@ public class ProblemaRegSim extends Problema{
 
 			for(int j = 0; j < dataSet.size(); j++){
 				double valueInd;
-				valueInd = calcArbol((BinTree)i.getGenotipo(), dataSet.get(j).getFirst());
+				valueInd = calcArbol((BinTree<Symbol>)i.getGenotipo(), dataSet.get(j).getFirst());
 				fitness += Math.pow(dataSet.get(j).getSecond() - valueInd, 2);
 			}
 			fitness = Math.sqrt(fitness);

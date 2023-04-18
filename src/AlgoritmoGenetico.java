@@ -63,9 +63,11 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	void initPoblacion(){
 		reset();
 		for(int i = 0; i < tamPoblacion; i++)
-			poblacion.add(problema.build(TipoConst.CRECIENTE));
+			poblacion.add(problema.build(TipoConst.COMPLETO));
 
 		mejorAbs = poblacion.get(0);
+		String s = mejorAbs.toString();
+		problema.build(s);
 		evalPoblacion();
 		cogerDatos();
 	}
