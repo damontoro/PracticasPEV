@@ -14,7 +14,7 @@ TODO:
 
 		Repensar arbol binario
 
-		Funciones de utilidad del arbol : Inorden, swap, constructor por copia que recibe inorden, cambiar constructor por nodo para que calcule bien la altura
+		Funciones de utilidad del arbol : swap, constructor por copia que copie llamando al creador de postorden
 		Funciones del problema (build, evaluar y eso), constructor problema
 
 	MAS IMPORTANTE:

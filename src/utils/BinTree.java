@@ -25,8 +25,8 @@ public class BinTree<T> {
 
 		public Node(Node<T> left, Node<T> right, T elem){
 			this.elem = elem;
-			this.left = new Node<>(left);
-			this.right = new Node<>(right);
+			this.left = left == null ? null : new Node<>(left);
+			this.right = right == null ? null : new Node<>(right);
 		}
 
 		@Override
@@ -46,7 +46,7 @@ public class BinTree<T> {
 	}
 
 	private BinTree(Node<T> root){
-		this.root = new Node<T>(root.left, root.right, root.elem);
+		this.root = new Node<T>(root);
 		height = null;
 	}
 
