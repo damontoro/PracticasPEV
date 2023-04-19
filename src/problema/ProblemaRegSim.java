@@ -79,6 +79,7 @@ public class ProblemaRegSim extends Problema{
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> double evaluar(Individuo i) {
 		try{
 			double fitness = 0;

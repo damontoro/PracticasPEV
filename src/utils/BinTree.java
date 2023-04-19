@@ -36,34 +36,34 @@ public class BinTree<T> {
 	}
 	
 	public BinTree(){
-		root = null; 
-		height = null;
+		this.root = null; 
+		this.height = null;
 	}
 
 	public BinTree(BinTree<T> tree){
-		root = new Node<T>(tree.root);
-		height = tree.getHeight();
+		this.root = new Node<T>(tree.root);
+		this.height = tree.getHeight();
 	}
 
 	private BinTree(Node<T> root){
 		this.root = new Node<T>(root);
-		height = null;
+		this.height = null;
 	}
 
 	public BinTree(T elem){
-		root = new Node<T>(elem);
-		height = 1;
+		this.root = new Node<T>(elem);
+		this.height = 1;
 	}
 
 	public BinTree(BinTree<T> izq, BinTree<T> der, T elem){
-		root = new Node<T>(izq.root, der.root, elem);
-		height = Math.max(izq.getHeight(), der.getHeight()) + 1;
+		this.root = new Node<T>(izq.root, der.root, elem);
+		this.height = Math.max(izq.getHeight(), der.getHeight()) + 1;
 	}
 
 	public boolean isEmpty(){return root == null;}
 	public boolean isLeaf(){return root.left == null && root.right == null;}
-	public BinTree<T> getRightChild(){return root.right == null ? null : new BinTree<T>(root.right);}
-	public BinTree<T> getLeftChild(){return root.left == null ? null : new BinTree<T>(root.left);}
+	public BinTree<T> getRightChild(){if(isEmpty()){return null;} return (root.right == null) ? new BinTree<T>() : new BinTree<T>(root.right);}
+	public BinTree<T> getLeftChild(){if(isEmpty()){return null;} return (root.left == null) ? new BinTree<T>() : new BinTree<T>(root.left);}
 	public T getElem(){return root.elem;}
 
 	public Integer getHeight(){

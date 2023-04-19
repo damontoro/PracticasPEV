@@ -71,12 +71,12 @@ public class IndividuoArboreo extends Individuo{
 	public String serialize(BinTree<Symbol> tree){
 		StringBuilder sb = new StringBuilder();
 		
-		if (tree == null || tree.isEmpty())
+		if (tree.isEmpty())
 			return "";
 		
 		sb.append(serialize(tree.getLeftChild()));
 		sb.append(serialize(tree.getRightChild()));
-		sb.append(tree.getElem().toString());
+		sb.append("(" + tree.getElem().toString() + ")");
 
 		return sb.toString();
 	}
@@ -86,6 +86,11 @@ public class IndividuoArboreo extends Individuo{
 
 		for (int i = 0; i < str.length(); i++) {
 			String token = String.valueOf(str.charAt(i));
+			if (token.equals("(")){
+				token = "";
+				while (str.charAt(++i) != ')')
+					token += str.charAt(i);
+			}
 			if (ProblemaRegSim.getLiterals().contains(Symbol.getSymbol(token).getSymbol()))
 				stack.push(new BinTree<Symbol>(Symbol.getSymbol(token)));
 			else {
