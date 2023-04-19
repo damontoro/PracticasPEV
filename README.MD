@@ -4,6 +4,8 @@ https://github.com/knowm/XChart
 
 TODO:
 
+	Mejor de la generacion en rojo y el absoluto en azul
+
 	Que Hacer:
 		Visualizar el arbol y el fenotipo
 		Hacer la gráfica de comparacion de la función original y nuestro mejor individuo

@@ -38,29 +38,7 @@ public class IndividuoArboreo extends Individuo{
 
 	public IndividuoArboreo(IndividuoArboreo i) {
 		super();
-		genotipo = new BinTree<Symbol>(i.getGenotipo());
-	}
-
-	public IndividuoArboreo(String postOrden){
-		super();
-		genotipo = buildPostOrden(postOrden);
-	}
-
-	// TODO: a probar
-	private static BinTree<Symbol> buildPostOrden(String str) {
-		Deque<BinTree<Symbol>> stack = new ArrayDeque<BinTree<Symbol>>();
-
-		for (int i = 0; i < str.length(); i++) {
-			String token = String.valueOf(str.charAt(i));
-			if (ProblemaRegSim.getLiterals().contains(Symbol.getSymbol(token).getSymbol()))
-				stack.push(new BinTree<Symbol>(Symbol.getSymbol(token)));
-			else {
-				BinTree<Symbol> right = stack.pop();
-				BinTree<Symbol> left = stack.pop();
-				stack.push(new BinTree<Symbol>(left, right, Symbol.getSymbol(token)));
-			}
-		}
-		return stack.pop();
+		genotipo = deSerialize(serialize(i.getGenotipo()));
 	}
 
 	private BinTree<Symbol> buildCompleto(int height){
@@ -90,7 +68,6 @@ public class IndividuoArboreo extends Individuo{
 			new Symbol(s,null) );
 	}
 
-	// TODO: a probar
 	public String serialize(BinTree<Symbol> tree){
 		StringBuilder sb = new StringBuilder();
 		
@@ -102,6 +79,22 @@ public class IndividuoArboreo extends Individuo{
 		sb.append(tree.getElem().toString());
 
 		return sb.toString();
+	}
+
+	private static BinTree<Symbol> deSerialize(String str) {
+		Deque<BinTree<Symbol>> stack = new ArrayDeque<BinTree<Symbol>>();
+
+		for (int i = 0; i < str.length(); i++) {
+			String token = String.valueOf(str.charAt(i));
+			if (ProblemaRegSim.getLiterals().contains(Symbol.getSymbol(token).getSymbol()))
+				stack.push(new BinTree<Symbol>(Symbol.getSymbol(token)));
+			else {
+				BinTree<Symbol> right = stack.pop();
+				BinTree<Symbol> left = stack.pop();
+				stack.push(new BinTree<Symbol>(left, right, Symbol.getSymbol(token)));
+			}
+		}
+		return stack.pop();
 	}
 
 

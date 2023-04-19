@@ -6,6 +6,7 @@ import src.individuo.Individuo;
 import src.individuo.IndividuoArboreo;
 import src.problema.ProblemaRegSim;
 import src.problema.ProblemaRegSim.Symbol;
+import src.problema.ProblemaRegSim.Symbol.Symbols;
 import src.utils.BinTree;
 import src.vistas.MapView;
 import src.vistas.TreeView;
@@ -25,16 +26,9 @@ public class MainPruebas {
 		ag.setTamPoblacion(100);
 		ag.run();
 
-		System.out.println((ag.getMejorAbs().getGenotipo()).toString());
-		BinTree<Symbol> aux = new BinTree<Symbol>((BinTree<Symbol>)ag.getMejorAbs().getGenotipo());
+		IndividuoArboreo aux = new IndividuoArboreo((IndividuoArboreo)(ag.getMejorAbs()));
 
-		String s = ((IndividuoArboreo)(ag.getMejorAbs())).serialize(aux);
-		IndividuoArboreo aux2 = new IndividuoArboreo(s);
-		
-		aux.getElem().setSymbol(Symbol.Symbols.X);
+		aux.getGenotipo().getElem().setSymbol(Symbols.X);
 
-
-		System.out.println(aux.toString());
-		System.out.println(aux2.toString());
 	}
 }
