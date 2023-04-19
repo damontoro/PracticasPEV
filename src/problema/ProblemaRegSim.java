@@ -11,7 +11,7 @@ import src.individuo.IndividuoArboreo;
 import src.mutacion.IMutacion;
 import src.mutacion.MutacionTerminal;
 import src.problema.ProblemaRegSim.Symbol.Symbols;
-import src.seleccion.ISeleccion;
+import src.seleccion.*;
 import src.utils.TipoConst;
 import src.utils.Pair;
 import src.utils.BinTree;
@@ -29,6 +29,13 @@ public class ProblemaRegSim extends Problema{
 		dataSet = new ArrayList<Pair<Double, Double>>();
 		
 		mutaciones.add(new MutacionTerminal());
+
+		selecciones.add(new SeleccionRanking());
+		selecciones.add(new SeleccionRuleta());
+		selecciones.add(new SeleccionTorneoDet());
+		selecciones.add(new SeleccionTorneoProb());
+		selecciones.add(new SeleccionTruncamiento());
+		selecciones.add(new SeleccionRestos());
 
 		loadDataSet();
 	}
@@ -90,6 +97,8 @@ public class ProblemaRegSim extends Problema{
 				fitness += Math.pow(dataSet.get(j).getSecond() - valueInd, 2);
 			}
 			fitness = Math.sqrt(fitness);
+			if (fitness == 0.0) 
+				System.out.println("Fitness 0");
 			return fitness;
 		}catch(Exception e) {
 			System.out.println("Error en evaluar");

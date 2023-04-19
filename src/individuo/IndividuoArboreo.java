@@ -37,7 +37,7 @@ public class IndividuoArboreo extends Individuo{
 	}
 
 	public IndividuoArboreo(IndividuoArboreo i) {
-		super();
+		super(i);
 		genotipo = deSerialize(serialize(i.getGenotipo()));
 	}
 
@@ -105,8 +105,8 @@ public class IndividuoArboreo extends Individuo{
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ArrayList<String> getFenotipo() {
-		throw new UnsupportedOperationException();
+	public String getFenotipo() {
+		return toString();
 	}
 
 	@Override

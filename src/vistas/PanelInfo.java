@@ -59,6 +59,7 @@ public class PanelInfo extends JPanel implements AGobserver {
 
     @Override
     public void onEnd(AlgoritmoGenetico ag) {
+        System.out.println("Mejor fenotipo: " + mejorAbs.getFenotipo().toString()); //TODO: Borrar
     }
 
 }

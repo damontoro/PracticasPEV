@@ -161,7 +161,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				for(int j = 0; j < numGeneraciones; j++){
 					extraerElite();
 					seleccion();
-					cruce();
+					//cruce();
 					mutacion();
 					evalPoblacion();
 					introducirElite();

@@ -19,7 +19,7 @@ public abstract class Individuo {
 		this.fitness = i.fitness;
 	}
 	
-	abstract public <T> ArrayList<T> getFenotipo();
+	abstract public <T> T getFenotipo();
 	abstract public <T> T getGenotipo();
 
 	public void setFitness(double fitness) { this.fitness = fitness; }
