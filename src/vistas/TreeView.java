@@ -9,12 +9,13 @@ import javax.swing.JPanel;
 
 import src.AlgoritmoGenetico;
 import src.patrones.AGobserver;
+import src.problema.ProblemaRegSim.Symbol;
 import src.utils.BinTree;
 import src.utils.TreeDrawer;
 
 public class TreeView extends JPanel implements AGobserver{
 
-	BinTree tree;
+	BinTree<Symbol> tree;
 
 	public TreeView(AlgoritmoGenetico ag) {
 		super();
@@ -34,8 +35,10 @@ public class TreeView extends JPanel implements AGobserver{
 		g.clearRect(0, 0, getWidth(), getHeight());
 		g.setFont(new java.awt.Font("Arial", 1, 20));
 
-		if(tree != null)
-			TreeDrawer.paintTree(tree, g, getWidth()/2, 20);
+		if(tree != null){
+			TreeDrawer.paintTree(tree, g, this.getWidth()/2, 20);
+			System.out.println(tree.toString());
+		}
 		//paintTree(graphics);
 		
 	}
@@ -73,7 +76,7 @@ public class TreeView extends JPanel implements AGobserver{
 
 	@Override
 	public void onEnd(AlgoritmoGenetico ag) {
-		this.tree = (BinTree) ag.getMejorAbs().getGenotipo();
+		this.tree = (BinTree<Symbol>) ag.getMejorAbs().getGenotipo();
 		repaint();
 	}
 	
