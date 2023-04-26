@@ -13,14 +13,14 @@ public class TreeDrawer {
             int x = x_;
             int y = y_;
             drawNode(tree, g2d, x, y);
-            if (!tree.getLeftChild().isEmpty()) {
+            if (tree.getLeftChild() != null) {
                 int x2 = x - getWidth(tree.getLeftChild().getRightChild());
                 int y2 = y + 60;
                 drawEdge(x, y, x2, y2, g2d);
 				drawNode(tree, g2d, x, y);
                 paintTree(tree.getLeftChild(), g2d, x2, y2);
             }
-            if (!tree.getRightChild().isEmpty()) {
+            if (tree.getRightChild() != null) {
                 int x2 = x + getWidth(tree.getRightChild().getLeftChild());
                 int y2 = y + 60;
                 drawEdge(x, y, x2, y2, g2d);

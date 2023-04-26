@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+import src.cruce.CruceIntercambio;
 import src.cruce.ICruce;
 import src.individuo.Individuo;
 import src.individuo.IndividuoArboreo;
@@ -23,7 +23,11 @@ public class ProblemaRegSim extends Problema{
 	public ProblemaRegSim() {
 		super();
 		tipo = TipoProblema.MINIMIZACION;
-		dataSet = new ArrayList<Pair<Double, Double>>();
+		dataSet = new Pair<ArrayList<Double>, ArrayList<Double>>(
+			new ArrayList<Double>(), new ArrayList<Double>()
+		);
+
+		cruces.add(new CruceIntercambio());
 		
 		mutaciones.add(new MutacionTerminal());
 
@@ -56,12 +60,14 @@ public class ProblemaRegSim extends Problema{
 	}
 
 	private void loadDataSet() {
+
 		for (double ini = -1.0; ini <= 1.0 ; ini += 0.02) {
-			dataSet.add(new Pair<Double, Double>(ini,
+			dataSet.getFirst().add(ini);
+			dataSet.getSecond().add(
 				Math.pow(ini, 4) + 
 				Math.pow(ini, 3) +
 				Math.pow(ini, 2) +
-				ini + 1)
+				ini + 1
 			);
 		}
 	}
@@ -82,16 +88,27 @@ public class ProblemaRegSim extends Problema{
 		throw new UnsupportedOperationException("Unimplemented method 'build'");
 	}
 
+	public Pair<ArrayList<Double>, ArrayList<Double>> getDataSet(Individuo i) {
+		Pair<ArrayList<Double>, ArrayList<Double>> res = new Pair<ArrayList<Double>, ArrayList<Double>>(
+			new ArrayList<Double>(), new ArrayList<Double>()
+		);
+		for (int j = 0; j < dataSet.getFirst().size(); j++) {
+			res.getFirst().add(dataSet.getFirst().get(j));
+			res.getSecond().add(calcArbol((BinTree<Symbol>)i.getGenotipo(), dataSet.getFirst().get(j)));
+		}
+		return res;
+	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> double evaluar(Individuo i) {
 		try{
 			double fitness = 0;
 
-			for(int j = 0; j < dataSet.size(); j++){
+			for(int j = 0; j < dataSet.getFirst().size(); j++){
 				double valueInd;
-				valueInd = calcArbol((BinTree<Symbol>)i.getGenotipo(), dataSet.get(j).getFirst());
-				fitness += Math.pow(dataSet.get(j).getSecond() - valueInd, 2);
+				valueInd = calcArbol((BinTree<Symbol>)i.getGenotipo(), dataSet.getFirst().get(j));
+				fitness += Math.pow(dataSet.getSecond().get(j) - valueInd, 2);
 			}
 			fitness = Math.sqrt(fitness);
 			if (fitness == 0.0) 

@@ -22,8 +22,7 @@ public class VistaFuncion extends JPanel implements AGobserver{
 
     private ArrayList<Double> original = new ArrayList<Double>();
     private ArrayList<Double> mejorIndividuo = new ArrayList<Double>();
-
-    private ArrayList<Integer> xData = new ArrayList<Integer>();
+    private ArrayList<Double> xData = new ArrayList<Double>();
 
     public VistaFuncion(AlgoritmoGenetico ag, int width, int height) {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -46,7 +45,7 @@ public class VistaFuncion extends JPanel implements AGobserver{
         // Series
         original.add(0.0);
         mejorIndividuo.add(0.0);
-        xData.add(0);
+        xData.add(0.0);
         chart.addSeries("Original", original, xData);
         chart.addSeries("Mejor Individuo", mejorIndividuo, xData);
 
@@ -64,54 +63,33 @@ public class VistaFuncion extends JPanel implements AGobserver{
         ag.addObserver(this);
     }
 
-    private void updateChart(AlgoritmoGenetico ag) {
-        ag.getProblema()
-
-        original.add(ag.getFuncion().getValor(ag.getMejorIndividuo().getGenotipo()));
-        mejorIndividuo.add(ag.getMejorIndividuo().getFitness());
-        xData.add(ag.getGeneracionActual());
-
-        chart.updateXYSeries("Original", original, xData, null);
-        chart.updateXYSeries("Mejor Individuo", mejorIndividuo, xData, null);
-
-        this.repaint();
-        this.revalidate();
-    }
-
-    private void resetChart() {
-        original.clear();
-        mejorIndividuo.clear();
-        xData.clear();
-
-        chart.updateXYSeries("Original", original, xData, null);
-        chart.updateXYSeries("Mejor Individuo", mejorIndividuo, xData, null);
-
-        this.repaint();
-        this.revalidate();
-    }
-
     @Override
     public void onInit(AlgoritmoGenetico ag) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onInit'");
     }
 
     @Override
     public void onChange(AlgoritmoGenetico ag) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onChange'");
     }
 
     @Override
     public void onError(String err) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onError'");
     }
 
     @Override
     public void onEnd(AlgoritmoGenetico ag) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onEnd'");
+        original.clear();
+        mejorIndividuo.clear();
+        xData.clear();
+
+		xData = ag.getProblema().getDataSet().getFirst();
+		original = ag.getProblema().getDataSet().getSecond();
+		mejorIndividuo = ag.getProblema().getDataSet(ag.getMejorAbs()).getSecond();
+
+        chart.updateXYSeries("Original", xData, original, null);
+        chart.updateXYSeries("Mejor Individuo", xData, mejorIndividuo, null);
+
+        this.repaint();
+        this.revalidate();
     }
     
 }

@@ -70,7 +70,7 @@ public class IndividuoArboreo extends Individuo{
 	public String serialize(BinTree<Symbol> tree){
 		StringBuilder sb = new StringBuilder();
 		
-		if (tree.isEmpty())
+		if (tree == null)
 			return "";
 		
 		sb.append(serialize(tree.getLeftChild()));

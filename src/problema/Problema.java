@@ -7,6 +7,7 @@ import src.utils.TipoConst;
 import src.utils.TipoProblema;
 import src.cruce.ICruce;
 import src.individuo.Individuo;
+import src.individuo.IndividuoArboreo;
 import src.mutacion.IMutacion;
 import src.seleccion.ISeleccion;
 
@@ -17,7 +18,7 @@ public abstract class Problema implements Cloneable{
 	protected ArrayList<ISeleccion> selecciones;
 
 	//x, f(x)
-	protected ArrayList<Pair<Double, Double>> dataSet;
+	protected Pair<ArrayList<Double>, ArrayList<Double>> dataSet;
 
 	protected TipoProblema tipo;
 
@@ -48,9 +49,7 @@ public abstract class Problema implements Cloneable{
     public ArrayList<IMutacion> getMutaciones(){return mutaciones;}
     public ArrayList<ICruce> getCruces(){return cruces;}
     public ArrayList<ISeleccion> getSelecciones(){return selecciones;}
-
-	public ArrayList<Pair<Double, Double>> getDataSet() {
-		return dataSet;
-	}
+	public Pair<ArrayList<Double>, ArrayList<Double>> getDataSet() {return dataSet;}
+	public abstract Pair<ArrayList<Double>, ArrayList<Double>> getDataSet(Individuo i);
 
 }
