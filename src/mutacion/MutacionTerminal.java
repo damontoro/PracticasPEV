@@ -3,7 +3,6 @@ package src.mutacion;
 import java.util.Random;
 
 import src.individuo.Individuo;
-import src.individuo.IndividuoArboreo;
 import src.utils.BinTree;
 import src.problema.ProblemaRegSim.Symbol;
 import src.problema.Problema;

@@ -1,7 +1,5 @@
 package src.individuo;
 
-import java.util.ArrayList;
-
 import java.util.Random;
 
 public abstract class Individuo {

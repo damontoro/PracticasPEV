@@ -20,9 +20,6 @@ import src.utils.TipoProblema;
 
 public class ProblemaRegSim extends Problema{
 
-	//x, f(x)
-	private ArrayList<Pair<Double, Double>> dataSet;
-
 	public ProblemaRegSim() {
 		super();
 		tipo = TipoProblema.MINIMIZACION;

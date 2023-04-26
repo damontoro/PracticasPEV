@@ -4,7 +4,6 @@ import src.AlgoritmoGenetico;
 import src.individuo.Individuo;
 import src.patrones.AGobserver;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 

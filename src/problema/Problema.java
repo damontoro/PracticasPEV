@@ -2,7 +2,7 @@ package src.problema;
 
 import java.util.ArrayList;
 
-import src.utils.BinTree;
+import src.utils.Pair;
 import src.utils.TipoConst;
 import src.utils.TipoProblema;
 import src.cruce.ICruce;
@@ -15,6 +15,9 @@ public abstract class Problema implements Cloneable{
 	protected ArrayList<ICruce> cruces;
 	protected ArrayList<IMutacion> mutaciones;
 	protected ArrayList<ISeleccion> selecciones;
+
+	//x, f(x)
+	protected ArrayList<Pair<Double, Double>> dataSet;
 
 	protected TipoProblema tipo;
 
@@ -45,5 +48,9 @@ public abstract class Problema implements Cloneable{
     public ArrayList<IMutacion> getMutaciones(){return mutaciones;}
     public ArrayList<ICruce> getCruces(){return cruces;}
     public ArrayList<ISeleccion> getSelecciones(){return selecciones;}
+
+	public ArrayList<Pair<Double, Double>> getDataSet() {
+		return dataSet;
+	}
 
 }

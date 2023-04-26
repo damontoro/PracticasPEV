@@ -1,7 +1,6 @@
 package src.individuo;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 
 import src.problema.ProblemaRegSim.Symbol;
