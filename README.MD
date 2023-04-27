@@ -15,6 +15,7 @@ TODO:
 		Donde hacer control de bloating
 		Preguntar como quiere la gráfica
 		Meter el arbol
+		Cambiar colores graficas
 
 
 		Nacho: hoist, subarbol

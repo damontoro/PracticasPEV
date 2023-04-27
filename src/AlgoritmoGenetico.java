@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
-import src.seleccion.SeleccionRuleta;
 import src.utils.TipoConst;
 import src.problema.*;
 import src.cruce.*;
@@ -59,13 +58,6 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		this.poblacion = new ArrayList<Individuo>();
 		this.elite = new ArrayList<Individuo>();
 
-		this.tipoConst = TipoConst.RAMPED_AND_HALF;
-
-		this.bloating = new BloatingFundamentado();
-		
-		this.seleccion = new SeleccionRuleta();
-		this.cruce = new CruceIntercambio();
-		this.mutacion = new MutacionFuncional();
 		this.mejorAbs = null;
 		this.intervalos = false;
 	}
@@ -230,6 +222,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public void setProbCruce(double probCruce) {this.probCruce = probCruce;}
 	public void setProbMutacion(double probMutacion) {this.probMutacion = probMutacion;}
 	public void setAlturaMaxima(int alturaMaxima) {this.alturaMaxima = alturaMaxima;}
+	public void setTipoConst(TipoConst tipo){this.tipoConst = tipo;}
 	public void setElitismo(double elitismo) {this.elitismo = elitismo;}
 	public void setIntervalos(boolean intervalos) {this.intervalos = intervalos;}
 	public void setEjecucionActual(int ejecucionActual) {this.ejecucionActual = ejecucionActual;}

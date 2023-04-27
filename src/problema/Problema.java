@@ -30,6 +30,10 @@ public abstract class Problema implements Cloneable{
 		mutaciones = new ArrayList<IMutacion>();
 		selecciones = new ArrayList<ISeleccion>();
 		bloatings = new ArrayList<IBloating>();
+
+		dataSet = new Pair<List<Double>, List<Double>>(
+			new ArrayList<Double>(), new ArrayList<Double>()
+		);
 	}
 
 	public TipoProblema getTipo() {return tipo;}

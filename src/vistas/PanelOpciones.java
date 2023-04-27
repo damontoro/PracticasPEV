@@ -30,6 +30,7 @@ import src.AlgoritmoGenetico;
 import src.patrones.AGobserver;
 import src.problema.IBloating;
 import src.seleccion.ISeleccion;
+import src.utils.TipoConst;
 import src.mutacion.IMutacion;
 import src.cruce.ICruce;
 
@@ -60,6 +61,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	private JComboBox<ICruce> selCruce;
 	private JComboBox<IMutacion> selMutacion;
 	private JComboBox<IBloating> selBloating;
+	private JComboBox<TipoConst> selTipoConst;
 
 	private List<ISeleccion> selecciones;
 	private List<ICruce> cruces;
@@ -138,6 +140,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		selCruce = new JComboBox<>();
 		selMutacion = new JComboBox<>();
 		selBloating = new JComboBox<>();
+		selTipoConst = new JComboBox<>(TipoConst.values());
 
 		for (ISeleccion s : selecciones){selSeleccion.addItem(s);}
 		for(ICruce c : cruces){selCruce.addItem(c);}
@@ -151,6 +154,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		this.add(intervaloPanel("Porcentaje elitismo", minElitismo, maxElitismo, btnElitismo));
 		this.add(intervaloPanel("Altura máxima inicial del árbol", minSize, maxSize, btnSize));
 
+		this.add(createViewPanel(selTipoConst, "Tipo de Inicialización"));
 		this.add(createViewPanel(selSeleccion, "Selección"));
 		this.add(createViewPanel(selCruce, "Cruce"));
 		this.add(createViewPanel(selMutacion, "Mutaciones"));
@@ -275,6 +279,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		ag.setProbMutacion(Double.valueOf((int)minProbMut.getValue()) / 100);
 		ag.setAlturaMaxima((int)minSize.getValue());
 		ag.setElitismo(Double.valueOf((int)minElitismo.getValue()) / 100);
+		ag.setTipoConst((TipoConst)selTipoConst.getSelectedItem());
 		ag.setSeleccion((ISeleccion)selSeleccion.getSelectedItem());
 		ag.setCruce((ICruce)selCruce.getSelectedItem());
 		ag.setMutacion((IMutacion)selMutacion.getSelectedItem());

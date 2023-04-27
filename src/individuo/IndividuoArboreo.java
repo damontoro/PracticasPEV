@@ -17,15 +17,12 @@ public class IndividuoArboreo extends Individuo{
 	public IndividuoArboreo(TipoConst tipo, int max_depth) {
 		super();
 
-		while(tipo.equals(TipoConst.RANDOM))
-			tipo = TipoConst.values()[(int) (Math.random() * TipoConst.values().length)];
-
 		switch(tipo) {
 			case CRECIENTE: genotipo = buildCreciente(0, max_depth); 
 				break;
 			case COMPLETO: genotipo = buildCompleto(0, max_depth); 
 				break;
-			default: break;
+			default: throw new UnsupportedOperationException("Unimplemented method 'initPoblacion'");
 		}
 	}
 

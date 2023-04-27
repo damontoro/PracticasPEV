@@ -26,9 +26,6 @@ public class ProblemaRegSim extends Problema{
 	public ProblemaRegSim() {
 		super();
 		tipo = TipoProblema.MINIMIZACION;
-		dataSet = new Pair<List<Double>, List<Double>>(
-			new ArrayList<Double>(), new ArrayList<Double>()
-		);
 
 		cruces.add(new CruceIntercambio());
 		bloatings.add(new BloatingFundamentado());
@@ -66,7 +63,8 @@ public class ProblemaRegSim extends Problema{
 	}
 
 	private void loadDataSet() {
-
+		dataSet.getFirst().clear();
+		dataSet.getSecond().clear();
 		for (double ini = -1.0; ini <= 1.0 ; ini += 0.02) {
 			dataSet.getFirst().add(ini);
 			dataSet.getSecond().add(
