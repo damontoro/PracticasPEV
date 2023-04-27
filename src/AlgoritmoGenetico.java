@@ -30,6 +30,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	private int tamPoblacion;
 	private int numGeneraciones;
 	private int ejecucionActual;
+	private int alturaMaxima;
 	private double probCruce;
 	private double probMutacion;
 	private double elitismo;
@@ -46,9 +47,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	private ICruce cruce;
 	private IMutacion mutacion;
 	private ISeleccion seleccion;
-	private IBloating antiBloating;
-
-	private boolean bloating;
+	private IBloating bloating;
 
 	public AlgoritmoGenetico() {
 
@@ -62,8 +61,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 
 		this.tipoConst = TipoConst.RAMPED_AND_HALF;
 
-		this.antiBloating = new BloatingFundamentado();
-		this.bloating = true;
+		this.bloating = new BloatingFundamentado();
 		
 		this.seleccion = new SeleccionRuleta();
 		this.cruce = new CruceIntercambio();
@@ -75,7 +73,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	void initPoblacion(){
 		reset();
 
-		poblacion = problema.initPoblacion(tamPoblacion, tipoConst);
+		poblacion = problema.initPoblacion(tamPoblacion, tipoConst, alturaMaxima);
 
 		mejorAbs = poblacion.get(0);
 		evalPoblacion();
@@ -98,9 +96,9 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	}
 
 	void controlBloating(){
-		if(!bloating) return;
+		if(bloating == null) return;
 
-		antiBloating.penalizar(poblacion, random);
+		bloating.penalizar(poblacion, random);
 	}
 
 	void seleccion(){
@@ -217,6 +215,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public ArrayList<ISeleccion> getSelecciones() {return problema.getSelecciones();}
 	public ArrayList<ICruce> getCruces() {return problema.getCruces();}
 	public ArrayList<IMutacion> getMutaciones() {return problema.getMutaciones();}
+	public ArrayList<IBloating> getBloatings() {return problema.getBloatings();}
 	public Problema getProblema() {return problema;}
 	public Individuo getMejorAbs() {return mejorAbs;}
 	public double getMejorGen() {return mejorGen;}
@@ -230,6 +229,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public void setNumGeneraciones(int numGeneraciones) {this.numGeneraciones = numGeneraciones;}
 	public void setProbCruce(double probCruce) {this.probCruce = probCruce;}
 	public void setProbMutacion(double probMutacion) {this.probMutacion = probMutacion;}
+	public void setAlturaMaxima(int alturaMaxima) {this.alturaMaxima = alturaMaxima;}
 	public void setElitismo(double elitismo) {this.elitismo = elitismo;}
 	public void setIntervalos(boolean intervalos) {this.intervalos = intervalos;}
 	public void setEjecucionActual(int ejecucionActual) {this.ejecucionActual = ejecucionActual;}
@@ -239,4 +239,5 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public void setSeleccion(ISeleccion seleccion) {this.seleccion = seleccion;}
 	public void setCruce(ICruce cruce) {this.cruce = cruce;}
 	public void setMutacion(IMutacion mutacion) {this.mutacion = mutacion;}
+	public void setBloating(IBloating bloating) {this.bloating = bloating;}
 }

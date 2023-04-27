@@ -38,7 +38,7 @@ public abstract class Problema implements Cloneable{
 	abstract public Individuo build(Individuo i);
 	abstract public <T> Individuo build(ArrayList<T> valores);
 	
-	abstract public ArrayList<Individuo> initPoblacion(int tamPoblacion, TipoConst tipo);
+	abstract public ArrayList<Individuo> initPoblacion(int tamPoblacion, TipoConst tipo, int alturaMaxima);
 
 	abstract public <T> double evaluar(Individuo i);
 
@@ -54,6 +54,7 @@ public abstract class Problema implements Cloneable{
     public ArrayList<IMutacion> getMutaciones(){return mutaciones;}
     public ArrayList<ICruce> getCruces(){return cruces;}
     public ArrayList<ISeleccion> getSelecciones(){return selecciones;}
+	public ArrayList<IBloating> getBloatings(){return bloatings;}
 	public Pair<List<Double>, List<Double>> getDataSet() {
 		return new Pair<List<Double>, List<Double>>
 					(Collections.unmodifiableList(dataSet.getFirst()), 

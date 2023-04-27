@@ -73,5 +73,10 @@ public class BloatingFundamentado implements IBloating{
 		double covarianza = sumatoria / (n - 1);
 		return covarianza;
 	}
+
+	@Override
+	public String toString() {
+		return "Bloating Fundamentado";
+	}
 	
 }

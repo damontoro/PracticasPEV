@@ -7,11 +7,13 @@ public class BinTree<T> {
 	private BinTree<T> right;
 
 	private Integer height;
+	private Integer numNodes;
 
 	
 	public BinTree(){
 		this.elem = null; 
 		this.height = null;
+		this.numNodes = null;
 	}
 
 	public BinTree(BinTree<T> tree){
@@ -19,11 +21,13 @@ public class BinTree<T> {
 		this.right = tree.getRightChild();
 		this.left = tree.getLeftChild();
 		this.height = tree.getHeight();
+		this.numNodes = tree.getNumNodes();
 	}
 
 	public BinTree(T elem){
 		this.elem = elem;
 		this.height = 1;
+		this.numNodes = 1;
 	}
 
 	public BinTree(BinTree<T> izq, BinTree<T> der, T elem){
@@ -31,6 +35,7 @@ public class BinTree<T> {
 		this.left = izq;
 		this.right = der;
 		this.height = Math.max(izq.getHeight(), der.getHeight()) + 1;
+		this.numNodes = izq.getNumNodes() + der.getNumNodes() + 1;
 	}
 
 	//public boolean isEmpty(){return root == null;}
@@ -44,6 +49,7 @@ public class BinTree<T> {
 		this.left = tree.left;
 		this.right = tree.right;
 		this.height = null;
+		this.numNodes = null;
 	}
 
 	public Integer getHeight(){
@@ -52,9 +58,20 @@ public class BinTree<T> {
 		return height;
 	}
 
+	public Integer getNumNodes(){
+		if(numNodes == null)
+			numNodes = calculateNumNodes(this);
+		return numNodes;
+	}
+
 	private Integer calculateHeight(BinTree<T> root){
 		if(root == null) return 0;
 		return Math.max(calculateHeight(left), calculateHeight(right)) + 1;
+	}
+
+	private Integer calculateNumNodes(BinTree<T> root){
+		if(root == null) return 0;
+		return calculateNumNodes(left) + calculateNumNodes(right) + 1;
 	}
 
 	@Override

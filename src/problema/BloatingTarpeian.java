@@ -27,5 +27,10 @@ public class BloatingTarpeian implements IBloating{
 				i.setFitness(sumFit);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Bloating Tarpeian";
+	}
 	
 }

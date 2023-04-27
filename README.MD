@@ -13,6 +13,8 @@ TODO:
 		Bloating: el tamaño es la altura? O la densidad?
 		Preguntar Bloating Fundamentado
 		Donde hacer control de bloating
+		Preguntar como quiere la gráfica
+		Meter el arbol
 
 
 		Nacho: hoist, subarbol

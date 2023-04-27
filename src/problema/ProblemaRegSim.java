@@ -22,7 +22,6 @@ import src.utils.TipoProblema;
 public class ProblemaRegSim extends Problema{
 
 	private static final int MIN_DEPTH = 2;
-	private static int MAX_DEPTH = 5;
 
 	public ProblemaRegSim() {
 		super();
@@ -90,26 +89,26 @@ public class ProblemaRegSim extends Problema{
 	}
 
 	@Override
-	public ArrayList<Individuo> initPoblacion(int tamPoblacion, TipoConst tipo){
+	public ArrayList<Individuo> initPoblacion(int tamPoblacion, TipoConst tipo, int alturaMaxima){
 		ArrayList<Individuo> poblacion = new ArrayList<Individuo>();
 
 		if(tipo.equals(TipoConst.RAMPED_AND_HALF))
-			return iniRampedAndHalf(tamPoblacion);
+			return iniRampedAndHalf(tamPoblacion, alturaMaxima);
 
 		for(int i = 0; i < tamPoblacion; i++)
-			poblacion.add(new IndividuoArboreo(tipo, MAX_DEPTH));
+			poblacion.add(new IndividuoArboreo(tipo, alturaMaxima));
 			
 		return poblacion;
 	}
 
-	private ArrayList<Individuo> iniRampedAndHalf(int tamPoblacion) {
+	private ArrayList<Individuo> iniRampedAndHalf(int tamPoblacion, int alturaMaxima) {
 		ArrayList<Individuo> poblacion = new ArrayList<Individuo>();
-		int numGrupos = MAX_DEPTH - 1;
+		int numGrupos = alturaMaxima - 1;
 
 		int numIndCompletos = (tamPoblacion / numGrupos) / 2;
 		int numIndCrecientes = (tamPoblacion / numGrupos) - numIndCompletos;
 
-		for(int profActual = MIN_DEPTH; profActual <= MAX_DEPTH; profActual++){
+		for(int profActual = MIN_DEPTH; profActual <= alturaMaxima; profActual++){
 			for(int i = 0; i < numIndCompletos; i++)
 				poblacion.add(new IndividuoArboreo(TipoConst.COMPLETO, profActual));
 			for(int i = 0; i < numIndCrecientes; i++)

@@ -12,6 +12,7 @@ import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
 import src.AlgoritmoGenetico;
+import src.individuo.Individuo;
 import src.patrones.AGobserver;
 
 import java.awt.Color;
@@ -21,6 +22,7 @@ public class VistaFuncion extends JPanel implements AGobserver{
 
     private final XYChart chart;
 
+	private Individuo mejorAbs;
     private List<Double> original = new ArrayList<Double>();
     private List<Double> mejorIndividuo = new ArrayList<Double>();
     private List<Double> xData = new ArrayList<Double>();
@@ -66,10 +68,22 @@ public class VistaFuncion extends JPanel implements AGobserver{
 
     @Override
     public void onInit(AlgoritmoGenetico ag) {
+		String xtitle = ag.getTituloEjeX();
+		chart.setXAxisTitle(xtitle);
+
+		original.clear();
+		mejorIndividuo.clear();
+		xData.clear();
+
+		this.repaint();
+		this.revalidate();
     }
 
     @Override
     public void onChange(AlgoritmoGenetico ag) {
+		if(mejorAbs == null || (ag.getProblema().compare(ag.getMejorAbs(), mejorAbs) < 0)){
+            mejorAbs = ag.getMejorAbs();
+        }
     }
 
     @Override
@@ -84,7 +98,7 @@ public class VistaFuncion extends JPanel implements AGobserver{
 
 		xData.addAll(ag.getProblema().getDataSet().getFirst());
 		original.addAll(ag.getProblema().getDataSet().getSecond());
-		mejorIndividuo.addAll(ag.getProblema().getDataSet(ag.getMejorAbs()).getSecond());
+		mejorIndividuo.addAll(ag.getProblema().getDataSet(mejorAbs).getSecond());
 
         chart.updateXYSeries("Original", xData, original, null);
         chart.updateXYSeries("Mejor Individuo", xData, mejorIndividuo, null);
