@@ -122,9 +122,12 @@ public class ProblemaRegSim extends Problema{
 				valueInd = calcArbol((BinTree<Symbol>)i.getGenotipo(), dataSet.getFirst().get(j));
 				fitness += Math.pow(dataSet.getSecond().get(j) - valueInd, 2);
 			}
+			double aux = fitness;
 			fitness = Math.sqrt(fitness);
-			if (fitness == 0.0) 
+
+			if (fitness <= 0.01) //TODO cambiar esto
 				System.out.println("Fitness 0");
+
 			return fitness;
 		}catch(Exception e) {
 			System.out.println("Error en evaluar");

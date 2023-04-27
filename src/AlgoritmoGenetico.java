@@ -124,7 +124,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		ordenarPoblacion();
 
 		if(problema.compare(poblacion.get(0) , mejorAbs) < 0)
-			mejorAbs = poblacion.get(0);
+			mejorAbs = problema.build(poblacion.get(0));
 
 		this.mejorGen = poblacion.get(0).getFitness();
 	}
@@ -143,7 +143,6 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				evalPoblacion();
 				introducirElite();
 				cogerDatos();
-				
 				onChange(this);
 				Thread.sleep(10);
 			}
