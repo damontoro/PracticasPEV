@@ -34,6 +34,7 @@ public abstract class Problema implements Cloneable{
 		dataSet = new Pair<List<Double>, List<Double>>(
 			new ArrayList<Double>(), new ArrayList<Double>()
 		);
+		loadDataSet();
 	}
 
 	public TipoProblema getTipo() {return tipo;}
@@ -53,6 +54,20 @@ public abstract class Problema implements Cloneable{
 			return Double.compare(fit1, fit2);
 		else
 			return Double.compare(fit2, fit1);
+	}
+
+	private void loadDataSet() {
+		dataSet.getFirst().clear();
+		dataSet.getSecond().clear();
+		for (double ini = -1.0; ini <= 1.0 ; ini += 0.02) {
+			dataSet.getFirst().add(ini);
+			dataSet.getSecond().add(
+				Math.pow(ini, 4) + 
+				Math.pow(ini, 3) +
+				Math.pow(ini, 2) +
+				ini + 1
+			);
+		}
 	}
 
     public ArrayList<IMutacion> getMutaciones(){return mutaciones;}

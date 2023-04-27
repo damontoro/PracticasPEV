@@ -40,8 +40,6 @@ public class ProblemaRegSim extends Problema{
 		selecciones.add(new SeleccionTorneoProb());
 		selecciones.add(new SeleccionTruncamiento());
 		selecciones.add(new SeleccionRestos());
-
-		loadDataSet();
 	}
 
 	public static List<Symbols> getLiterals() {
@@ -62,19 +60,6 @@ public class ProblemaRegSim extends Problema{
 		}
 	}
 
-	private void loadDataSet() {
-		dataSet.getFirst().clear();
-		dataSet.getSecond().clear();
-		for (double ini = -1.0; ini <= 1.0 ; ini += 0.02) {
-			dataSet.getFirst().add(ini);
-			dataSet.getSecond().add(
-				Math.pow(ini, 4) + 
-				Math.pow(ini, 3) +
-				Math.pow(ini, 2) +
-				ini + 1
-			);
-		}
-	}
 
 	@Override
 	public Individuo build(Individuo i) {
