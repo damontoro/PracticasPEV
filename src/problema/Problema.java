@@ -1,6 +1,8 @@
 package src.problema;
 
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import src.utils.Pair;
 import src.utils.TipoConst;
@@ -16,9 +18,10 @@ public abstract class Problema implements Cloneable{
 	protected ArrayList<ICruce> cruces;
 	protected ArrayList<IMutacion> mutaciones;
 	protected ArrayList<ISeleccion> selecciones;
+	protected ArrayList<IBloating> bloatings;
 
 	//x, f(x)
-	protected Pair<ArrayList<Double>, ArrayList<Double>> dataSet;
+	protected Pair<List<Double>, List<Double>> dataSet;
 
 	protected TipoProblema tipo;
 
@@ -26,15 +29,17 @@ public abstract class Problema implements Cloneable{
 		cruces = new ArrayList<ICruce>();
 		mutaciones = new ArrayList<IMutacion>();
 		selecciones = new ArrayList<ISeleccion>();
+		bloatings = new ArrayList<IBloating>();
 	}
 
 	public TipoProblema getTipo() {return tipo;}
 	public void setTipo(TipoProblema tipo) {this.tipo = tipo;}
 
-	abstract public Individuo build(TipoConst tipo);
 	abstract public Individuo build(Individuo i);
 	abstract public <T> Individuo build(ArrayList<T> valores);
 	
+	abstract public ArrayList<Individuo> initPoblacion(int tamPoblacion, TipoConst tipo);
+
 	abstract public <T> double evaluar(Individuo i);
 
 	public int compare(Individuo i1, Individuo i2) {
@@ -49,7 +54,11 @@ public abstract class Problema implements Cloneable{
     public ArrayList<IMutacion> getMutaciones(){return mutaciones;}
     public ArrayList<ICruce> getCruces(){return cruces;}
     public ArrayList<ISeleccion> getSelecciones(){return selecciones;}
-	public Pair<ArrayList<Double>, ArrayList<Double>> getDataSet() {return dataSet;}
+	public Pair<List<Double>, List<Double>> getDataSet() {
+		return new Pair<List<Double>, List<Double>>
+					(Collections.unmodifiableList(dataSet.getFirst()), 
+					Collections.unmodifiableList(dataSet.getSecond()));
+	}
 	public abstract Pair<ArrayList<Double>, ArrayList<Double>> getDataSet(Individuo i);
 
 }

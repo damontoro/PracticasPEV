@@ -3,6 +3,7 @@ package src.vistas;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.Dimension;
 
 import org.knowm.xchart.XYChart;
@@ -20,9 +21,9 @@ public class VistaFuncion extends JPanel implements AGobserver{
 
     private final XYChart chart;
 
-    private ArrayList<Double> original = new ArrayList<Double>();
-    private ArrayList<Double> mejorIndividuo = new ArrayList<Double>();
-    private ArrayList<Double> xData = new ArrayList<Double>();
+    private List<Double> original = new ArrayList<Double>();
+    private List<Double> mejorIndividuo = new ArrayList<Double>();
+    private List<Double> xData = new ArrayList<Double>();
 
     public VistaFuncion(AlgoritmoGenetico ag, int width, int height) {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -81,9 +82,9 @@ public class VistaFuncion extends JPanel implements AGobserver{
         mejorIndividuo.clear();
         xData.clear();
 
-		xData = ag.getProblema().getDataSet().getFirst();
-		original = ag.getProblema().getDataSet().getSecond();
-		mejorIndividuo = ag.getProblema().getDataSet(ag.getMejorAbs()).getSecond();
+		xData.addAll(ag.getProblema().getDataSet().getFirst());
+		original.addAll(ag.getProblema().getDataSet().getSecond());
+		mejorIndividuo.addAll(ag.getProblema().getDataSet(ag.getMejorAbs()).getSecond());
 
         chart.updateXYSeries("Original", xData, original, null);
         chart.updateXYSeries("Mejor Individuo", xData, mejorIndividuo, null);

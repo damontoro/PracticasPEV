@@ -38,32 +38,44 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	private double mediaFitness;
 	
 	private Individuo mejorAbs;
+	private TipoConst tipoConst;
 
-	final private Random random = new Random();
-	private ArrayList<AGobserver> observers = new ArrayList<AGobserver>();
+	private final Random random;
+	private ArrayList<AGobserver> observers;
 
 	private ICruce cruce;
 	private IMutacion mutacion;
 	private ISeleccion seleccion;
+	private IBloating antiBloating;
+
+	private boolean bloating;
 
 	public AlgoritmoGenetico() {
+
+		random = new Random();
+		observers = new ArrayList<AGobserver>();
 
 		this.problema = new ProblemaRegSim();
 
 		this.poblacion = new ArrayList<Individuo>();
 		this.elite = new ArrayList<Individuo>();
+
+		this.tipoConst = TipoConst.RAMPED_AND_HALF;
+
+		this.antiBloating = new BloatingFundamentado();
+		this.bloating = true;
 		
 		this.seleccion = new SeleccionRuleta();
 		this.cruce = new CruceIntercambio();
-		this.mutacion = new MutacionTerminal();
+		this.mutacion = new MutacionFuncional();
 		this.mejorAbs = null;
 		this.intervalos = false;
 	}
 
 	void initPoblacion(){
 		reset();
-		for(int i = 0; i < tamPoblacion; i++)
-			poblacion.add(problema.build(TipoConst.COMPLETO));
+
+		poblacion = problema.initPoblacion(tamPoblacion, tipoConst);
 
 		mejorAbs = poblacion.get(0);
 		evalPoblacion();
@@ -83,6 +95,12 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		elite.clear();
 		for(int i = 0; i < elitismo * tamPoblacion; i++)
 			elite.add(problema.build(poblacion.get(i)));
+	}
+
+	void controlBloating(){
+		if(!bloating) return;
+
+		antiBloating.penalizar(poblacion, random);
 	}
 
 	void seleccion(){
@@ -128,6 +146,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 			initPoblacion();
 			for(this.ejecucionActual = 1; this.ejecucionActual <= numGeneraciones; this.ejecucionActual++){
 				extraerElite();
+				controlBloating();
 				seleccion();
 				cruce();
 				mutacion();
@@ -158,6 +177,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				initPoblacion();
 				for(int j = 0; j < numGeneraciones; j++){
 					extraerElite();
+					controlBloating();
 					seleccion();
 					cruce();
 					mutacion();

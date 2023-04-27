@@ -11,25 +11,19 @@ import src.utils.TipoConst;
 
 public class IndividuoArboreo extends Individuo{
 
-	private static final int MIN_DEPTH = 2;
-	private static final int MAX_DEPTH = 5;
-	private int ini_depth;
 	private BinTree<Symbol> genotipo;
 	
 
-	public IndividuoArboreo(TipoConst tipo) {
+	public IndividuoArboreo(TipoConst tipo, int max_depth) {
 		super();
-		ini_depth = random.nextInt(MIN_DEPTH, MAX_DEPTH + 1);
 
 		while(tipo.equals(TipoConst.RANDOM))
 			tipo = TipoConst.values()[(int) (Math.random() * TipoConst.values().length)];
 
 		switch(tipo) {
-			case CRECIENTE: genotipo = buildCreciente(0); 
+			case CRECIENTE: genotipo = buildCreciente(0, max_depth); 
 				break;
-			case COMPLETO: genotipo = buildCompleto(0); 
-				break;
-			case RAMPED_AND_HALF: //buildRampedAndHalf(); 
+			case COMPLETO: genotipo = buildCompleto(0, max_depth); 
 				break;
 			default: break;
 		}
@@ -40,30 +34,31 @@ public class IndividuoArboreo extends Individuo{
 		genotipo = deSerialize(serialize(i.getGenotipo()));
 	}
 
-	private BinTree<Symbol> buildCompleto(int height){
-		if(height == ini_depth - 1)
+	private BinTree<Symbol> buildCompleto(int height, int maxDepth){
+		if(height == maxDepth - 1)
 			return new BinTree<Symbol>(
 				new Symbol(ProblemaRegSim.getLiterals().get(random.nextInt(0, 2)), random.nextInt(-2,3)));
 
 		return new BinTree<Symbol>(
-				buildCompleto(height + 1), 
-				buildCompleto(height + 1), 
+				buildCompleto(height + 1, maxDepth), 
+				buildCompleto(height + 1, maxDepth), 
 				new Symbol(ProblemaRegSim.getFunctions().get(random.nextInt(0, 3)), null) );
 	}
 
-	private BinTree<Symbol> buildCreciente(int height){
-		if(height == ini_depth - 1)
+	private BinTree<Symbol> buildCreciente(int height, int maxDepth){
+		if(height == maxDepth - 1)
 			return new BinTree<Symbol>(
 				new Symbol(ProblemaRegSim.getLiterals().get(random.nextInt(0, 2)), random.nextInt(-2,3)));
-				
-		Symbols s = Symbols.values()[random.nextInt(0, Symbols.values().length)];
+		
+		Symbols s = (height == 0) ? ProblemaRegSim.getFunctions().get(random.nextInt(0, 3)) :
+									Symbols.values()[random.nextInt(2, Symbols.values().length)];
 
 		if(ProblemaRegSim.getLiterals().contains(s))
 			return new BinTree<Symbol>(new Symbol(s, random.nextInt(-2,3)));
 
 		return new BinTree<Symbol>(
-			buildCreciente(height + 1), 
-			buildCreciente(height + 1), 
+			buildCreciente(height + 1, maxDepth), 
+			buildCreciente(height + 1, maxDepth), 
 			new Symbol(s,null) );
 	}
 

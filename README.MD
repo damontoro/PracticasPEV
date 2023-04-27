@@ -7,22 +7,16 @@ TODO:
 	Mejor de la generacion en rojo y el absoluto en azul
 
 	Que Hacer:
-		Visualizar el arbol y el fenotipo
-		Hacer la gráfica de comparacion de la función original y nuestro mejor individuo
 		Para GE poner un tamño de cromosoma de 8 o 10 como referencia
-		Distintas funciones de fitness
-		Cruces y mutaciones
+
+		Si el creciente puede ser de tamaño 1
+		Bloating: el tamaño es la altura? O la densidad?
+		Preguntar Bloating Fundamentado
+		Donde hacer control de bloating
 
 
-		Repensar arbol binario
+		Nacho: hoist, subarbol
 
-		Funciones de utilidad del arbol : swap, constructor por copia que copie llamando al creador de postorden
-		Funciones del problema (build, evaluar y eso), constructor problema
+		David: expansion, contraccion, permutacion
 
-	MAS IMPORTANTE:
-		Tenemos que hacer 3 mutaciones al menos
-		Tenemos que aplicar un control de bloating
 
-	MENOS IMPORTANTE:
-		Refactorizar los cruces para quitar cod repetido
-		Generalizar los metodos para ruleta y estocástica

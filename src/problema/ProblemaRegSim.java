@@ -9,6 +9,7 @@ import src.cruce.ICruce;
 import src.individuo.Individuo;
 import src.individuo.IndividuoArboreo;
 import src.mutacion.IMutacion;
+import src.mutacion.MutacionFuncional;
 import src.mutacion.MutacionTerminal;
 import src.problema.ProblemaRegSim.Symbol.Symbols;
 import src.seleccion.*;
@@ -20,16 +21,22 @@ import src.utils.TipoProblema;
 
 public class ProblemaRegSim extends Problema{
 
+	private static final int MIN_DEPTH = 2;
+	private static int MAX_DEPTH = 5;
+
 	public ProblemaRegSim() {
 		super();
 		tipo = TipoProblema.MINIMIZACION;
-		dataSet = new Pair<ArrayList<Double>, ArrayList<Double>>(
+		dataSet = new Pair<List<Double>, List<Double>>(
 			new ArrayList<Double>(), new ArrayList<Double>()
 		);
 
 		cruces.add(new CruceIntercambio());
+		bloatings.add(new BloatingFundamentado());
+		bloatings.add(new BloatingTarpeian());
 		
 		mutaciones.add(new MutacionTerminal());
+		mutaciones.add(new MutacionFuncional());
 
 		selecciones.add(new SeleccionRanking());
 		selecciones.add(new SeleccionRuleta());
@@ -72,12 +79,6 @@ public class ProblemaRegSim extends Problema{
 		}
 	}
 
-
-	@Override
-	public Individuo build(TipoConst tipo) {
-		return new IndividuoArboreo(tipo);
-	}
-
 	@Override
 	public Individuo build(Individuo i) {
 		return new IndividuoArboreo((IndividuoArboreo)i);
@@ -86,6 +87,35 @@ public class ProblemaRegSim extends Problema{
 	@Override
 	public <T> Individuo build(ArrayList<T> valores) { //Esto recibe el inorden
 		throw new UnsupportedOperationException("Unimplemented method 'build'");
+	}
+
+	@Override
+	public ArrayList<Individuo> initPoblacion(int tamPoblacion, TipoConst tipo){
+		ArrayList<Individuo> poblacion = new ArrayList<Individuo>();
+
+		if(tipo.equals(TipoConst.RAMPED_AND_HALF))
+			return iniRampedAndHalf(tamPoblacion);
+
+		for(int i = 0; i < tamPoblacion; i++)
+			poblacion.add(new IndividuoArboreo(tipo, MAX_DEPTH));
+			
+		return poblacion;
+	}
+
+	private ArrayList<Individuo> iniRampedAndHalf(int tamPoblacion) {
+		ArrayList<Individuo> poblacion = new ArrayList<Individuo>();
+		int numGrupos = MAX_DEPTH - 1;
+
+		int numIndCompletos = (tamPoblacion / numGrupos) / 2;
+		int numIndCrecientes = (tamPoblacion / numGrupos) - numIndCompletos;
+
+		for(int profActual = MIN_DEPTH; profActual <= MAX_DEPTH; profActual++){
+			for(int i = 0; i < numIndCompletos; i++)
+				poblacion.add(new IndividuoArboreo(TipoConst.COMPLETO, profActual));
+			for(int i = 0; i < numIndCrecientes; i++)
+				poblacion.add(new IndividuoArboreo(TipoConst.CRECIENTE, profActual));
+		}
+		return poblacion;
 	}
 
 	public Pair<ArrayList<Double>, ArrayList<Double>> getDataSet(Individuo i) {
