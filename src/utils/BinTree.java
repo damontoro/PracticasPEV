@@ -79,9 +79,9 @@ public class BinTree<T> {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("(");
-		if(right != null) sb.append(right.toString());
-		sb.append(elem.toString());
 		if(left != null) sb.append(left.toString());
+		sb.append(elem.toString());
+		if(right != null) sb.append(right.toString());
 		sb.append(")");
 		
 		return sb.toString();
