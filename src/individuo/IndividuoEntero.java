@@ -1,23 +1,25 @@
 package src.individuo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class IndividuoEntero extends Individuo{
 
-	private ArrayList<Integer> genotipo;
+	private ArrayList<Character> genotipo;
 
-	public IndividuoEntero(int numCiudades) {
-
+	public IndividuoEntero(int tamGenes){
+		this.genotipo = new ArrayList<>();
+		for(int i = 0; i < tamGenes; i++){
+			genotipo.add((char)random.nextInt(256));
+		}
 	}
 
 	public IndividuoEntero(IndividuoEntero i) {
 		super(i);
-		this.genotipo = new ArrayList<Integer>();
+		this.genotipo = new ArrayList<Character>();
 		this.genotipo.addAll(i.getGenotipo());
 	}
 
-	public IndividuoEntero(ArrayList<Integer> genotipo) {
+	public IndividuoEntero(ArrayList<Character> genotipo) {
 		this.genotipo = new ArrayList<>();
 		this.genotipo.addAll(genotipo);
 	}
@@ -25,13 +27,14 @@ public class IndividuoEntero extends Individuo{
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ArrayList<Integer> getFenotipo() {
-		return genotipo;
+	public ArrayList<Character> getFenotipo() {
+		//TODO
+		return null;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ArrayList<Integer> getGenotipo() {
+	public ArrayList<Character> getGenotipo() {
 		return genotipo;
 	}
 	

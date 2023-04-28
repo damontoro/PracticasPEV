@@ -17,13 +17,13 @@ public class BloatingTarpeian implements IBloating{
 		double sumFit = 0;
 
 		for(Individuo i : poblacion){
-			mediaAltura += ((BinTree<Symbol>)i.getGenotipo()).getHeight();
+			mediaAltura += ((BinTree<Symbol>)i.getGenotipo()).getNumNodes();
 			sumFit += i.getFitness();
 		}
 		mediaAltura /= poblacion.size();
 
 		for(Individuo i : poblacion){
-			if(((BinTree<Symbol>)i.getGenotipo()).getHeight() > mediaAltura && rand.nextDouble() < PROB_MUERTE)
+			if(((BinTree<Symbol>)i.getGenotipo()).getNumNodes() > mediaAltura && rand.nextDouble() < PROB_MUERTE)
 				i.setFitness(sumFit);
 		}
 	}

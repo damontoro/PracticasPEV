@@ -17,13 +17,13 @@ public class BloatingFundamentado implements IBloating{
 
 		for(int i = 0; i < poblacion.size(); i++){
 			fitness[i] = poblacion.get(i).getFitness();
-			profundidad[i] = ((BinTree<Symbol>)poblacion.get(i).getGenotipo()).getHeight();
+			profundidad[i] = ((BinTree<Symbol>)poblacion.get(i).getGenotipo()).getNumNodes();
 		}
 
-		coeficiente = calcularCovarianza(fitness, profundidad) / calcularVarianza(fitness);
+		coeficiente = Math.max(calcularCovarianza(fitness, profundidad), 0) / calcularVarianza(fitness);
 
 		for(Individuo i : poblacion){
-			i.setFitness(i.getFitness() + coeficiente * ((BinTree<Symbol>)i.getGenotipo()).getHeight());
+			i.setFitness(i.getFitness() + coeficiente * ((BinTree<Symbol>)i.getGenotipo()).getNumNodes());
 		}
 	}
 

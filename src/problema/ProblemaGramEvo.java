@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import src.cruce.CruceMonopunto;
 import src.cruce.CruceUniforme;
 import src.individuo.Individuo;
+import src.individuo.IndividuoEntero;
 import src.mutacion.MutacionBasica;
 import src.utils.Pair;
 import src.utils.TipoConst;
@@ -14,13 +15,22 @@ import src.seleccion.*;
 
 /*
  * La gramática que vamos a usar es la siguiente
- * <exp> : <exp> <op> <exp> | <var>
- * <op> : + | - | * 
+ * <I> : <exp> <op> <exp> //Lo hacemos así para que la expresión siempre tenga una operacion
+ * <exp> : <exp> <op> <exp> | <var> 
+ * <op> : + | - | * | ^
  * <var> : x | 0 | 1 | 2 | -1 | -2
  */
 
 
 public class ProblemaGramEvo extends Problema{
+
+	private enum Rules{ EXP, OP, VAR};
+
+	private int wrapping = 2;
+	private int tamCromosoma = 8;
+
+	private static final char[] ops = {'+', '-', '*', '^'}; 
+	private static final String[] vars = {"x", "0", "1", "2", "-1", "-2"};
 
 	public ProblemaGramEvo() {
 		super();
@@ -42,14 +52,12 @@ public class ProblemaGramEvo extends Problema{
 
 	@Override
 	public Individuo build(Individuo i) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'build'");
+		return new IndividuoEntero((IndividuoEntero)i);
 	}
 
 	@Override
 	public <T> Individuo build(ArrayList<T> valores) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'build'");
+		return new IndividuoEntero((ArrayList<Character>) valores);
 	}
 
 	@Override
@@ -59,8 +67,79 @@ public class ProblemaGramEvo extends Problema{
 
 	@Override
 	public <T> double evaluar(Individuo i) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'evaluar'");
+		try{
+			double fitness = 0;
+
+			for(int j = 0; j < dataSet.getFirst().size(); j++){
+				double valueInd;
+				valueInd = calcularCodones((ArrayList<Character>)i.getGenotipo(), dataSet.getFirst().get(j));
+				fitness += Math.pow(dataSet.getSecond().get(j) - valueInd, 2);
+			}
+			fitness = Math.sqrt(fitness);
+			return fitness;
+		}catch(Exception e) {
+			System.out.println("Error en evaluar");
+			return 0;
+		}
+	}
+
+	private double calcularCodones(ArrayList<Character> genotipo, double value, Rules rule, int i, int wrap) {
+		double exp1 = calcularExp(genotipo, i, wrap, value);
+		char op = calcularOp(genotipo, i, wrap);
+		double exp2 = calcularExp(genotipo, i, wrap, value);
+		return calcular(op, exp1, exp2);
+	}
+	
+	private double calcularExp(ArrayList<Character> genotipo, Integer i, Integer wrap, double value){
+		int codon = genotipo.get(i); 
+		
+		i = aumentarIndice(i, wrap);
+		if(codon % 2 == 0 ){//la primera regla
+			double exp1 = calcularExp(genotipo, i, wrap, value);
+			char op = calcularOp(genotipo, i, wrap);
+			double exp2 = calcularExp(genotipo, i, wrap, value);
+			return calcular(op, exp1, exp2);
+		}
+		else{
+			return calcularVar(genotipo, i, wrap, value);
+		}
+	}
+
+	private char calcularOp(ArrayList<Character> genotipo, Integer i, Integer wrap){
+		int codon = genotipo.get(i); 
+		i = aumentarIndice(i, wrap);
+		return ops[codon % ops.length];
+	}
+
+	private double calcularVar(ArrayList<Character> genotipo, Integer i, Integer wrap, double value){
+		int codon = genotipo.get(i); 
+		i = aumentarIndice(i, wrap);
+		if(vars[codon%vars.length].equals("x"))
+			return value;
+		else
+			return Integer.valueOf(vars[codon%vars.length]);
+	}
+
+	private double calcular(char op, double exp1, double exp2){
+		switch(op){
+			case '+': return exp1 + exp2;
+			case '-': return exp1 - exp2;
+			case '*': return exp1 * exp2;
+			case '^': return Math.pow(exp1, exp2);
+			default : throw new UnsupportedOperationException("Unimplemented method 'calcular'");
+		}
+	}
+
+	private int aumentarIndice(Integer i, Integer wrap){
+		i++;
+		if(i >= tamCromosoma){
+			if(wrap > 0){
+				i = 0; wrap--;
+			}
+			else
+				throw new UnsupportedOperationException("NO HAY SUFICIENTES WRAPPINGS");
+		}
+		return i;
 	}
 
 	@Override
@@ -68,5 +147,7 @@ public class ProblemaGramEvo extends Problema{
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'getDataSet'");
 	}
+
+
 	
 }

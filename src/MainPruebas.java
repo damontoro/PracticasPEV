@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 
 import src.individuo.Individuo;
 import src.individuo.IndividuoArboreo;
+import src.individuo.IndividuoEntero;
+import src.problema.ProblemaGramEvo;
 import src.problema.ProblemaRegSim;
 import src.problema.ProblemaRegSim.Symbol;
 import src.problema.ProblemaRegSim.Symbol.Symbols;
@@ -14,18 +16,11 @@ import src.vistas.TreeView;
 public class MainPruebas {
 	
 	public static void main(String[] args) {
-		AlgoritmoGenetico ag = new AlgoritmoGenetico();
-
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1400, 800);
-		frame.setVisible(true);
-		frame.add(new TreeView(ag));
 		
-		ag.setNumGeneraciones(100);
-		ag.setTamPoblacion(100);
-		ag.run();
+		IndividuoEntero i = new IndividuoEntero(8);
+		ProblemaGramEvo p = new ProblemaGramEvo();
 
+		System.out.println(p.evaluar(i));
 
 	}
 }

@@ -77,6 +77,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		for(Individuo i : poblacion){
 			i.setFitness(problema.evaluar(i));
 		}
+		controlBloating();
 	}
 
 	void extraerElite(){
@@ -136,7 +137,6 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 			initPoblacion();
 			for(this.ejecucionActual = 1; this.ejecucionActual <= numGeneraciones; this.ejecucionActual++){
 				extraerElite();
-				controlBloating();
 				seleccion();
 				cruce();
 				mutacion();

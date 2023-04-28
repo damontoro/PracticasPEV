@@ -9,14 +9,21 @@ TODO:
 	Que Hacer:
 		Para GE poner un tamño de cromosoma de 8 o 10 como referencia
 
-		Si el creciente puede ser de tamaño 1
 		Bloating: el tamaño es la altura? O la densidad?
 		Preguntar Bloating Fundamentado
 		Donde hacer control de bloating
 		Preguntar como quiere la gráfica
+
+		Poner que el bloating dependa de la generación
+
+		Meter scroll panel en panel info
+		Hacer que si el fitnes es 0.00000000001 se ponga fitness = 0
 		Meter el arbol
 		Cambiar colores graficas
 
+		Ver si podemos hacer un añadido especial para mejorar el ag
+
+		Obtener una expresion segun la regla, aunque sobre cromosoma
 
 		Nacho: hoist, subarbol
 
