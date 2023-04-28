@@ -6,10 +6,8 @@ import src.problema.Problema;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CruceMonopunto implements ICruce, Cloneable{
+public class CruceMonopunto implements ICruce{
 	
-	private int prueba = 0;
-
 	@Override
 	public <T> ArrayList<Individuo> cruzar(ArrayList<Individuo> padres, Problema problema, Random rand, double probCruce) {
 		ArrayList<Individuo> hijos = new ArrayList<Individuo>();
@@ -41,9 +39,6 @@ public class CruceMonopunto implements ICruce, Cloneable{
 		}
 		return hijos;
 	}
-
-	public int getPrueba() {return prueba;}
-	public void setPrueba(int prueba) {this.prueba = prueba;}
 
 	public ICruce clone() { 
 		try {

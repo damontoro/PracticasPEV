@@ -17,10 +17,13 @@ public class MainPruebas {
 	
 	public static void main(String[] args) {
 		
-		IndividuoEntero i = new IndividuoEntero(8);
 		ProblemaGramEvo p = new ProblemaGramEvo();
 
-		System.out.println(p.evaluar(i));
+		for(int i = 0; i < 100; i++) {
+			IndividuoEntero AAAAA = new IndividuoEntero(7);
+			//double fit = p.evaluar(AAAAA);
+			System.out.println(p.decode(AAAAA.getGenotipo()) + " " + p.evaluar(AAAAA));
+		}
 
 	}
 }

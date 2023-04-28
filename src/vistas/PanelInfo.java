@@ -45,7 +45,7 @@ public class PanelInfo extends JPanel implements AGobserver {
     public void onChange(AlgoritmoGenetico ag) {
         if(mejorAbs == null || (ag.getProblema().compare(ag.getMejorAbs(), mejorAbs) < 0)){
             mejorAbs = ag.getMejorAbs();
-            this.fenotipo.setText(mejorAbs.getFenotipo().toString());
+            this.fenotipo.setText(mejorAbs.toString());
             this.fitness.setText(String.valueOf(mejorAbs.getFitness()));
             if(ag.getIntervalos()){
                 this.ejecucion.setText(ag.getTituloEjeX() + ": " + ag.getEjecucionActual());
@@ -59,7 +59,7 @@ public class PanelInfo extends JPanel implements AGobserver {
 
     @Override
     public void onEnd(AlgoritmoGenetico ag) {
-        System.out.println("Mejor fenotipo: " + mejorAbs.getFenotipo().toString()); //TODO: Borrar
+        System.out.println("Mejor fenotipo: " + mejorAbs.toString()); //TODO: Borrar
     }
 
 }

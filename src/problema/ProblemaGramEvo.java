@@ -10,6 +10,7 @@ import src.mutacion.MutacionBasica;
 import src.utils.Pair;
 import src.utils.TipoConst;
 import src.utils.TipoProblema;
+import src.utils.UnsignedByte;
 import src.seleccion.*;
 
 
@@ -17,19 +18,19 @@ import src.seleccion.*;
  * La gramática que vamos a usar es la siguiente
  * <I> : <exp> <op> <exp> //Lo hacemos así para que la expresión siempre tenga una operacion
  * <exp> : <exp> <op> <exp> | <var> 
- * <op> : + | - | * | ^
+ * <op> : + | - | *
  * <var> : x | 0 | 1 | 2 | -1 | -2
  */
 
 
 public class ProblemaGramEvo extends Problema{
 
-	private enum Rules{ EXP, OP, VAR};
+	private static int wrapping = 3;
+	private static int tamCromosoma = 7;
 
-	private int wrapping = 2;
-	private int tamCromosoma = 8;
+	private static int index, currWrap; private static boolean firstLap; //Estos parametros los usamos para calcular los codones
 
-	private static final char[] ops = {'+', '-', '*', '^'}; 
+	private static final char[] ops = {'+', '-', '*'}; 
 	private static final String[] vars = {"x", "0", "1", "2", "-1", "-2"};
 
 	public ProblemaGramEvo() {
@@ -57,12 +58,16 @@ public class ProblemaGramEvo extends Problema{
 
 	@Override
 	public <T> Individuo build(ArrayList<T> valores) {
-		return new IndividuoEntero((ArrayList<Character>) valores);
+		return new IndividuoEntero((ArrayList<UnsignedByte>) valores);
 	}
 
 	@Override
 	public ArrayList<Individuo> initPoblacion(int tamPoblacion, TipoConst tipo, int alturaMaxima) {
-		throw new UnsupportedOperationException("Unimplemented method 'initPoblacion'");
+		ArrayList<Individuo> poblacion = new ArrayList<Individuo>();
+		for(int i = 0; i < tamPoblacion; i++){
+			poblacion.add(new IndividuoEntero(tamCromosoma));
+		}
+		return poblacion;
 	}
 
 	@Override
@@ -72,44 +77,46 @@ public class ProblemaGramEvo extends Problema{
 
 			for(int j = 0; j < dataSet.getFirst().size(); j++){
 				double valueInd;
-				valueInd = calcularCodones((ArrayList<Character>)i.getGenotipo(), 0, 0, dataSet.getFirst().get(j));
+				valueInd = calcularCodones((ArrayList<UnsignedByte>)i.getGenotipo(), dataSet.getFirst().get(j));
 				fitness += Math.pow(dataSet.getSecond().get(j) - valueInd, 2);
 			}
 			fitness = Math.sqrt(fitness);
+
 			return fitness;
-		}catch(Exception e) {
+		}
+		catch(UnsupportedOperationException un){
+			return 100;
+		}
+		catch(Exception e) {
 			System.out.println("Error en evaluar");
 			return 0;
 		}
 	}
 
-	private double calcularCodones(ArrayList<Character> genotipo, int i, int wrap, double value) {
-		return calcularExp(genotipo, 0, 0, value);
+	private double calcularCodones(ArrayList<UnsignedByte> genotipo, double value) {
+		index = 0; currWrap = 0; firstLap = true;
+		return calcularExp(genotipo, value);
 	}
 	
-	private double calcularExp(ArrayList<Character> genotipo, Integer i, Integer wrap, double value){
+	private double calcularExp(ArrayList<UnsignedByte> genotipo, double value){
 		double var;
-		if (Character.getNumericValue(genotipo.get(i)) % 2 == 0 || i == 0){
-			double exp1 = calcularExp(genotipo, ++i, wrap, value); aumentarIndice(i, wrap);
-			char op = ops[genotipo.get(i) % ops.length]; ++i;
-			double exp2 = calcularExp(genotipo, ++i, wrap, value); aumentarIndice(i, wrap);
+		int codon = cogerCodon(genotipo);
+		if (codon % 2 == 0 || firstLap){
+			if(firstLap) firstLap = false;
+
+			double exp1 = calcularExp(genotipo, value);
+			char op = ops[cogerCodon(genotipo) % ops.length];
+			double exp2 = calcularExp(genotipo, value);
 			var = calcular(op, exp1, exp2);
 		}
 		else{
-			var = calcularVar(genotipo, ++i, wrap, value); aumentarIndice(i, wrap);
-			return var;
+			var = calcularVar(genotipo, value); 
 		}
 		return var;
 	}
 
-	private char calcularOp(ArrayList<Character> genotipo, Integer i, Integer wrap){
-		int codon = genotipo.get(i); 
-		i = aumentarIndice(i, wrap);
-		return ops[codon % ops.length];
-	}
-
-	private double calcularVar(ArrayList<Character> genotipo, Integer i, Integer wrap, double value){
-		int codon = genotipo.get(i); 
+	private double calcularVar(ArrayList<UnsignedByte> genotipo, double value){
+		int codon = cogerCodon(genotipo);
 		if(vars[codon%vars.length].equals("x"))
 			return value;
 		else
@@ -121,29 +128,79 @@ public class ProblemaGramEvo extends Problema{
 			case '+': return exp1 + exp2;
 			case '-': return exp1 - exp2;
 			case '*': return exp1 * exp2;
-			case '^': return Math.pow(exp1, exp2);
 			default : throw new UnsupportedOperationException("Unimplemented method 'calcular'");
 		}
 	}
 
-	private int aumentarIndice(Integer i, Integer wrap){
-		i++;
-		if(i >= tamCromosoma){
-			if(wrap > 0){
-				i = 0; wrap--;
+	public static String decode(ArrayList<UnsignedByte> genotipo){
+		index = 0; currWrap = 0; firstLap = true;
+		try{
+			return calcularExpString(genotipo);
+		}catch(UnsupportedOperationException un){
+			return "Individuo demasiado largo (probablemente un bucle)";
+		}
+	}
+
+	private static String calcularExpString(ArrayList<UnsignedByte> genotipo){
+		String var = "";
+		int codon = cogerCodon(genotipo);
+		if (codon % 2 == 0 || firstLap){
+			if(firstLap) firstLap = false;
+
+			String exp1 = calcularExpString(genotipo);
+			char op = ops[cogerCodon(genotipo) % ops.length];
+			String exp2 = calcularExpString(genotipo);
+			var = "(" + exp1 + op + exp2 + ")";
+		}
+		else{
+			var = calcularVarString(genotipo); 
+		}
+		return var;
+	}
+
+	private static String calcularVarString(ArrayList<UnsignedByte> genotipo){
+		int codon = cogerCodon(genotipo);
+		if(vars[codon%vars.length].equals("x"))
+			return "x";
+		else if(Integer.valueOf(vars[codon%vars.length]) < 0)
+			return "(" + vars[codon%vars.length] + ")";
+		else
+			return vars[codon%vars.length];
+	}
+
+	private static int cogerCodon(ArrayList<UnsignedByte> genotipo){
+		if(index >= tamCromosoma){
+			if(currWrap < wrapping){
+				index = 0; currWrap++;
 			}
 			else
 				throw new UnsupportedOperationException("NO HAY SUFICIENTES WRAPPINGS");
 		}
-		return i;
+		int ret = genotipo.get(index).getValue();
+		
+		if(!firstLap)
+			index++;
+
+		return ret;
 	}
 
 	@Override
 	public Pair<ArrayList<Double>, ArrayList<Double>> getDataSet(Individuo i) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getDataSet'");
+		Pair<ArrayList<Double>, ArrayList<Double>> res = new Pair<ArrayList<Double>, ArrayList<Double>>(
+			new ArrayList<Double>(), new ArrayList<Double>()
+		);
+		double valueInd;
+		for (int j = 0; j < dataSet.getFirst().size(); j++) {
+			res.getFirst().add(dataSet.getFirst().get(j));
+			try{
+				valueInd = calcularCodones((ArrayList<UnsignedByte>)i.getGenotipo(), dataSet.getFirst().get(j));
+			}catch(UnsupportedOperationException un){
+				res.getSecond().add(1000.0);
+				continue;
+			}
+			res.getSecond().add(valueInd);
+		}
+		return res;
 	}
 
-
-	
 }

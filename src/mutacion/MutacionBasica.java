@@ -5,19 +5,20 @@ import java.util.Random;
 
 import src.individuo.Individuo;
 import src.problema.Problema;
+import src.utils.UnsignedByte;
 
 public class MutacionBasica implements IMutacion{
 
 	@Override
 	public Individuo mutar(Individuo individuo, Problema problema, Random rand, double probMutacion) {
-		ArrayList<Character> genotipo = individuo.getGenotipo();
+		ArrayList<UnsignedByte> genotipo = individuo.getGenotipo();
 
 		for (int i = 0; i < genotipo.size(); i++) {
 			if (rand.nextDouble() < probMutacion) {
-				char c = genotipo.get(i);
-				while(c == genotipo.get(i))
-					c = (char)(rand.nextInt(256));
-				genotipo.set(i, c);
+				int c = genotipo.get(i).getValue();
+				while(c == genotipo.get(i).getValue())
+					c = rand.nextInt(256);
+				genotipo.get(i).setValue(c);
 			}
 		}
 

@@ -9,7 +9,6 @@ import src.utils.TipoConst;
 import src.utils.TipoProblema;
 import src.cruce.ICruce;
 import src.individuo.Individuo;
-import src.individuo.IndividuoArboreo;
 import src.mutacion.IMutacion;
 import src.seleccion.ISeleccion;
 
