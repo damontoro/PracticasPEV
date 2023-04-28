@@ -72,7 +72,7 @@ public class ProblemaGramEvo extends Problema{
 
 			for(int j = 0; j < dataSet.getFirst().size(); j++){
 				double valueInd;
-				valueInd = calcularCodones((ArrayList<Character>)i.getGenotipo(), dataSet.getFirst().get(j));
+				valueInd = calcularCodones((ArrayList<Character>)i.getGenotipo(), 0, 0, dataSet.getFirst().get(j));
 				fitness += Math.pow(dataSet.getSecond().get(j) - valueInd, 2);
 			}
 			fitness = Math.sqrt(fitness);
@@ -83,26 +83,23 @@ public class ProblemaGramEvo extends Problema{
 		}
 	}
 
-	private double calcularCodones(ArrayList<Character> genotipo, double value, Rules rule, int i, int wrap) {
-		double exp1 = calcularExp(genotipo, i, wrap, value);
-		char op = calcularOp(genotipo, i, wrap);
-		double exp2 = calcularExp(genotipo, i, wrap, value);
-		return calcular(op, exp1, exp2);
+	private double calcularCodones(ArrayList<Character> genotipo, int i, int wrap, double value) {
+		return calcularExp(genotipo, 0, 0, value);
 	}
 	
 	private double calcularExp(ArrayList<Character> genotipo, Integer i, Integer wrap, double value){
-		int codon = genotipo.get(i); 
-		
-		i = aumentarIndice(i, wrap);
-		if(codon % 2 == 0 ){//la primera regla
-			double exp1 = calcularExp(genotipo, i, wrap, value);
-			char op = calcularOp(genotipo, i, wrap);
-			double exp2 = calcularExp(genotipo, i, wrap, value);
-			return calcular(op, exp1, exp2);
+		double var;
+		if (Character.getNumericValue(genotipo.get(i)) % 2 == 0 || i == 0){
+			double exp1 = calcularExp(genotipo, ++i, wrap, value); aumentarIndice(i, wrap);
+			char op = ops[genotipo.get(i) % ops.length]; ++i;
+			double exp2 = calcularExp(genotipo, ++i, wrap, value); aumentarIndice(i, wrap);
+			var = calcular(op, exp1, exp2);
 		}
 		else{
-			return calcularVar(genotipo, i, wrap, value);
+			var = calcularVar(genotipo, ++i, wrap, value); aumentarIndice(i, wrap);
+			return var;
 		}
+		return var;
 	}
 
 	private char calcularOp(ArrayList<Character> genotipo, Integer i, Integer wrap){
@@ -113,7 +110,6 @@ public class ProblemaGramEvo extends Problema{
 
 	private double calcularVar(ArrayList<Character> genotipo, Integer i, Integer wrap, double value){
 		int codon = genotipo.get(i); 
-		i = aumentarIndice(i, wrap);
 		if(vars[codon%vars.length].equals("x"))
 			return value;
 		else
