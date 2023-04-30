@@ -12,6 +12,9 @@ public class BloatingIntrones implements IBloating{
 	@Override
 	public void penalizar(ArrayList<Individuo> poblacion, Random rand) {
 		for(Individuo individuo : poblacion){
+			//Individuo.getTree()
+			//reduceIndividuo(right)
+			//reduce left
 			reduceIndividuo(individuo.getGenotipo());
 		}
 	}
