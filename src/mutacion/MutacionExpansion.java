@@ -3,12 +3,12 @@ package src.mutacion;
 import java.util.Random;
 
 import src.individuo.Individuo;
-import src.utils.BinTree;
-import src.problema.ProblemaRegSim.Symbol;
+import src.individuo.IndividuoArboreo;
 import src.problema.Problema;
-import src.problema.ProblemaRegSim;
+import src.problema.ProblemaRegSim.Symbol;
+import src.utils.BinTree;
 
-public class MutacionTerminal implements IMutacion{
+public class MutacionExpansion implements IMutacion{
 
 	@Override
 	public Individuo mutar(Individuo individuo, Problema problema, Random rand, double probMutacion) {
@@ -19,20 +19,14 @@ public class MutacionTerminal implements IMutacion{
 		while(!arbol.isLeaf()){
 			arbol = (rand.nextDouble() < 0.5) ? arbol.getLeftChild() : arbol.getRightChild();
 		}
-
-		int [] enterosPosibles = ProblemaRegSim.getEnterosPosibles();
-		if (arbol.getElem().getSymbol().equals(Symbol.Symbols.X)){
-			arbol.getElem().setSymbol(Symbol.Symbols.INT);
-			arbol.getElem().setValue(enterosPosibles[rand.nextInt(enterosPosibles.length)]);
-		}
-		else
-			arbol.getElem().setSymbol(Symbol.Symbols.X);
+		int height = rand.nextInt(2, 6); //El maximo de profundidad es 5, le sumamos uno porque el limite superior es exclusivo
+		arbol.setTree(((IndividuoArboreo)(individuo)).buildCreciente(0, height));
 
 		return problema.build(individuo);
 	}
 	
 	@Override
 	public String toString() {
-		return "Mutacion Terminal";
+		return "Mutacion Expansion";
 	}
 }

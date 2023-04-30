@@ -7,12 +7,6 @@ TODO:
 	Mejor de la generacion en rojo y el absoluto en azul
 
 	Que Hacer:
-		Para GE poner un tamño de cromosoma de 8 o 10 como referencia
-
-		Bloating: el tamaño es la altura? O la densidad?
-		Preguntar Bloating Fundamentado
-		Donde hacer control de bloating
-		Preguntar como quiere la gráfica
 
 		Poner que el bloating dependa de la generación
 
@@ -27,6 +21,5 @@ TODO:
 
 		Nacho: hoist, subarbol
 
-		David: expansion, contraccion, permutacion
 
 

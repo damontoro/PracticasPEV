@@ -58,7 +58,6 @@ public class CruceIntercambio implements ICruce{
 			else{
 				tree = tree.getRightChild();
 			}
-
 			parar = rand.nextDouble() < INI_PROB_PARAR;
 		}
 		return tree;

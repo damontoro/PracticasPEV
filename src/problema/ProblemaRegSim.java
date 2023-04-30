@@ -9,7 +9,10 @@ import src.cruce.ICruce;
 import src.individuo.Individuo;
 import src.individuo.IndividuoArboreo;
 import src.mutacion.IMutacion;
+import src.mutacion.MutacionContraccion;
+import src.mutacion.MutacionExpansion;
 import src.mutacion.MutacionFuncional;
+import src.mutacion.MutacionPermutacion;
 import src.mutacion.MutacionTerminal;
 import src.problema.ProblemaRegSim.Symbol.Symbols;
 import src.seleccion.*;
@@ -21,6 +24,7 @@ import src.utils.TipoProblema;
 
 public class ProblemaRegSim extends Problema{
 
+	private static final int[] enterosPosibles = {-2, -1, 1, 2};
 	private static final int MIN_DEPTH = 2;
 
 	public ProblemaRegSim() {
@@ -30,9 +34,13 @@ public class ProblemaRegSim extends Problema{
 		cruces.add(new CruceIntercambio());
 		bloatings.add(new BloatingFundamentado());
 		bloatings.add(new BloatingTarpeian());
+		bloatings.add(new BloatingIntrones());
 		
 		mutaciones.add(new MutacionTerminal());
 		mutaciones.add(new MutacionFuncional());
+		mutaciones.add(new MutacionExpansion());
+		mutaciones.add(new MutacionContraccion());
+		mutaciones.add(new MutacionPermutacion());
 
 		selecciones.add(new SeleccionRanking());
 		selecciones.add(new SeleccionRuleta());
@@ -47,6 +55,9 @@ public class ProblemaRegSim extends Problema{
 	}
 	public static List<Symbols> getFunctions() {
 		return Arrays.asList(Symbols.SUM, Symbols.SUB, Symbols.MUL);
+	}
+	public static int[] getEnterosPosibles() {
+		return enterosPosibles;
 	}
 
 	private double calcArbol(BinTree<Symbol> arbol, double value) {
@@ -81,6 +92,8 @@ public class ProblemaRegSim extends Problema{
 		for(int i = 0; i < tamPoblacion; i++)
 			poblacion.add(new IndividuoArboreo(tipo, alturaMaxima));
 			
+		for(Individuo i : poblacion)
+			System.out.println(i.toString());
 		return poblacion;
 	}
 

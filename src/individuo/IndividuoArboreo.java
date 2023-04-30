@@ -2,9 +2,11 @@ package src.individuo;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 
 import src.problema.ProblemaRegSim.Symbol;
 import src.problema.ProblemaRegSim.Symbol.Symbols;
+import src.problema.Problema;
 import src.problema.ProblemaRegSim;
 import src.utils.BinTree;
 import src.utils.TipoConst;
@@ -12,7 +14,9 @@ import src.utils.TipoConst;
 public class IndividuoArboreo extends Individuo{
 
 	private BinTree<Symbol> genotipo;
-	
+	private static final int[] enterosPosibles = ProblemaRegSim.getEnterosPosibles();
+	private static final List<Symbols> functions = ProblemaRegSim.getFunctions();
+	private static final List<Symbols> literals = ProblemaRegSim.getLiterals();
 
 	public IndividuoArboreo(TipoConst tipo, int max_depth) {
 		super();
@@ -32,31 +36,42 @@ public class IndividuoArboreo extends Individuo{
 	}
 
 	private BinTree<Symbol> buildCompleto(int height, int maxDepth){
+		//Si es la altura maxima cogemos un terminal
 		if(height == maxDepth - 1)
 			return new BinTree<Symbol>(
-				new Symbol(ProblemaRegSim.getLiterals().get(random.nextInt(0, 2)), random.nextInt(-2,3)));
+				new Symbol(
+					literals.get(random.nextInt(literals.size())), 
+					enterosPosibles[random.nextInt(enterosPosibles.length)])
+				);
 
+		//Si no cogemos una funcion
 		return new BinTree<Symbol>(
 				buildCompleto(height + 1, maxDepth), 
 				buildCompleto(height + 1, maxDepth), 
-				new Symbol(ProblemaRegSim.getFunctions().get(random.nextInt(0, 3)), null) );
+				new Symbol(functions.get(random.nextInt(functions.size())), 
+				null)
+			);
 	}
 
-	private BinTree<Symbol> buildCreciente(int height, int maxDepth){
-		if(height == maxDepth - 1)
+	public BinTree<Symbol> buildCreciente(int height, int maxDepth){
+		if(height == maxDepth - 1) //Si la altura es maxima cogemos un terminal
 			return new BinTree<Symbol>(
-				new Symbol(ProblemaRegSim.getLiterals().get(random.nextInt(0, 2)), random.nextInt(-2,3)));
+				new Symbol(
+					literals.get(random.nextInt(literals.size())), 
+					enterosPosibles[random.nextInt(enterosPosibles.length)])
+				);
 		
-		Symbols s = (height == 0) ? ProblemaRegSim.getFunctions().get(random.nextInt(0, 3)) :
-									Symbols.values()[random.nextInt(2, Symbols.values().length)];
+		//Si la altura en la que estamos es cero, siempre cogemos una funcion
+		Symbols s = (height == 0) ? functions.get(random.nextInt(functions.size())) :
+									Symbols.values()[random.nextInt(Symbols.values().length)];
 
-		if(ProblemaRegSim.getLiterals().contains(s))
-			return new BinTree<Symbol>(new Symbol(s, random.nextInt(-2,3)));
+		if(literals.contains(s))
+			return new BinTree<Symbol>(new Symbol(s, enterosPosibles[random.nextInt(enterosPosibles.length)]));
 
 		return new BinTree<Symbol>(
 			buildCreciente(height + 1, maxDepth), 
 			buildCreciente(height + 1, maxDepth), 
-			new Symbol(s,null) );
+			new Symbol(s,null));
 	}
 
 	public String serialize(BinTree<Symbol> tree){
@@ -82,7 +97,7 @@ public class IndividuoArboreo extends Individuo{
 				while (str.charAt(++i) != ')')
 					token += str.charAt(i);
 			}
-			if (ProblemaRegSim.getLiterals().contains(Symbol.getSymbol(token).getSymbol()))
+			if (literals.contains(Symbol.getSymbol(token).getSymbol()))
 				stack.push(new BinTree<Symbol>(Symbol.getSymbol(token)));
 			else {
 				BinTree<Symbol> right = stack.pop();
