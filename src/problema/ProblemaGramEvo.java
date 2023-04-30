@@ -17,9 +17,10 @@ import src.seleccion.*;
 /*
  * La gramática que vamos a usar es la siguiente
  * <I> : <exp> <op> <exp> //Lo hacemos así para que la expresión siempre tenga una operacion
- * <exp> : <exp> <op> <exp> | <var> 
+ * <exp> : <exp> <op> <exp> | <var> | <sign> <exp>
  * <op> : + | - | *
- * <var> : x | 0 | 1 | 2 | -1 | -2
+ * <sign> : - | +
+ * <var> : x | 1 | 2
  */
 
 
