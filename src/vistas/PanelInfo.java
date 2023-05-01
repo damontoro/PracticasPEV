@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 import src.AlgoritmoGenetico;
 import src.individuo.Individuo;
@@ -19,7 +21,7 @@ public class PanelInfo extends JPanel implements AGobserver {
     private Individuo mejorAbs;
 
     public PanelInfo(AlgoritmoGenetico ag, int width, int height) {
-        this.setPreferredSize(new Dimension(width, height));
+        this.setMinimumSize(new Dimension(width, height));
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.add(new JLabel("Mejor fitness: "));
         this.add(fitness = new JLabel());

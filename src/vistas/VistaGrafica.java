@@ -49,9 +49,12 @@ public class VistaGrafica extends JPanel implements AGobserver {
 		mediaFitness.add(0.0);
 		mejorAbsoluto.add(0.0);
 		xData.add(0);
-		chart.addSeries("Mejor Individuo", mejorFitness, xData);
-		chart.addSeries("Media Fitness", mediaFitness, xData);
-		chart.addSeries("Mejor Absoluto", mejorFitness, xData);
+		chart.addSeries("Mejor Individuo", xData, mejorFitness);
+		chart.addSeries("Media Fitness", xData, mediaFitness);
+		chart.addSeries("Mejor Absoluto", xData, mejorAbsoluto);
+		chart.getSeriesMap().get("Mejor Absoluto").setLineColor(Color.BLUE);
+		chart.getSeriesMap().get("Mejor Individuo").setLineColor(Color.RED);
+		chart.getSeriesMap().get("Media Fitness").setLineColor(Color.GREEN);
 
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.

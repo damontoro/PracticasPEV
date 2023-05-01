@@ -10,16 +10,11 @@ TODO:
 
 		Poner que el bloating dependa de la generación
 
-		Meter scroll panel en panel info
-		Hacer que si el fitnes es 0.00000000001 se ponga fitness = 0
 		Meter el arbol
-		Cambiar colores graficas
 
 		Ver si podemos hacer un añadido especial para mejorar el ag
 
 		Obtener una expresion segun la regla, aunque sobre cromosoma
-
-		Nacho: hoist, subarbol
 
 
 

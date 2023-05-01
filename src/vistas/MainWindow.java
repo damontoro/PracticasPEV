@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import src.AlgoritmoGenetico;
 
@@ -34,8 +35,12 @@ public class MainWindow extends JFrame{
         JPanel InfoGrafica = new JPanel();
         InfoGrafica.setLayout(new BoxLayout(InfoGrafica, BoxLayout.PAGE_AXIS));
         InfoGrafica.add(new DataView(ag, INI_WIDTH * 8/10, INI_HEIGHT - 25));
-		//InfoGrafica.add(new VistaGrafica(this.ag, INI_WIDTH * 8/10, INI_HEIGHT - 25));
-        InfoGrafica.add(new PanelInfo(this.ag, INI_WIDTH * 8/10, 25));
+        
+        JScrollPane sc = new JScrollPane(new PanelInfo(this.ag, INI_WIDTH * 8/10, 20));
+        sc.setPreferredSize(new Dimension(INI_WIDTH * 8/10, 45));
+        sc.getHorizontalScrollBar().setUnitIncrement(16);
+
+        InfoGrafica.add(sc);
         mainPanel.add(InfoGrafica);
     }
     

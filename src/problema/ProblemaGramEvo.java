@@ -83,6 +83,9 @@ public class ProblemaGramEvo extends Problema{
 			}
 			fitness = Math.sqrt(fitness);
 
+			if(fitness < 0.01)
+				fitness = 0;
+
 			return fitness;
 		}
 		catch(UnsupportedOperationException un){

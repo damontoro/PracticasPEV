@@ -4,18 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import src.cruce.CruceIntercambio;
-import src.cruce.ICruce;
+import src.cruce.*;
+import src.mutacion.*;
+import src.seleccion.*;
 import src.individuo.Individuo;
 import src.individuo.IndividuoArboreo;
-import src.mutacion.IMutacion;
-import src.mutacion.MutacionContraccion;
-import src.mutacion.MutacionExpansion;
-import src.mutacion.MutacionFuncional;
-import src.mutacion.MutacionPermutacion;
-import src.mutacion.MutacionTerminal;
 import src.problema.ProblemaRegSim.Symbol.Symbols;
-import src.seleccion.*;
 import src.utils.TipoConst;
 import src.utils.Pair;
 import src.utils.BinTree;
@@ -41,6 +35,8 @@ public class ProblemaRegSim extends Problema{
 		mutaciones.add(new MutacionExpansion());
 		mutaciones.add(new MutacionContraccion());
 		mutaciones.add(new MutacionPermutacion());
+		mutaciones.add(new MutacionHoist());
+		mutaciones.add(new MutacionSubArbol());
 
 		selecciones.add(new SeleccionRanking());
 		selecciones.add(new SeleccionRuleta());
@@ -136,6 +132,8 @@ public class ProblemaRegSim extends Problema{
 				fitness += Math.pow(dataSet.getSecond().get(j) - valueInd, 2);
 			}
 			fitness = Math.sqrt(fitness);
+			if (fitness < 0.0001) 
+				fitness = 0;
 			return fitness;
 		}catch(Exception e) {
 			System.out.println("Error en evaluar");
