@@ -29,6 +29,7 @@ public class ProblemaRegSim extends Problema{
 		bloatings.add(new BloatingFundamentado());
 		bloatings.add(new BloatingTarpeian());
 		bloatings.add(new BloatingIntrones());
+		bloatings.add(new BloatingCompactar());
 		
 		mutaciones.add(new MutacionTerminal());
 		mutaciones.add(new MutacionFuncional());

@@ -54,7 +54,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		random = new Random();
 		observers = new ArrayList<AGobserver>();
 
-		this.problema = new ProblemaGramEvo();
+		this.problema = new ProblemaRegSim();
 
 		this.poblacion = new ArrayList<Individuo>();
 		this.elite = new ArrayList<Individuo>();

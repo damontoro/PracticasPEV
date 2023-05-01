@@ -1,14 +1,13 @@
 package src.problema;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import src.individuo.Individuo;
 import src.problema.ProblemaRegSim.Symbol;
 import src.utils.BinTree;
 
-public class BloatingIntrones implements IBloating{
+public class BloatingCompactar implements IBloating{
 
 	@Override
 	public void penalizar(ArrayList<Individuo> poblacion, Random rand) {
@@ -27,39 +26,23 @@ public class BloatingIntrones implements IBloating{
 			right = reduceIndividuo(arbol.getRightChild());
 		}
 		switch(arbol.getElem().getSymbol()) {
-			case INT: res = arbol.getElem().getValue(); break;
+			case INT: res =  arbol.getElem().getValue(); break;
 			case SUM: res = left + right; break;
-			case SUB: res = manageSub(left, right); break;
-			case MUL: res = manageMul(left, right); break;
-			case X: res = Double.NaN; break;
+			case SUB: res = left - right; break;
+			case MUL: res = left * right; break;
+			case X: res = 3.5; break;
 			default: res  = 0;
 		}
 		//Comprobamos que no sea un INT porque sabemos que la X nunca va a ser cero
-		if(res == 0)
-			arbol.setTree(new BinTree<Symbol>(new Symbol(Symbol.Symbols.INT, 0)));
-		else if(res != Double.NaN && Arrays.asList(ProblemaRegSim.getEnterosPosibles()).contains((int)res))
-			arbol.setTree(new BinTree<Symbol>(new Symbol(Symbol.Symbols.INT, (int)res)));
+		String aux = String.valueOf(res * 10);
+		if(aux.charAt(aux.length() - 1) == '0')
+			arbol.setTree(new BinTree<Symbol>(new Symbol(Symbol.Symbols.INT,(int) res)));
 
 		return res;
 	}
-
-	private double manageSub(double left, double right) {
-		if(left == Double.NaN && right == Double.NaN)
-			return 0;
-		return left - right;
-	}
-
-	private double manageMul(double left, double right) {
-		if(left == 0 || right == 0)
-			return 0;
-		else
-			return left * right;
-	}
-
-
+	
 	@Override
 	public String toString() {
-		return "Bloating Intrones";
+		return "Bloating Compactar";
 	}
-	
 }
