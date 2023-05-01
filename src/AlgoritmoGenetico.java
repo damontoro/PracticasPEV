@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
 import src.utils.TipoConst;
+import src.utils.UnsignedByte;
 import src.problema.*;
 import src.cruce.*;
 import src.mutacion.*;
@@ -53,7 +54,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		random = new Random();
 		observers = new ArrayList<AGobserver>();
 
-		this.problema = new ProblemaRegSim();
+		this.problema = new ProblemaGramEvo();
 
 		this.poblacion = new ArrayList<Individuo>();
 		this.elite = new ArrayList<Individuo>();
@@ -67,7 +68,6 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 
 		poblacion = problema.initPoblacion(tamPoblacion, tipoConst, alturaMaxima);
 
-		mejorAbs = poblacion.get(0);
 		evalPoblacion();
 		cogerDatos();
 	}
@@ -123,8 +123,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		this.mediaFitness = acum / poblacion.size();
 
 		ordenarPoblacion();
-
-		if(problema.compare(poblacion.get(0) , mejorAbs) < 0)
+		if(mejorAbs == null || problema.compare(poblacion.get(0) , mejorAbs) < 0)
 			mejorAbs = problema.build(poblacion.get(0));
 
 		this.mejorGen = poblacion.get(0).getFitness();
@@ -185,6 +184,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	}
 
 	public void reset(){
+		this.mejorAbs = null;
 		this.poblacion = new ArrayList<Individuo>();
 		Individuo.setTamCromosoma(null);
 	}

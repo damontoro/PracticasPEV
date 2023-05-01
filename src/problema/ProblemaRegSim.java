@@ -88,7 +88,7 @@ public class ProblemaRegSim extends Problema{
 		for(int i = 0; i < tamPoblacion; i++)
 			poblacion.add(new IndividuoArboreo(tipo, alturaMaxima));
 			
-		for(Individuo i : poblacion)
+		for(Individuo i : poblacion)//TODO
 			System.out.println(i.toString());
 		return poblacion;
 	}
@@ -132,7 +132,7 @@ public class ProblemaRegSim extends Problema{
 				fitness += Math.pow(dataSet.getSecond().get(j) - valueInd, 2);
 			}
 			fitness = Math.sqrt(fitness);
-			if (fitness < 0.0001) 
+			if (fitness < 0.0000000001) 
 				fitness = 0;
 			return fitness;
 		}catch(Exception e) {

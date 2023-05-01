@@ -6,7 +6,6 @@ import java.util.List;
 
 import src.problema.ProblemaRegSim.Symbol;
 import src.problema.ProblemaRegSim.Symbol.Symbols;
-import src.problema.Problema;
 import src.problema.ProblemaRegSim;
 import src.utils.BinTree;
 import src.utils.TipoConst;

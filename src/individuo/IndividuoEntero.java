@@ -21,7 +21,8 @@ public class IndividuoEntero extends Individuo{
 	public IndividuoEntero(IndividuoEntero i) {
 		super(i);
 		this.genotipo = new ArrayList<UnsignedByte>();
-		this.genotipo.addAll(i.getGenotipo());
+		for(UnsignedByte b : i.getGenotipo())
+			this.genotipo.add(new UnsignedByte(b));
 
 		if(tamCromosoma == null)
 			tamCromosoma = i.getGenotipo().size();
@@ -29,7 +30,8 @@ public class IndividuoEntero extends Individuo{
 
 	public IndividuoEntero(ArrayList<UnsignedByte> genotipo) {
 		this.genotipo = new ArrayList<>();
-		this.genotipo.addAll(genotipo);
+		for(UnsignedByte b : genotipo)
+			this.genotipo.add(new UnsignedByte(b));
 
 		if(tamCromosoma == null)
 			tamCromosoma = genotipo.size();
@@ -39,12 +41,12 @@ public class IndividuoEntero extends Individuo{
 	@Override
 	@SuppressWarnings("unchecked")
 	public String getFenotipo() {
-		return ProblemaGramEvo.decode(genotipo);
+		return toString();
 	}
 
 	@Override
 	public String toString() {
-		return getFenotipo();
+		return ProblemaGramEvo.decode(genotipo);
 	}
 
 	@Override

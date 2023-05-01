@@ -10,6 +10,10 @@ public class UnsignedByte {
 		myByte = (byte) i;
 	}
 
+	public UnsignedByte(UnsignedByte b) {
+		myByte = b.myByte;
+	}
+
 	public void setValue(int i) {
 		if(i < 0 || i > 255)
 			throw new IllegalArgumentException("UnsignedByte must be between 0 and 255");

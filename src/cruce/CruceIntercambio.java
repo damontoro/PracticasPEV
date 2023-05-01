@@ -6,7 +6,6 @@ import java.util.Random;
 import src.individuo.Individuo;
 import src.problema.Problema;
 import src.utils.BinTree;
-import src.utils.Pair;
 import src.problema.ProblemaRegSim.Symbol;
 
 public class CruceIntercambio implements ICruce{

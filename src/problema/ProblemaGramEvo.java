@@ -7,6 +7,7 @@ import src.cruce.CruceUniforme;
 import src.individuo.Individuo;
 import src.individuo.IndividuoEntero;
 import src.mutacion.MutacionBasica;
+import src.mutacion.MutacionIncremento;
 import src.utils.Pair;
 import src.utils.TipoConst;
 import src.utils.TipoProblema;
@@ -19,20 +20,20 @@ import src.seleccion.*;
  * <I> : <exp> <op> <exp> //Lo hacemos así para que la expresión siempre tenga una operacion
  * <exp> : <exp> <op> <exp> | <var> | <sign> <exp>
  * <op> : + | - | *
- * <sign> : - | +
+ * <sign> : + | -
  * <var> : x | 1 | 2
  */
 
 
 public class ProblemaGramEvo extends Problema{
 
-	private static int wrapping = 3;
-	private static int tamCromosoma = 7;
+	private static int wrapping = 2;
+	private static int tamCromosoma = 31;
 
 	private static int index, currWrap; private static boolean firstLap; //Estos parametros los usamos para calcular los codones
 
 	private static final char[] ops = {'+', '-', '*'}; 
-	private static final String[] vars = {"x", "0", "1", "2", "-1", "-2"};
+	private static final String[] vars = {"x", "1", "2"};
 
 	public ProblemaGramEvo() {
 		super();
@@ -42,6 +43,7 @@ public class ProblemaGramEvo extends Problema{
 		cruces.add(new CruceUniforme());
 		
 		mutaciones.add(new MutacionBasica());
+		mutaciones.add(new MutacionIncremento());
 
 		selecciones.add(new SeleccionRanking());
 		selecciones.add(new SeleccionRuleta());
@@ -68,6 +70,9 @@ public class ProblemaGramEvo extends Problema{
 		for(int i = 0; i < tamPoblacion; i++){
 			poblacion.add(new IndividuoEntero(tamCromosoma));
 		}
+
+		for(Individuo i : poblacion) //TODO
+			System.out.println(i.toString());
 		return poblacion;
 	}
 
@@ -83,7 +88,7 @@ public class ProblemaGramEvo extends Problema{
 			}
 			fitness = Math.sqrt(fitness);
 
-			if(fitness < 0.01)
+			if(fitness < 0.0000000001) //Para que el numero no sea elevado a menos quince
 				fitness = 0;
 
 			return fitness;
@@ -113,8 +118,12 @@ public class ProblemaGramEvo extends Problema{
 			double exp2 = calcularExp(genotipo, value);
 			var = calcular(op, exp1, exp2);
 		}
-		else{
+		else if(codon % 2 == 1){
 			var = calcularVar(genotipo, value); 
+		}
+		else{
+			int sign = (cogerCodon(genotipo) % 2 == 0) ? 1 : -1;
+			var = sign * calcularExp(genotipo, value);
 		}
 		return var;
 	}
@@ -156,8 +165,12 @@ public class ProblemaGramEvo extends Problema{
 			String exp2 = calcularExpString(genotipo);
 			var = "(" + exp1 + op + exp2 + ")";
 		}
-		else{
+		else if(codon % 2 == 1){
 			var = calcularVarString(genotipo); 
+		}
+		else{
+			String sign = (cogerCodon(genotipo) % 2 == 0) ? "" : "-";
+			var = "(" + sign + calcularExpString(genotipo) + ")";
 		}
 		return var;
 	}

@@ -4,9 +4,9 @@ https://github.com/knowm/XChart
 
 TODO:
 
-	Mejor de la generacion en rojo y el absoluto en azul
-
 	Que Hacer:
+
+		Quitar lo de que muestre la pob inicial
 
 		Poner que el bloating dependa de la generación
 
@@ -14,7 +14,6 @@ TODO:
 
 		Ver si podemos hacer un añadido especial para mejorar el ag
 
-		Obtener una expresion segun la regla, aunque sobre cromosoma
 
 
 

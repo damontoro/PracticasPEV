@@ -46,7 +46,7 @@ public class PanelInfo extends JPanel implements AGobserver {
     @Override
     public void onChange(AlgoritmoGenetico ag) {
         if(mejorAbs == null || (ag.getProblema().compare(ag.getMejorAbs(), mejorAbs) < 0)){
-            mejorAbs = ag.getMejorAbs();
+            mejorAbs = ag.getProblema().build(ag.getMejorAbs());
             this.fenotipo.setText(mejorAbs.toString());
             this.fitness.setText(String.valueOf(mejorAbs.getFitness()));
             if(ag.getIntervalos()){
