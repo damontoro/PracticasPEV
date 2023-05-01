@@ -3,8 +3,6 @@ package src.vistas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -29,6 +27,9 @@ import java.util.ArrayList;
 import src.AlgoritmoGenetico;
 import src.patrones.AGobserver;
 import src.problema.IBloating;
+import src.problema.Problema;
+import src.problema.ProblemaGramEvo;
+import src.problema.ProblemaRegSim;
 import src.seleccion.ISeleccion;
 import src.utils.TipoConst;
 import src.mutacion.IMutacion;
@@ -40,6 +41,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 	private int width, height;
 	private boolean intervalos = false;
+	private boolean problemaGramEvol = false;
 
 	private int min, max, step;
 	
@@ -57,16 +59,20 @@ public class PanelOpciones extends JPanel implements AGobserver{
 	private ArrayList<JSpinner> spinnerList;
 	private Map<JSpinner, String> spinnerMap;
 
+	private JComboBox<Problema> selProblema;
 	private JComboBox<ISeleccion> selSeleccion;
 	private JComboBox<ICruce> selCruce;
 	private JComboBox<IMutacion> selMutacion;
 	private JComboBox<IBloating> selBloating;
 	private JComboBox<TipoConst> selTipoConst;
 
+	private List<Problema> problemas;
 	private List<ISeleccion> selecciones;
 	private List<ICruce> cruces;
 	private List<IMutacion> mutaciones;
 	private List<IBloating> bloatings;
+
+	private List<JPanel> panelList;
 
 	private JCheckBox chkBloating;
 
@@ -86,6 +92,11 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		this.setPreferredSize(new Dimension(width, height));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+		// Inicializar listas
+		panelList = new ArrayList<>();
+		problemas = new ArrayList<>();
+		problemas.add(new ProblemaRegSim());
+		problemas.add(new ProblemaGramEvo());
 		selecciones = ag.getSelecciones();
 		cruces = ag.getCruces();
 		mutaciones = ag.getMutaciones();
@@ -96,6 +107,8 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		labelList = new ArrayList<>();
 		spinnerList = new ArrayList<>();
 		spinnerMap = new java.util.HashMap<>();
+
+		// Crear componentes
 
 		generaciones = new JSpinner(new SpinnerNumberModel(100, 0, Integer.MAX_VALUE, 1));
 		spinnerList.add(generaciones);
@@ -128,37 +141,46 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		spinnerList.add(maxElitismo);
 		JButton btnElitismo = new JButton("Intervalo");
 
-		minSize = new JSpinner(new SpinnerNumberModel(5, 2, Integer.MAX_VALUE, 1));
-		maxSize = new JSpinner(new SpinnerNumberModel(5, 2, Integer.MAX_VALUE, 1));
+		minSize = new JSpinner(new SpinnerNumberModel(5, 2, 5, 1));
+		maxSize = new JSpinner(new SpinnerNumberModel(5, 2, 5, 1));
 		spinnerList.add(minSize);
 		spinnerMap.put(minSize, "Altura máxima inicial del árbol");
 		spinnerList.add(maxSize);
 		JButton btnSize = new JButton("Intervalo");
 
-
+		selProblema = new JComboBox<>();
 		selSeleccion = new JComboBox<>();
 		selCruce = new JComboBox<>();
 		selMutacion = new JComboBox<>();
 		selBloating = new JComboBox<>();
 		selTipoConst = new JComboBox<>(TipoConst.values());
 
-		for (ISeleccion s : selecciones){selSeleccion.addItem(s);}
+		for(Problema p : problemas){selProblema.addItem(p);}
+		for(ISeleccion s : selecciones){selSeleccion.addItem(s);}
 		for(ICruce c : cruces){selCruce.addItem(c);}
 		for(IMutacion m : mutaciones){selMutacion.addItem(m);}
 		for(IBloating b : bloatings){selBloating.addItem(b);}
 
+		JPanel panelAux = new JPanel();
+
+		this.add(createViewPanel(selProblema, "Problema"));
 		this.add(createViewPanel(generaciones, "Generaciones"));
 		this.add(intervaloPanel("Poblacion", minPoblacion, maxPoblacion, btnPoblacion));
 		this.add(intervaloPanel("Probabilidad de cruce (%)", minProbCru, maxProbCru, btnProbCru));
 		this.add(intervaloPanel("Probabilidad de mutación (%)", minProbMut, maxProbMut, btnProbMut));
 		this.add(intervaloPanel("Porcentaje elitismo", minElitismo, maxElitismo, btnElitismo));
-		this.add(intervaloPanel("Altura máxima inicial del árbol", minSize, maxSize, btnSize));
+		panelList.add(intervaloPanel("Altura máxima inicial del árbol", minSize, maxSize, btnSize));
+		this.add(panelList.get(panelList.size() - 1));
 
-		this.add(createViewPanel(selTipoConst, "Tipo de Inicialización"));
+		panelList.add(createViewPanel(selTipoConst, "Tipo de Inicialización"));
+		this.add(panelList.get(panelList.size() - 1));
 		this.add(createViewPanel(selSeleccion, "Selección"));
 		this.add(createViewPanel(selCruce, "Cruce"));
 		this.add(createViewPanel(selMutacion, "Mutaciones"));
-		this.add(createViewPanel(iniBloating(), "Bloating"));
+		panelList.add(createViewPanel(iniBloating(), "Bloating"));
+		this.add(panelList.get(panelList.size() - 1));
+
+		selProblema.addActionListener((e) -> {problemaChanged();});
 
 		JPanel footer = new JPanel();
 		footer.setLayout(new BoxLayout(footer, BoxLayout.LINE_AXIS));
@@ -222,12 +244,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		chkBloating = new JCheckBox();
-		chkBloating.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				selBloating.setEnabled(chkBloating.isSelected());
-			}
-		});
+		chkBloating.addActionListener((e) -> selBloating.setEnabled(chkBloating.isSelected()));
 		selBloating.setEnabled(false);
 		panel.add(selBloating);
 		panel.add(chkBloating);
@@ -264,6 +281,41 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		if(s != null) s.setVisible(intervalos);
 		stepS.setVisible(intervalos);
 		stepLabel.setVisible(intervalos);
+	}
+
+	private void problemaChanged() {
+		boolean isRegSim = true;
+		Problema p = (Problema)selProblema.getSelectedItem();
+		ag.setProblema(p);
+		isRegSim = (p.getClass() == ProblemaRegSim.class);
+
+		if (chkBloating.isSelected() && isRegSim){
+			chkBloating.setSelected(chkBloating.isSelected());
+			selBloating.setEnabled(chkBloating.isSelected());
+		} else{
+			chkBloating.setSelected(false);
+			selBloating.setEnabled(false);
+		}
+		for (JPanel pnl : panelList){
+			pnl.setVisible(isRegSim);
+		}
+		cruces = ag.getCruces();
+		mutaciones = ag.getMutaciones();
+		bloatings = ag.getBloatings();
+
+		selCruce.removeAllItems();
+		selMutacion.removeAllItems();
+		selBloating.removeAllItems();
+
+		for (ICruce c : cruces){
+			selCruce.addItem(c);
+		}
+		for (IMutacion m : mutaciones){
+			selMutacion.addItem(m);
+		}
+		for (IBloating b : bloatings){
+			selBloating.addItem(b);
+		}
 	}
 
 	private void reset(){
@@ -332,7 +384,7 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		JLabel minL = new JLabel("Min:");
 
 		panelMin.add(minL);
-		panelMin.add(Box.createRigidArea(new Dimension(9, 0)));
+		panelMin.add(Box.createRigidArea(new Dimension(8, 0)));
 		min.setMinimumSize(new Dimension(50, 20));
 		panelMin.add(min);
 

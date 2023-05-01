@@ -6,10 +6,6 @@ TODO:
 
 	Que Hacer:
 
-		Poner que puedas elegir problema
-
-		Quitar lo de que muestre la pob inicial
-
 		Poner que el bloating dependa de la generación
 
 		Meter el arbol

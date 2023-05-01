@@ -71,8 +71,6 @@ public class ProblemaGramEvo extends Problema{
 			poblacion.add(new IndividuoEntero(tamCromosoma));
 		}
 
-		for(Individuo i : poblacion) //TODO
-			System.out.println(i.toString());
 		return poblacion;
 	}
 
@@ -218,6 +216,11 @@ public class ProblemaGramEvo extends Problema{
 			res.getSecond().add(valueInd);
 		}
 		return res;
+	}
+
+	@Override
+	public String toString() {
+		return "Gramaticas evolutivas";
 	}
 
 }

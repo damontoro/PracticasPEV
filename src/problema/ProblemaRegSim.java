@@ -88,9 +88,6 @@ public class ProblemaRegSim extends Problema{
 
 		for(int i = 0; i < tamPoblacion; i++)
 			poblacion.add(new IndividuoArboreo(tipo, alturaMaxima));
-			
-		for(Individuo i : poblacion)//TODO
-			System.out.println(i.toString());
 		return poblacion;
 	}
 
@@ -216,6 +213,9 @@ public class ProblemaRegSim extends Problema{
 
 	} 
 
-
+	@Override
+	public String toString() {
+		return "Regresion simbolica";
+	}
 
 }
