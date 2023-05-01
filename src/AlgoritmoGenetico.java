@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
 import src.utils.TipoConst;
-import src.utils.UnsignedByte;
 import src.problema.*;
 import src.cruce.*;
 import src.mutacion.*;

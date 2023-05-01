@@ -107,6 +107,7 @@ public class ProblemaRegSim extends Problema{
 		return poblacion;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Pair<ArrayList<Double>, ArrayList<Double>> getDataSet(Individuo i) {
 		Pair<ArrayList<Double>, ArrayList<Double>> res = new Pair<ArrayList<Double>, ArrayList<Double>>(
 			new ArrayList<Double>(), new ArrayList<Double>()

@@ -41,7 +41,6 @@ public class PanelOpciones extends JPanel implements AGobserver{
 
 	private int width, height;
 	private boolean intervalos = false;
-	private boolean problemaGramEvol = false;
 
 	private int min, max, step;
 	
@@ -160,8 +159,6 @@ public class PanelOpciones extends JPanel implements AGobserver{
 		for(ICruce c : cruces){selCruce.addItem(c);}
 		for(IMutacion m : mutaciones){selMutacion.addItem(m);}
 		for(IBloating b : bloatings){selBloating.addItem(b);}
-
-		JPanel panelAux = new JPanel();
 
 		this.add(createViewPanel(selProblema, "Problema"));
 		this.add(createViewPanel(generaciones, "Generaciones"));

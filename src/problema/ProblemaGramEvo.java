@@ -60,6 +60,7 @@ public class ProblemaGramEvo extends Problema{
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> Individuo build(ArrayList<T> valores) {
 		return new IndividuoEntero((ArrayList<UnsignedByte>) valores);
 	}

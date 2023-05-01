@@ -6,8 +6,6 @@ import java.awt.FlowLayout;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 
 import src.AlgoritmoGenetico;
 import src.individuo.Individuo;
@@ -61,7 +59,6 @@ public class PanelInfo extends JPanel implements AGobserver {
 
     @Override
     public void onEnd(AlgoritmoGenetico ag) {
-        System.out.println("Mejor fenotipo: " + mejorAbs.toString()); //TODO: Borrar
     }
 
 }
