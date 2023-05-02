@@ -76,6 +76,7 @@ public class ProblemaGramEvo extends Problema{
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> double evaluar(Individuo i) {
 		try{
 			double fitness = 0;
@@ -201,6 +202,7 @@ public class ProblemaGramEvo extends Problema{
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Pair<ArrayList<Double>, ArrayList<Double>> getDataSet(Individuo i) {
 		Pair<ArrayList<Double>, ArrayList<Double>> res = new Pair<ArrayList<Double>, ArrayList<Double>>(
 			new ArrayList<Double>(), new ArrayList<Double>()
