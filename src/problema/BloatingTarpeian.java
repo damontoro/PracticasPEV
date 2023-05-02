@@ -12,7 +12,8 @@ public class BloatingTarpeian implements IBloating{
 	private final static double PROB_MUERTE = 0.33;
 
 	@Override
-	public void penalizar(ArrayList<Individuo> poblacion, Random rand) {
+	@SuppressWarnings("unchecked")
+	public void penalizar(double ejecucionActual, double numGeneraciones, ArrayList<Individuo> poblacion, Random rand) {
 		double mediaAltura = 0;
 		double sumFit = 0;
 
@@ -21,6 +22,8 @@ public class BloatingTarpeian implements IBloating{
 			sumFit += i.getFitness();
 		}
 		mediaAltura /= poblacion.size();
+		sumFit /= poblacion.size();
+		sumFit += Math.sqrt(ejecucionActual / numGeneraciones) * sumFit;
 
 		for(Individuo i : poblacion){
 			if(((BinTree<Symbol>)i.getGenotipo()).getNumNodes() > mediaAltura && rand.nextDouble() < PROB_MUERTE)
@@ -30,7 +33,7 @@ public class BloatingTarpeian implements IBloating{
 
 	@Override
 	public String toString() {
-		return "Bloating Tarpeian";
+		return "Tarpeian";
 	}
 	
 }

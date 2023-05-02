@@ -19,7 +19,12 @@ public class MutacionHoist implements IMutacion{
         BinTree<Symbol> aux = individuo.getGenotipo();
 
         while (!arbol.isLeaf() && rand.nextDouble() < probStop) {
-            arbol = (rand.nextDouble() < 0.5) ? arbol.getLeftChild() : arbol.getRightChild();
+            if(arbol.getLeftChild().isLeaf() && arbol.getRightChild().isLeaf())
+                break;
+            if(rand.nextDouble() < 0.5 && !arbol.getLeftChild().isLeaf())
+                arbol = arbol.getLeftChild();
+            else if(!arbol.getRightChild().isLeaf())
+                arbol = arbol.getRightChild();
         }
 
         aux.setTree(arbol);

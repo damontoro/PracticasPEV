@@ -10,7 +10,8 @@ import src.utils.BinTree;
 public class BloatingFundamentado implements IBloating{
 
 	@Override
-	public void penalizar(ArrayList<Individuo> poblacion, Random rand) {
+	@SuppressWarnings("unchecked")
+	public void penalizar(double generacionActual, double numGeneraciones, ArrayList<Individuo> poblacion, Random rand) {
 		double coeficiente;
 		double[] fitness = new double[poblacion.size()];
 		double[] profundidad = new double[poblacion.size()];
@@ -21,6 +22,9 @@ public class BloatingFundamentado implements IBloating{
 		}
 
 		coeficiente = Math.max(calcularCovarianza(fitness, profundidad), 0) / calcularVarianza(fitness);
+		double extra = Math.sqrt(generacionActual / numGeneraciones);
+		extra *= coeficiente;
+		coeficiente += extra * 0.9;
 
 		for(Individuo i : poblacion){
 			i.setFitness(i.getFitness() + coeficiente * ((BinTree<Symbol>)i.getGenotipo()).getNumNodes());
@@ -76,7 +80,7 @@ public class BloatingFundamentado implements IBloating{
 
 	@Override
 	public String toString() {
-		return "Bloating Fundamentado";
+		return "Fundamentado";
 	}
 	
 }

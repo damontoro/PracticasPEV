@@ -31,6 +31,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	private int tamPoblacion;
 	private int numGeneraciones;
 	private int ejecucionActual;
+	private int generacionActual;
 	private int alturaMaxima;
 	private double probCruce;
 	private double probMutacion;
@@ -93,7 +94,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	void controlBloating(){
 		if(bloating == null) return;
 
-		bloating.penalizar(poblacion, random);
+		bloating.penalizar(generacionActual, numGeneraciones, poblacion, random);
 	}
 
 	void seleccion(){
@@ -144,7 +145,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		try{
 			onInit(this);
 			initPoblacion();
-			for(this.ejecucionActual = 1; this.ejecucionActual <= numGeneraciones; this.ejecucionActual++){
+			for(this.ejecucionActual = 1, this.generacionActual = 1; this.ejecucionActual <= numGeneraciones; this.ejecucionActual++, this.generacionActual++){
 				extraerElite();
 				seleccion();
 				cruce();
@@ -155,8 +156,6 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				onChange(this);
 				Thread.sleep(10);
 			}
-			for(Individuo i : poblacion)
-				System.out.println(i.toString());
 			onEnd(this);
 		}
 		catch(InterruptedException e){}
@@ -175,7 +174,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 			onInit(this);
 			for (this.ejecucionActual = min; this.ejecucionActual <= max; this.ejecucionActual+= step) {
 				initPoblacion();
-				for(int j = 0; j < numGeneraciones; j++){
+				int j;
+				for(j = 0, this.generacionActual = 1; j < numGeneraciones; j++, this.generacionActual++){
 					extraerElite();
 					controlBloating();
 					seleccion();
@@ -226,6 +226,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public double getMediaFitness() {return mediaFitness;}
 	public double getMediaNodos() {return mediaNodos;}
 	public int getEjecucionActual() {return ejecucionActual;}
+	public int getGeneracionActual() {return generacionActual;}
 	public boolean getIntervalos() {return intervalos;}
 	public String getTituloEjeX() {return tituloEjeX;}
 	

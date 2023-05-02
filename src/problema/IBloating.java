@@ -6,5 +6,5 @@ import java.util.Random;
 import src.individuo.Individuo;
 
 public interface IBloating {
-	public void penalizar(ArrayList<Individuo> poblacion, Random rand);
+	public void penalizar(double ejecucionActual, double numGeneraciones, ArrayList<Individuo> poblacion, Random rand);
 }

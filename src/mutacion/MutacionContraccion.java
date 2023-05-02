@@ -19,6 +19,7 @@ public class MutacionContraccion implements IMutacion{
 		if(rand.nextDouble() > probMutacion) return individuo;
 
 		BinTree<Symbol> arbol = individuo.getGenotipo();
+		arbol = (rand.nextDouble() < 0.5) ? arbol.getLeftChild() : arbol.getRightChild();
 
 		while(!arbol.isLeaf() && rand.nextDouble() < probStop){
 			if(arbol.getLeftChild().isLeaf() && arbol.getRightChild().isLeaf())

@@ -11,11 +11,13 @@ import src.utils.BinTree;
 public class BloatingIntrones implements IBloating{
 
 	@Override
-	public void penalizar(ArrayList<Individuo> poblacion, Random rand) {
+	@SuppressWarnings("unchecked")
+	public void penalizar(double ejecucionActual, double numGeneraciones, ArrayList<Individuo> poblacion, Random rand) {
 		for(Individuo individuo : poblacion){
 			reduceIndividuo(((BinTree<Symbol>)individuo.getGenotipo()).getRightChild());
 			reduceIndividuo(((BinTree<Symbol>)individuo.getGenotipo()).getLeftChild());
 		}
+		
 	}
 
 	public double reduceIndividuo(BinTree<Symbol> arbol){
@@ -59,7 +61,7 @@ public class BloatingIntrones implements IBloating{
 
 	@Override
 	public String toString() {
-		return "Bloating Intrones";
+		return "Intrones";
 	}
 	
 }
