@@ -1,6 +1,7 @@
 package src.vistas;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 
 import src.AlgoritmoGenetico;
 import src.patrones.AGobserver;
+import src.problema.ProblemaRegSim;
 import src.problema.ProblemaRegSim.Symbol;
 import src.utils.BinTree;
 import src.utils.TreeDrawer;
@@ -35,32 +37,14 @@ public class TreeView extends JPanel implements AGobserver{
 		g.clearRect(0, 0, getWidth(), getHeight());
 		g.setFont(new java.awt.Font("Arial", 1, 20));
 
-		if(tree != null){
-			TreeDrawer.paintTree(tree, g, this.getWidth()/2, 20);
-			System.out.println(tree.toString());
-		}
-		//paintTree(graphics);
 		
+		if(tree != null){
+			updatePrefferedSize();
+			TreeDrawer.paintTree(tree, g, this.getWidth()/2, 20);
+		}
+	
 	}
 
-	private void paintTree(Graphics graphics) {
-		graphics.setColor(Color.BLACK);
-		graphics.drawString(tree.toString(), getWidth()/2,20);
-		paintNode(graphics, tree, getWidth()/2, 20, 1);
-		
-	}
-	private void paintNode(Graphics graphics, BinTree node, int x, int y, int height) {
-		if(node.getLeftChild() != null) {
-			graphics.drawLine(x, y, x-50, y+50);
-			graphics.drawString(node.getLeftChild().toString(), x-50, y+50);
-			paintNode(graphics, node.getLeftChild(), x-50, y+50, height+1);
-		}
-		if(node.getRightChild() != null) {
-			graphics.drawLine(x, y, x+50, y+50);
-			graphics.drawString(node.getRightChild().toString(), x+50, y+50);
-			paintNode(graphics, node.getRightChild(), x+50, y+50, height+1);
-		}
-	}
 
 	@Override
 	public void onInit(AlgoritmoGenetico ag) {
@@ -76,8 +60,22 @@ public class TreeView extends JPanel implements AGobserver{
 
 	@Override
 	public void onEnd(AlgoritmoGenetico ag) {
-		this.tree = (BinTree<Symbol>) ag.getMejorAbs().getGenotipo();
+		if(ag.getProblema().getClass() == ProblemaRegSim.class){
+			this.tree = (BinTree<Symbol>) ag.getMejorAbs().getGenotipo();
+		}
+		else
+			this.tree = null;
 		repaint();
 	}
-	
+
+	private void updatePrefferedSize() {
+        int maxW = 0;
+        int maxH = 400;
+        maxW += TreeDrawer.getWidth(tree) * 1.5;
+
+        if (maxW > getWidth() || maxH > getHeight()) {
+            setPreferredSize(new Dimension(maxW, maxH));
+            setSize(new Dimension(maxW, maxH));
+        }
+    }
 }

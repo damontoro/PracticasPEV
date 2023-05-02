@@ -8,7 +8,9 @@ import javax.swing.JOptionPane;
 
 import src.individuo.Individuo;
 import src.seleccion.ISeleccion;
+import src.utils.BinTree;
 import src.utils.TipoConst;
+import src.problema.ProblemaRegSim.Symbol;
 import src.problema.*;
 import src.cruce.*;
 import src.mutacion.*;
@@ -36,6 +38,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 
 	private double mejorGen;
 	private double mediaFitness;
+	private double mediaNodos;
 	
 	private Individuo mejorAbs;
 	private TipoConst tipoConst;
@@ -125,6 +128,14 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 		if(mejorAbs == null || problema.compare(poblacion.get(0) , mejorAbs) < 0)
 			mejorAbs = problema.build(poblacion.get(0));
 
+		if(problema.getClass() == ProblemaRegSim.class){
+			double acumNodos = 0;
+			for(Individuo i : poblacion){
+				acumNodos += ((BinTree<Symbol>)i.getGenotipo()).getNumNodes();
+			}
+			this.mediaNodos = acumNodos / poblacion.size();
+		}
+
 		this.mejorGen = poblacion.get(0).getFitness();
 	}
 
@@ -144,6 +155,8 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 				onChange(this);
 				Thread.sleep(10);
 			}
+			for(Individuo i : poblacion)
+				System.out.println(i.toString());
 			onEnd(this);
 		}
 		catch(InterruptedException e){}
@@ -184,6 +197,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 
 	public void reset(){
 		this.mejorAbs = null;
+		this.mediaNodos = 0;
 		this.poblacion = new ArrayList<Individuo>();
 		Individuo.setTamCromosoma(null);
 	}
@@ -210,6 +224,7 @@ public class AlgoritmoGenetico implements Observable<AGobserver>{
 	public Individuo getMejorAbs() {return mejorAbs;}
 	public double getMejorGen() {return mejorGen;}
 	public double getMediaFitness() {return mediaFitness;}
+	public double getMediaNodos() {return mediaNodos;}
 	public int getEjecucionActual() {return ejecucionActual;}
 	public boolean getIntervalos() {return intervalos;}
 	public String getTituloEjeX() {return tituloEjeX;}

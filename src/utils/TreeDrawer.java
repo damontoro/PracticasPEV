@@ -14,14 +14,14 @@ public class TreeDrawer {
             int y = y_;
             drawNode(tree, g2d, x, y);
             if (tree.getLeftChild() != null) {
-                int x2 = x - getWidth(tree.getLeftChild().getRightChild());
+                int x2 = x - getWidth(tree.getLeftChild().getRightChild()) - 30;
                 int y2 = y + 60;
                 drawEdge(x, y, x2, y2, g2d);
 				drawNode(tree, g2d, x, y);
                 paintTree(tree.getLeftChild(), g2d, x2, y2);
             }
             if (tree.getRightChild() != null) {
-                int x2 = x + getWidth(tree.getRightChild().getLeftChild());
+                int x2 = x + getWidth(tree.getRightChild().getLeftChild()) + 30;
                 int y2 = y + 60;
                 drawEdge(x, y, x2, y2, g2d);
 				drawNode(tree, g2d, x, y);
@@ -57,7 +57,7 @@ public class TreeDrawer {
         }
     }
 
-    private static int getWidth(BinTree tree) {
+    public static int getWidth(BinTree tree) {
         if (tree == null) {
             return 0;
         } else {
@@ -66,4 +66,5 @@ public class TreeDrawer {
             return leftWidth + rightWidth + 40;
         }
     }
+
 }

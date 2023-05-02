@@ -8,8 +8,6 @@ TODO:
 
 		Poner que el bloating dependa de la generación
 
-		Meter el arbol
-
 		Ver si podemos hacer un añadido especial para mejorar el ag
 
 

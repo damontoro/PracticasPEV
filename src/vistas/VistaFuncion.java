@@ -71,6 +71,7 @@ public class VistaFuncion extends JPanel implements AGobserver{
 		String xtitle = ag.getTituloEjeX();
 		chart.setXAxisTitle(xtitle);
 
+		mejorAbs = null;
 		original.clear();
 		mejorIndividuo.clear();
 		xData.clear();

@@ -23,6 +23,7 @@ public class VistaGrafica extends JPanel implements AGobserver {
 	private ArrayList<Double> mejorFitness = new ArrayList<Double>();
 	private ArrayList<Double> mediaFitness = new ArrayList<Double>();
 	private ArrayList<Double> mejorAbsoluto = new ArrayList<Double>();
+	private ArrayList<Double> numNodos = new ArrayList<Double>();
 
 	ArrayList<Integer> xData = new ArrayList<Integer>();
 
@@ -48,13 +49,16 @@ public class VistaGrafica extends JPanel implements AGobserver {
 		mejorFitness.add(0.0);
 		mediaFitness.add(0.0);
 		mejorAbsoluto.add(0.0);
+		numNodos.add(0.0);
 		xData.add(0);
 		chart.addSeries("Mejor Individuo", xData, mejorFitness);
 		chart.addSeries("Media Fitness", xData, mediaFitness);
 		chart.addSeries("Mejor Absoluto", xData, mejorAbsoluto);
+		chart.addSeries("Media num. Nodos", xData, numNodos);
 		chart.getSeriesMap().get("Mejor Absoluto").setLineColor(Color.BLUE);
 		chart.getSeriesMap().get("Mejor Individuo").setLineColor(Color.RED);
 		chart.getSeriesMap().get("Media Fitness").setLineColor(Color.GREEN);
+		chart.getSeriesMap().get("Media num. Nodos").setLineColor(Color.BLACK);
 
 		// Schedule a job for the event-dispatching thread:
 		// creating and showing this application's GUI.
@@ -67,6 +71,7 @@ public class VistaGrafica extends JPanel implements AGobserver {
 		mejorFitness.clear();
 		mediaFitness.clear();
 		mejorAbsoluto.clear();
+		numNodos.clear();
 		xData.clear();
 
 		ag.addObserver(this);
@@ -77,9 +82,11 @@ public class VistaGrafica extends JPanel implements AGobserver {
 		mejorFitness.add(ag.getMejorGen());
 		mediaFitness.add(ag.getMediaFitness());
 		mejorAbsoluto.add(ag.getMejorAbs().getFitness());
+		numNodos.add(ag.getMediaNodos());
 		chart.updateXYSeries("Mejor Individuo", xData, mejorFitness, null);
 		chart.updateXYSeries("Media Fitness", xData, mediaFitness, null);
 		chart.updateXYSeries("Mejor Absoluto", xData, mejorAbsoluto, null);
+		chart.updateXYSeries("Media num. Nodos", xData, numNodos, null);
 
 		this.repaint();
 		this.revalidate();
@@ -93,6 +100,7 @@ public class VistaGrafica extends JPanel implements AGobserver {
 		mejorFitness.clear();
 		mediaFitness.clear();
 		mejorAbsoluto.clear();
+		numNodos.clear();
 		xData.clear();
 
 		this.repaint();

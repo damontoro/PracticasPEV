@@ -37,14 +37,14 @@ public class BloatingIntrones implements IBloating{
 		//Comprobamos que no sea un INT porque sabemos que la X nunca va a ser cero
 		if(res == 0)
 			arbol.setTree(new BinTree<Symbol>(new Symbol(Symbol.Symbols.INT, 0)));
-		else if(res != Double.NaN && Arrays.asList(ProblemaRegSim.getEnterosPosibles()).contains((int)res))
+		else if(Double.compare(res, Double.NaN) != 0 && Arrays.asList(ProblemaRegSim.getEnterosPosibles()).contains((int)res))
 			arbol.setTree(new BinTree<Symbol>(new Symbol(Symbol.Symbols.INT, (int)res)));
 
 		return res;
 	}
 
 	private double manageSub(double left, double right) {
-		if(left == Double.NaN && right == Double.NaN)
+		if(Double.compare(left, Double.NaN) == 0 && Double.compare(right, Double.NaN) == 0)
 			return 0;
 		return left - right;
 	}

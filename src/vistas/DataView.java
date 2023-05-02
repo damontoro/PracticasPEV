@@ -1,6 +1,7 @@
 package src.vistas;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -8,6 +9,8 @@ import javax.swing.JButton;
 import src.AlgoritmoGenetico;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.ScrollPane;
 
 public class DataView extends JPanel{
 
@@ -24,6 +27,10 @@ public class DataView extends JPanel{
 		cardPanel.setVisible(true);
 		cardPanel.add(new VistaGrafica(ag, width, height), "Grafica Evolucion");
 		cardPanel.add(new VistaFuncion(ag, width, height), "Funciones");
+		JScrollPane sp = new JScrollPane(new TreeView(ag));
+		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		sp.setPreferredSize(new Dimension(width, height));
+		cardPanel.add(sp, "Arbol");
 		cardPanel.add(new UglyChart(ag), "UglyChart");
 
 		iniToolBar();
@@ -32,7 +39,7 @@ public class DataView extends JPanel{
 	private void iniToolBar() {
 		JButton btnGrafica = new JButton("Grafica Evolucion");
 		JButton btnFunciones = new JButton("Funciones");
-		JButton btnMapa = new JButton("Mapa");
+		JButton btnArbol = new JButton("Arbol");
 		JButton btnUglyChart = new JButton("UglyChart");
 
 
@@ -40,13 +47,13 @@ public class DataView extends JPanel{
 
 		addPanelChange(btnGrafica, "Grafica Evolucion");
 		addPanelChange(btnFunciones, "Funciones");
-		addPanelChange(btnMapa, "Mapa");
+		addPanelChange(btnArbol, "Arbol");
 		addPanelChange(btnUglyChart, "UglyChart");
 
 
 		toolBar.add(btnGrafica);
 		toolBar.add(btnFunciones);
-		toolBar.add(btnMapa);
+		toolBar.add(btnArbol);
 		toolBar.add(btnUglyChart);
 	}
 
