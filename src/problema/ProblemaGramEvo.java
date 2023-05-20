@@ -51,6 +51,7 @@ public class ProblemaGramEvo extends Problema{
 		selecciones.add(new SeleccionTorneoProb());
 		selecciones.add(new SeleccionTruncamiento());
 		selecciones.add(new SeleccionRestos());
+		selecciones.add(new SeleccionEstocastica());
 	}
 
 
