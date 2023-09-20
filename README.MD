@@ -1,6 +1,7 @@
 # Proyecto:
 
-	El objetivo era hacer un algoritmo genético usando Gramaticas Evolutivas y Árboles para hacer una regresión simbólica y poder aproximar la función solo con un dataset de 100 puntos usando una interfaz gráfica.
+	El objetivo era hacer un algoritmo genético usando Gramaticas Evolutivas y Árboles para hacer una regresión simbólica 
+	y poder aproximar la función solo con un dataset de 100 puntos usando una interfaz gráfica.
 
 ## Instalación:
 
